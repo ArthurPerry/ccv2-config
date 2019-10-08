@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xsi:noNamespaceSchemaLocation="items.xsd">
+
+	<itemtypes>
+ 		<typegroup name="Components">
+
+		 	<!-- these types are not included in 1811 -->
+			<!-- <itemtype code="CMSSiteContextComponent" autocreate="true"
+				generate="true" extends="SimpleCMSComponent"
+				jaloclass="de.hybris.platform.spacceleratorsamplesaddon.jalo.components.SiteContextSelectorComponent">
+				<description>A component for site context selector</description>
+				<attributes>
+					<attribute qualifier="context" type="java.lang.String">
+						<persistence type="property" />
+						<modifiers />
+						<description>site context: e.g. language or currency </description>
+					</attribute>
+
+				</attributes>
+			</itemtype>
+			
+			<itemtype code="CMSFlexComponent" autocreate="true"
+				generate="true" extends="SimpleCMSComponent"
+				jaloclass="de.hybris.platform.spacceleratorsamplesaddon.jalo.components.FlexCmsComponent">
+				<description>A component to replace JspIncludeComponent </description>
+				<attributes>
+					<attribute qualifier="flexType" type="java.lang.String">
+						<persistence type="property" />
+						<modifiers />
+						<description>used to select the corresponding frontend codes</description>
+					</attribute>
+
+				</attributes>
+			</itemtype> -->
+		</typegroup>
+	</itemtypes>
+	
+
+
+</items>
