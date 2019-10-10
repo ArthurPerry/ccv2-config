@@ -1,0 +1,41 @@
+apiVersion: eventing.kyma-project.io/v1alpha1
+kind: Subscription
+metadata:
+  labels:
+    Function: process-review
+  name: lambda-process-review-product.reviewsubmitted-v1
+  namespace: i839851-review
+spec:
+  endpoint: http://process-review.i839851:8080/
+  event_type: product.reviewsubmitted
+  event_type_version: v1
+  include_subscription_name_header: true
+  max_inflight: 400
+  push_request_timeout_ms: 60000
+  source_id: ecc-gcp-euw-1
+---
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  name: process-review-binding
+  labels:
+    Function: process-review
+  namespace: i839851-review
+spec:
+  instanceRef:
+    name: ec-occ-commerce-webservices-v2-ee90b-moist-green
+---
+apiVersion: servicecatalog.kyma-project.io/v1alpha1
+kind: ServiceBindingUsage
+metadata:
+  name: process-review-sb-usage
+  labels:
+    Function: process-review
+    ServiceBinding: process-review-binding
+  namespace: i839851-review
+spec:
+  serviceBindingRef:
+    name: process-review-binding
+  usedBy:
+    kind: function
+    name: process-review

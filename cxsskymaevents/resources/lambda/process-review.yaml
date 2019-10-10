@@ -1,0 +1,118 @@
+apiVersion: kubeless.io/v1beta1
+kind: Function
+metadata:
+  annotations:
+    function-size: S
+  creationTimestamp: "2019-03-26T20:29:01Z"
+  finalizers:
+  - kubeless.io/function
+  generation: 1
+  labels:
+    app: process-review
+  name: process-review
+  namespace: i839851-review
+  resourceVersion: "6770026"
+  selfLink: /apis/kubeless.io/v1beta1/namespaces/i839851-review/functions/process-review
+  uid: ca86f315-5005-11e9-b86c-42010a840121
+spec:
+  checksum: sha256:c846c3119020aaabd03f30c0dbc79fa7773e7c8ea3f561ed174d8c6d968aaefd
+  deployment:
+    metadata:
+      creationTimestamp: null
+    spec:
+      replicas: 1
+      strategy: {}
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - env:
+            - name: SERVICE_URL
+              value: https://admin.vm1.kyma-es.net:443/odata2webservices/InboundCustomerReview/CustomerReviews
+            - name: SERVICE_UID
+              value: admin
+            - name: SERVICE_PW
+              value: nimda
+            name: process-review
+            resources:
+              limits:
+                cpu: 100m
+                memory: 128Mi
+              requests:
+                cpu: 100m
+                memory: 100Mi
+    status: {}
+  deps: |
+    {
+      "name": "app",
+      "version": "0.0.1",
+      "dependencies": {
+        "request": "^2.85.0"
+      }
+    }
+  function: "const request = require('request');\nconst traceHeaders = ['x-request-id',
+    'x-b3-traceid', 'x-b3-spanid', 'x-b3-parentspanid', 'x-b3-sampled', 'x-b3-Flags',
+    'x-ot-span-context'];\nconst PARAM_CODE = \"code\";\nvar serviceurl = `${process.env.SERVICE_URL}`;\nvar
+    serviceuid = `${process.env.SERVICE_UID}`;\nvar servicepw = `${process.env.SERVICE_PW}`;\nvar
+    result = null;\n\nmodule.exports = { main: function (event, context) {\n    console.log(event.data);\n\n
+    \   var param = event.data.reviewcode;\n    \n    if (serviceurl === undefined)
+    {\n\tconsole.log('Environment variable SERVICE_URL is not defined')\n    }\n    console.log('**********
+    Event Data:');\n    console.log(event);\n    console.log('********** Query param:');\n
+    \   console.log(param);\n    var paramencoded = encodeURI(param)\n    console.log('**********
+    Query param encoded:');\n    console.log(paramencoded);\n   \n     var url = `${serviceurl}('${param}')`;\n
+    \   var traceCtxHeaders = extractTraceHeaders(event.extensions.request.headers)\n
+    \   request.get({headers:traceCtxHeaders, url: url, json: true,  \n        auth:
+    {\n            user: serviceuid,\n            pass: servicepw,\n            'sendImmediately':
+    false\n  }}, function(error, response, body) {\n      result = body\n        if(error
+    === null) {\n            console.log(`********** Response.statusCode:\\n${response.statusCode}`)\n
+    \           if(response.statusCode == '200'){\n                console.log('**********
+    Response:');\n                console.log(response);\n                \n            }else{\n
+    \               console.log('Call to EC webservice failed with status code ' +
+    response.statusCode)\n                console.log('********** Response body:')\n
+    \               console.log(response.body)\n            }\n        } else {\n
+    \           console.log('********** Error:');\n            console.log(error);\n
+    \       }\n    });\n  \n  return result;\n}}\n\nfunction extractTraceHeaders(headers)
+    {\n    console.log(headers)\n    var map = {};\n    for (var i in traceHeaders)
+    {\n        h = traceHeaders[i]\n        headerVal = headers[h]\n        console.log('header'
+    + h + \"-\" + headerVal)\n        if (headerVal !== undefined) {\n            console.log('if
+    not undefined header' + h + \"-\" + headerVal)\n            map[h] = headerVal\n
+    \       }\n    }\n    return map;\n\n} "
+  function-content-type: text
+  handler: handler.main
+  horizontalPodAutoscaler:
+    metadata:
+      creationTimestamp: null
+      labels:
+        function: process-review
+      name: process-review
+      namespace: i839851-review
+    spec:
+      maxReplicas: 2
+      metrics:
+      - resource:
+          name: cpu
+          targetAverageUtilization: 50
+        type: Resource
+      minReplicas: 1
+      scaleTargetRef:
+        apiVersion: apps/v1beta1
+        kind: Deployment
+        name: process-review
+    status:
+      conditions: null
+      currentMetrics: null
+      currentReplicas: 0
+      desiredReplicas: 0
+  runtime: nodejs8
+  service:
+    ports:
+    - name: http-function-port
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      created-by: kubeless
+      function: process-review
+  timeout: ""
+  topic: product.reviewsubmitted

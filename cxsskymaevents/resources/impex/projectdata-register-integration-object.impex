@@ -1,0 +1,12 @@
+INSERT_UPDATE Employee;uid[unique=true];password;groups(uid);
+;ODATAUSER;odata1234;integrationadmingroup;
+
+INSERT_UPDATE BasicCredential;id[unique=true];username;password
+;odatauser-credential;ODATAUSER;odata1234
+
+INSERT_UPDATE Endpoint;id[unique=true];name;version[unique=true];description;specUrl;specData;extensionName
+;cc-customerreview;CC Customer Review v1;v1;"Commerce Cloud OData Customer Review Service v1";{ccv2.services.api.url.0}/odata2webservices/InboundCustomerReview/$metadata;;odata2webservices
+
+## Update to the correct url and destinationTarget values
+INSERT_UPDATE ExposedDestination;id[unique=true];url;endpoint(id)[unique=true];additionalProperties(key,value)[map-delimiter=|];destinationTarget(id)[default=Default_Template];active[default=true];credential(id)
+;cc-customerreview;https://ODATAUSER:odata1234@admin.vm1.kyma-es.net/odata2webservices/InboundCustomerReview;cc-customerreview;;vmk141a;;odatauser-credential

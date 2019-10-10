@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="pricingHelper" class="com.sap.cx.commerce.externalservices.pricing.PricingHelper">
+		<property name="b2bCustomerService" ref="b2bCustomerService"/>
+		<property name="b2bUnitService" ref="b2bUnitService"/>		
+	</bean>
+	
+	<alias alias="priceService" name="externalPriceService"/>
+	<bean id="externalPriceService" class="com.sap.cx.commerce.externalservices.pricing.ExternalPriceService">
+		<property name="configurationService" ref="configurationService"/>
+		<property name="originalPriceService" ref="defaultPriceService"/>
+		<property name="integrationRestTemplateFactory" ref="integrationRestTemplateFactory"/>
+		<property name="destinationService" ref="destinationService"/>
+		<property name="userService" ref="userService"/>
+		<property name="i18NService" ref="i18NService"/>
+		<property name="baseStoreService" ref="baseStoreService"/>
+		<property name="sessionService" ref="sessionService"/>
+		<property name="pricingHelper" ref="pricingHelper"/>
+	</bean>
+	
+	<bean id="externalFindPriceStrategy" class="com.sap.cx.commerce.externalservices.pricing.ExternalFindPriceStrategy">
+		<property name="originalFindPriceStrategy" ref="currentFactoryFindPricingStrategy"/>
+		<property name="configurationService" ref="configurationService"/>
+		<property name="integrationRestTemplateFactory" ref="integrationRestTemplateFactory"/>
+		<property name="destinationService" ref="destinationService"/>
+		<property name="pricingHelper" ref="pricingHelper"/>
+		<property name="sessionService" ref="sessionService"/>
+	</bean>
+	
+	<alias name="externalCalculationService" alias="calculationService"/>
+	<bean id="externalCalculationService" class="de.hybris.platform.order.impl.DefaultCalculationService" parent="defaultCalculationService">
+		<property name="findPriceStrategy" ref="externalFindPriceStrategy"/>
+	</bean>
+	
+	<bean id="noAuthRestTemplateCreator" class="com.sap.cx.commerce.externalservices.jalo.DefaultIntegrationNoAuthRestTemplateCreator" parent="abstractRestTemplateCreator">
+	<!-- <property name="configurationService" ref="configurationService"/>  -->	
+	</bean>
+	
+	<!-- TODO append to list -->
+	<util:list id="defaultIntegrationRestTemplateStrategiesList"
+			   value-type="de.hybris.platform.integrationservices.client.IntegrationRestTemplateCreator" >
+		<ref bean="integrationBasicRestTemplateCreator"/>
+		<ref bean="integrationOAuth2RestTemplateCreator"/>
+		<ref bean="noAuthRestTemplateCreator"/>
+	</util:list>
+	
+	<!-- <bean id="acceleratorbackofficeProfBean" class="com.hybris.backoffice.aop.YbackofficeProfilingAspect"/>
+	<aop:config proxy-target-class="true">
+  		<aop:aspect id="acceleratorbackofficeProfAspect" ref="acceleratorbackofficeProfBean" >
+    	  <aop:pointcut id="profiledMethods"
+	      	expression="execution(* getModificationTime(..))" />
+	   		<aop:around pointcut-ref="profiledMethods" method="profile" />
+  		</aop:aspect>
+	</aop:config>  -->
+</beans>

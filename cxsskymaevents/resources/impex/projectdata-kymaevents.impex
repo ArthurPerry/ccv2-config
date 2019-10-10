@@ -1,0 +1,38 @@
+$destination_target = Default_Template
+$priority = MEDIUM
+$export_flag = true
+$extension_name = cxsskymaevents
+$mapping_type = GENERIC
+
+INSERT_UPDATE EventConfiguration;eventClass[unique=true];destinationTarget(id)[unique = true,default=$destination_target];version[unique=true,default=1];exportFlag;priority(code);exportName;mappingType(code)[default=GENERIC];converterBean;description;extensionName
+"#% beforeEach:
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+String eventClass = line.get(Integer.valueOf(1));
+try
+{
+    Class.forName(eventClass);
+}
+catch (ClassNotFoundException e)
+{
+    Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");
+    LOG.info(""Event configuration of event {} was skipped because the extension [{}] containing the event is not included in the setup"", eventClass, line.get(10));
+    line.clear();
+}"
+                                ; com.sap.cx.css.c4core.cxsskymaevents.event.ProductReviewSubmittedEvent                                 ;;; true      ; MEDIUM    ; product.reviewsubmitted                               ;;; "Product Review Submitted 1"                         ; cxsskymaevents
+
+INSERT_UPDATE EventPropertyConfiguration; eventConfiguration(eventClass, destinationTarget(id[default = $destination_target]), version[default = 1])[unique = true]; propertyName[unique = true]; propertyMapping         ; title            ; description     ; examples(key, value)[map-delimiter = #]; required[default = true]; type[default = 'string'];
+"#% beforeEach:
+String eventClass = line.get(Integer.valueOf(1));
+try
+{
+    Class.forName(eventClass);
+}
+catch (ClassNotFoundException e)
+{
+    line.clear();
+}"
+                                        ; com.sap.cx.css.c4core.cxsskymaevents.event.ProductReviewSubmittedEvent                                                                  ; reviewcode                   ; "event.reviewcode" ; "Review Code"       ; Review Code - randomly generated v4 UUID. ;     reviewcode->2bc5b206-c8c8-4625-b9c2-f50ead2d1999                                  ;                         ;
+                                        ; com.sap.cx.css.c4core.cxsskymaevents.event.ProductReviewSubmittedEvent                                                                  ; user                         ; "event.user"       ; "User uid"       ; "User ID typically email, or 'anonymous'." ;     user->email@example.com                                  ;                         ;
+
+

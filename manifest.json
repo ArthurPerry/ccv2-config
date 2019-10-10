@@ -88,7 +88,11 @@
       "ycommercewebservices",
       "ycommercewebservicestest",
       "commercewebservicesdata",
-      "spacceleratorsamplesaddon"
+      "spacceleratorsamplesaddon",
+      "c4hfdemodata",
+      "cxsskymaevents",
+      "kymaexternalservices",
+      "kymaexternalservicesbackoffice"
     ],
     "properties": [
       {

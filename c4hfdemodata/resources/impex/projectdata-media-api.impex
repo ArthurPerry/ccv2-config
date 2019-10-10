@@ -1,0 +1,28 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; 
+; InboundMedia 
+ 
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique=true]; code[unique = true]; type(code) 
+; InboundMedia	; Media         	; Media 
+; InboundMedia	; CatalogVersion	; CatalogVersion 
+; InboundMedia	; MediaFolder   	; MediaFolder 
+; InboundMedia	; MediaFormat   	; MediaFormat 
+; InboundMedia	; MediaContainer	; MediaContainer 
+; InboundMedia	; Catalog       	; Catalog 
+ 
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false] 
+; InboundMedia:Media         	; catalogVersion	; Media:catalogVersion         	; InboundMedia:CatalogVersion	; true 
+; InboundMedia:Media         	; folder        	; Media:folder                 	; InboundMedia:MediaFolder   	;  
+; InboundMedia:Media         	; code          	; Media:code                   	;                            	; true 
+; InboundMedia:Media         	; mediaContainer	; Media:mediaContainer         	; InboundMedia:MediaContainer	;  
+; InboundMedia:Media         	; size          	; Media:size                   	;                            	;  
+; InboundMedia:Media         	; URL           	; Media:URL                    	;                            	;  
+; InboundMedia:Media         	; mediaFormat   	; Media:mediaFormat            	; InboundMedia:MediaFormat   	;  
+; InboundMedia:Media         	; realFileName  	; Media:realFileName           	;                            	;  
+; InboundMedia:CatalogVersion	; catalog       	; CatalogVersion:catalog       	; InboundMedia:Catalog       	; true 
+; InboundMedia:CatalogVersion	; version       	; CatalogVersion:version       	;                            	; true 
+; InboundMedia:MediaFolder   	; qualifier     	; MediaFolder:qualifier        	;                            	; true 
+; InboundMedia:MediaFormat   	; name          	; MediaFormat:name             	;                            	;  
+; InboundMedia:MediaFormat   	; qualifier     	; MediaFormat:qualifier        	;                            	; true 
+; InboundMedia:MediaContainer	; qualifier     	; MediaContainer:qualifier     	;                            	; true 
+; InboundMedia:MediaContainer	; catalogVersion	; MediaContainer:catalogVersion	; InboundMedia:CatalogVersion	; true 
+; InboundMedia:Catalog       	; id            	; Catalog:id                   	;                            	; true 
