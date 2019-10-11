@@ -1,7 +1,7 @@
 /*
  * ----------------------------------------------------------------
  * --- WARNING: THIS FILE IS GENERATED AND WILL BE OVERWRITTEN! ---
- * --- Generated at 10 Oct 2019, 15:52:32                       ---
+ * --- Generated at 10 Oct 2019, 20:39:38                       ---
  * ----------------------------------------------------------------
  */
 package com.sap.cx.kyma.demodata.jalo;

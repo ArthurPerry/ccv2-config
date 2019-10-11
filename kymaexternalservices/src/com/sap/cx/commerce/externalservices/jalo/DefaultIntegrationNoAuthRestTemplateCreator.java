@@ -11,11 +11,15 @@
  */
 package com.sap.cx.commerce.externalservices.jalo;
 
+import de.hybris.platform.apiregistryservices.model.BasicCredentialModel;
 import de.hybris.platform.apiregistryservices.model.ConsumedDestinationModel;
 import de.hybris.platform.apiregistryservices.model.EndpointModel;
+import de.hybris.platform.outboundservices.cache.DestinationRestTemplateId;
+import de.hybris.platform.outboundservices.cache.impl.DefaultDestinationRestTemplateId;
 import de.hybris.platform.outboundservices.client.impl.AbstractRestTemplateCreator;
 import de.hybris.platform.outboundservices.client.impl.UnsupportedRestTemplateException;
 
+import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriTemplateHandler;
@@ -26,22 +30,18 @@ import org.springframework.web.util.UriTemplateHandler;
  */
 public class DefaultIntegrationNoAuthRestTemplateCreator extends AbstractRestTemplateCreator
 {
-
+	
 	@Override
-	public RestOperations create(final ConsumedDestinationModel destination)
+	protected RestTemplate createRestTemplate(final ConsumedDestinationModel destination)
 	{
-		if (isApplicable(destination))
-		{
 
-			final RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
-			restTemplate.setUriTemplateHandler(buildUriTemplateHandler(destination.getEndpoint()));
+		//final RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+		//restTemplate.setUriTemplateHandler(buildUriTemplateHandler(destination.getEndpoint()));
 
-			addMessageConverters(restTemplate);
+		final RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+		addMessageConverters(restTemplate);
 
-			return restTemplate;
-
-		}
-		throw new UnsupportedRestTemplateException();
+		return restTemplate;
 	}
 
 	@Override
@@ -50,12 +50,18 @@ public class DefaultIntegrationNoAuthRestTemplateCreator extends AbstractRestTem
 		return destination.getCredential() == null;
 	}
 
-	protected UriTemplateHandler buildUriTemplateHandler(final EndpointModel endpoint)
+//	protected UriTemplateHandler buildUriTemplateHandler(final EndpointModel endpoint)
+//	{
+//		final DefaultUriTemplateHandler uriTemplateHandler = new DefaultUriTemplateHandler();
+//		uriTemplateHandler.setBaseUrl(endpoint.getSpecUrl());
+//
+//		return uriTemplateHandler;
+//	}
+	
+	@Override
+	protected DestinationRestTemplateId getDestinationRestTemplateId(final ConsumedDestinationModel destinationModel)
 	{
-		final DefaultUriTemplateHandler uriTemplateHandler = new DefaultUriTemplateHandler();
-		uriTemplateHandler.setBaseUrl(endpoint.getSpecUrl());
-
-		return uriTemplateHandler;
+		return DefaultDestinationRestTemplateId.from(destinationModel);
 	}
 
 }

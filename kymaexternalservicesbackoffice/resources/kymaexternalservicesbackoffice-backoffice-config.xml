@@ -26,7 +26,7 @@
             		<editorArea:section name="hmc.section.basestore.externaldeliverycostsservice">
                     <editorArea:attribute xmlns="http://www.hybris.com/cockpitng/component/editorArea" qualifier="externalDeliveryCostsService"/>
                 </editorArea:section>
-                <editorArea:section name="hmc.section.basestore.externaldeliverycostsservice">
+                <editorArea:section name="hmc.section.basestore.externalstockservice">
                     <editorArea:attribute xmlns="http://www.hybris.com/cockpitng/component/editorArea" qualifier="externalStockService"/>
                 </editorArea:section>
             </editorArea:tab>
