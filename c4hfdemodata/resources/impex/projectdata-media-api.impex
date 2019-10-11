@@ -26,3 +26,16 @@ INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationO
 ; InboundMedia:MediaContainer	; qualifier     	; MediaContainer:qualifier     	;                            	; true 
 ; InboundMedia:MediaContainer	; catalogVersion	; MediaContainer:catalogVersion	; InboundMedia:CatalogVersion	; true 
 ; InboundMedia:Catalog       	; id            	; Catalog:id                   	;                            	; true 
+
+
+INSERT_UPDATE Employee;uid[unique=true];password;groups(uid);
+;ODATAUSER;odata1234;integrationadmingroup;
+
+INSERT_UPDATE BasicCredential;id[unique=true];username;password
+;odatauser-credential;ODATAUSER;odata1234
+
+INSERT_UPDATE Endpoint;id[unique=true];name;version[unique=true];description;specUrl;specData;extensionName
+;ec-media;Customer Service;v1;"OData Media Service";{ccv2.services.api.url.0}/odata2webservices/InboundMedia/$metadata;;odata2webservices
+
+INSERT_UPDATE ExposedDestination;id[unique=true];url;endpoint(id)[unique=true];additionalProperties(key,value)[map-delimiter=|];destinationTarget(id)[default=Default_Template];active[default=true];credential(id)
+;ec-media;{ccv2.services.api.url.0}/odata2webservices/InboundMedia;ec-media;;;;odatauser-credential
