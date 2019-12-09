@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/resilience4j-spring-1.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/resilience4j-cache-1.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/resilience4j-circuitbreaker-1.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/resilience4j-annotations-1.2.0.jar"/>
+	<classpathentry exported="true" kind="src" path="/b2bcommerce"/>
+	<classpathentry exported="true" kind="lib" path="lib/resilience4j-retry-1.2.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources"/>
 	<classpathentry kind="src" output="eclipsebin/classes" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/outboundservices"/>
+	<classpathentry exported="true" kind="lib" path="lib/vavr-0.9.2.jar"/>
 	<classpathentry exported="true" kind="src" path="/integrationservices"/>
+	<classpathentry kind="src" path="gensrc"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/platform"/>
 	<classpathentry exported="true" kind="src" path="/basecommerce"/>
-	<classpathentry exported="true" kind="src" path="/b2bcommerce"/>
+	<classpathentry exported="true" kind="lib" path="lib/resilience4j-core-1.2.0.jar"/>
 	<classpathentry kind="output" path="eclipsebin/notused"/>
 </classpath>

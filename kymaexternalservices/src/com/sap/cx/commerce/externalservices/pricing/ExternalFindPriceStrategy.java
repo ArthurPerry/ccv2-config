@@ -11,8 +11,17 @@
  */
 package com.sap.cx.commerce.externalservices.pricing;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.lang3.time.StopWatch;
+import org.apache.log4j.Logger;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestOperations;
+
 import de.hybris.platform.apiregistryservices.model.ConsumedDestinationModel;
-import de.hybris.platform.apiregistryservices.services.DestinationService;
 import de.hybris.platform.b2b.model.B2BCustomerModel;
 import de.hybris.platform.b2b.model.B2BUnitModel;
 import de.hybris.platform.b2b.services.B2BCustomerService;
@@ -23,20 +32,9 @@ import de.hybris.platform.core.model.user.CustomerModel;
 import de.hybris.platform.order.exceptions.CalculationException;
 import de.hybris.platform.order.strategies.calculation.FindPriceStrategy;
 import de.hybris.platform.outboundservices.client.IntegrationRestTemplateFactory;
-import de.hybris.platform.servicelayer.config.ConfigurationService;
 import de.hybris.platform.servicelayer.session.SessionService;
 import de.hybris.platform.store.BaseStoreModel;
 import de.hybris.platform.util.PriceValue;
-
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang3.time.StopWatch;
-import org.apache.log4j.Logger;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestOperations;
-import org.springframework.web.util.UriComponentsBuilder;
 
 
 /**
@@ -45,19 +43,20 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class ExternalFindPriceStrategy implements FindPriceStrategy
 {
 
-	private ConfigurationService configurationService;
 	private SessionService sessionService;
 
 	private FindPriceStrategy originalFindPriceStrategy;
 
 	private IntegrationRestTemplateFactory integrationRestTemplateFactory;
-	private DestinationService destinationService;
-
+	
 	private B2BCustomerService<B2BCustomerModel, B2BUnitModel> b2bCustomerService;
 	private B2BUnitService<B2BUnitModel, B2BCustomerModel> b2bUnitService;
 
 	private PricingHelper pricingHelper;
+	
+	private ExternalPriceServiceCaller externalPriceServiceCaller;
 
+	
 	private static final Logger LOG = Logger.getLogger(ExternalFindPriceStrategy.class);
 
 	@Override
@@ -70,6 +69,7 @@ public class ExternalFindPriceStrategy implements FindPriceStrategy
 		if (consumedDestination != null)
 		{
 			LOG.info("Calling external pricing strategy");
+			@SuppressWarnings("rawtypes")
 			final ResponseEntity<Map> price = callPriceService(entry, consumedDestination);
 
 			LOG.info("Price = " + price.getStatusCodeValue() + " " + price.getBody() + price.getBody().get("price"));
@@ -88,13 +88,12 @@ public class ExternalFindPriceStrategy implements FindPriceStrategy
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	protected ResponseEntity<Map> callPriceService(final AbstractOrderEntryModel entry, final ConsumedDestinationModel destination)
 	{
-		final RestOperations restOperations = getRestTemplate(destination);
-		// TODO - better way to do this
-		final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(destination.getUrl());
-		buildUriParameters(builder, entry);
-		return restOperations.getForEntity(builder.build(false).toUri(), Map.class);
+		final Map<String, String> searchParams = buildUriParameters(entry);
+		return externalPriceServiceCaller.findPrices(destination, searchParams);
+
 	}
 
 	protected RestOperations getRestTemplate(final ConsumedDestinationModel destination)
@@ -102,24 +101,26 @@ public class ExternalFindPriceStrategy implements FindPriceStrategy
 		return integrationRestTemplateFactory.create(destination);
 	}
 
-	private void buildUriParameters(final UriComponentsBuilder builder, final AbstractOrderEntryModel entry)
+	private Map<String, String> buildUriParameters(final AbstractOrderEntryModel entry)
 	{
+		Map<String, String> params = new HashMap<String, String>();
 		final AbstractOrderModel order = entry.getOrder();
-		builder.queryParam("context", "calculation");
-		builder.queryParam("customer", order.getUser().getUid());
-		builder.queryParam("customerpricegroup", sessionService.getAttribute(CustomerModel.EUROPE1PRICEFACTORY_UPG));
-		builder.queryParam("order", order.getCode());
-		builder.queryParam("basesite", order.getSite().getUid());
-		builder.queryParam("currency", order.getCurrency().getIsocode());
-		builder.queryParam("product", entry.getProduct().getCode());
-		builder.queryParam("quantity", entry.getQuantity());
-		builder.queryParam("unit", entry.getUnit().getCode());
-		builder.queryParam("date", new Date().getTime());
+		params.put("context", "calculation");
+		params.put("customer", order.getUser().getUid());
+		params.put("customerpricegroup", sessionService.getAttribute(CustomerModel.EUROPE1PRICEFACTORY_UPG));
+		params.put("order", order.getCode());
+		params.put("basesite", order.getSite().getUid());
+		params.put("currency", order.getCurrency().getIsocode());
+		params.put("product", entry.getProduct().getCode());
+		params.put("quantity", "" + entry.getQuantity());
+		params.put("unit", entry.getUnit().getCode());
+		params.put("date", "" + new Date().getTime());
 		final B2BUnitModel b2bUnit = pricingHelper.getB2BUnitOfCurrentB2BCustomer();
 		if (b2bUnit != null)
 		{
-			builder.queryParam("b2bunit", b2bUnit.getUid());
+			params.put("b2bunit", b2bUnit.getUid());
 		}
+		return params;
 	}
 
 	/**
@@ -131,14 +132,6 @@ public class ExternalFindPriceStrategy implements FindPriceStrategy
 		this.originalFindPriceStrategy = originalFindPriceStrategy;
 	}
 
-	/**
-	 * @param configurationService
-	 *           the configurationService to set
-	 */
-	public void setConfigurationService(final ConfigurationService configurationService)
-	{
-		this.configurationService = configurationService;
-	}
 
 	/**
 	 * @param integrationRestTemplateFactory
@@ -147,15 +140,6 @@ public class ExternalFindPriceStrategy implements FindPriceStrategy
 	public void setIntegrationRestTemplateFactory(final IntegrationRestTemplateFactory integrationRestTemplateFactory)
 	{
 		this.integrationRestTemplateFactory = integrationRestTemplateFactory;
-	}
-
-	/**
-	 * @param destinationService
-	 *           the destinationService to set
-	 */
-	public void setDestinationService(final DestinationService destinationService)
-	{
-		this.destinationService = destinationService;
 	}
 
 	/**
@@ -192,5 +176,9 @@ public class ExternalFindPriceStrategy implements FindPriceStrategy
 	public void setSessionService(final SessionService sessionService)
 	{
 		this.sessionService = sessionService;
+	}
+
+	public void setExternalPriceServiceCaller(ExternalPriceServiceCaller externalPriceServiceCaller) {
+		this.externalPriceServiceCaller = externalPriceServiceCaller;
 	}
 }
