@@ -42,8 +42,6 @@ public class ExternalPriceServiceCaller implements InitializingBean {
 		
 		CheckedFunction0<ResponseEntity<Map>> retryableSupplier = Retry
 				.decorateCheckedSupplier(retry, () -> {
-						//HttpComponentsClientHttpRequestFactory factory = (HttpComponentsClientHttpRequestFactory)restOperations.getRequestFactory();
-						//LOG.info("Connections " + factory.getHttpClient().getConnectionManager().toString());
 						URI uri = builder.build(false).toUri();
 						LOG.info("Calling price service: " + uri.toString());
 						return restOperations.getForEntity(uri, Map.class);
@@ -51,7 +49,7 @@ public class ExternalPriceServiceCaller implements InitializingBean {
 		Try<ResponseEntity<Map>> result = Try.of(retryableSupplier);
 		if (result.isFailure())
 		{
-			LOG.error("Failed pricing call", result.getCause());
+			LOG.error("Failed pricing call", result.getCause());		
 		}
 		return result.get();
 	}
