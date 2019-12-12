@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.log4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -71,7 +72,11 @@ public class ExternalFindPriceStrategy implements FindPriceStrategy
 			LOG.info("Calling external pricing strategy");
 			@SuppressWarnings("rawtypes")
 			final ResponseEntity<Map> price = callPriceService(entry, consumedDestination);
-
+			if (MapUtils.isEmpty(price.getBody()))
+			{
+				LOG.info("No price from external service, reverting to original price service");
+				return originalFindPriceStrategy.findBasePrice(entry);
+			}
 			LOG.info("Price = " + price.getStatusCodeValue() + " " + price.getBody() + price.getBody().get("price"));
 			final PriceValue priceValue = new PriceValue(entry.getOrder().getCurrency().getIsocode(),
 					Double.parseDouble(price.getBody().get("price").toString()), false);
