@@ -22,5 +22,10 @@
           class="com.sap.cx.ExtWebserviceSpecificationPopulator">
         <property name="jacksonObjectMapper" ref="kymaExportJacksonObjectMapper"/>
     </bean>
+    
+    <alias name="customItemLookupStrategy" alias="oDataItemLookupStrategy" />
+	<bean id="customItemLookupStrategy"
+		  class="de.hybris.platform.odata2services.odata.persistence.lookup.CustomItemLookupStrategy" parent="defaultItemLookupStrategy">
+	</bean>
     			
 </beans>
