@@ -1,0 +1,117 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$defaultPromoGrp=electronicsPromoGrp
+$promotionsModule="promotions-module"
+$previewModule="promotions-preview-module"
+
+## ConsignmentTracking E2E test data
+INSERT_UPDATE Customer;groups(uid);uid[unique=true];name;password[default='Password123.'];customerId
+;customergroup;test-user-with-orders@ydev.hybris.com;Test User;;test-user-with-orders@ydev.hybris.com;
+
+INSERT_UPDATE Address;owner(Customer.uid)[unique=true];streetname[unique=true];postalcode;town[default='Washington'];region(isocode)[default='US-WA'];country(isocode)[default='US'];shippingAddress[default=true];firstname;lastname;title(code)[default='mr']
+;test-user-with-orders@ydev.hybris.com;Address line0;100000;;;;;User;Test;
+
+
+INSERT_UPDATE Order;code[unique=true];user(uid);date[dateformat=dd.MM.yyyy HH:mm];currency(isocode)[default='USD'];net[default=false];deliveryMode(code)[default='standard-gross'];Discounts(code);calculated[default=false];store(uid);site(uid);deliveryCost;totalPrice
+;100000;test-user-with-orders@ydev.hybris.com;10.01.2019 10:40;;;;;;electronics;;5.26;754.66
+;100001;test-user-with-orders@ydev.hybris.com;10.01.2019 10:40;;;;;;electronics;;7.9;655.55
+
+INSERT_UPDATE OrderEntry;order(code)[unique=true];product(code,catalogVersion(catalog(id),version))[unique=true];quantity[default=1];calculated[default=true];unit(code)[default='pieces'];entryNumber;basePrice;totalPrice
+;100000;300938:electronicsProductCatalog:Online;;;;0;114.12;114.12
+;100000;1992693:electronicsProductCatalog:Online;;;;1;541.34;541.43
+;100000;1377492:electronicsProductCatalog:Online;;;;2;79.11;79.11
+;100001;300938:electronicsProductCatalog:Online;;;;0;114.12;114.12
+;100001;1992693:electronicsProductCatalog:Online;;;;1;541.34;541.43
+
+
+INSERT_UPDATE Consignment;code[unique=true];status(code)[default='SHIPPED'];order(code);shippingAddress(owner(Customer.uid));warehouse(code);trackingID;carrierDetails(code)[default='MockCarrier']
+;100000a;;100000;test-user-with-orders@ydev.hybris.com;warehouse_e;2019031500001;
+;100000b;;100000;test-user-with-orders@ydev.hybris.com;warehouse_s;;;
+;100000c;WAITING;100000;test-user-with-orders@ydev.hybris.com;warehouse_n;;;
+
+
+INSERT_UPDATE ConsignmentEntry;consignment(code)[unique=true];orderEntry(order(code),entryNumber);quantity[default=1];shippedQuantity[default=1]
+;100000a;100000:0
+;100000b;100000:1
+;100000c;100000:2
+
+
+## Coupon E2E test data
+INSERT_UPDATE SingleCodeCoupon;couponId(id)[unique=true];maxRedemptionsPerCustomer;maxTotalRedemptions;active[default=true]
+;CouponForProduct;;;
+;CouponForCart;;;
+;FreeGiftCoupon;;;
+
+INSERT_UPDATE PromotionSourceRule[$ruleImportProcessor];code[unique=true];name[lang=en];description[lang=en];messageFired[lang=en];
+;CouponForProductProm;Coupon For Product Promotion;Coupon For Product Promotion description;Coupon For Product Promotion message
+;CouponForCartProm;Coupon For Cart Promotion;Coupon For Cart Promotion description;Coupon For Cart Promotion message
+;FreeGiftCouponProm;Free Gift Coupon Promotion;Free Gift Coupon Promotion description;Free Gift Coupon Promotion message
+
+INSERT_UPDATE PromotionSourceRule;code[unique=true];priority;maxAllowedRuns;ruleGroup(code);conditions;actions;website(Identifier)[default=$defaultPromoGrp];excludeFromStorefrontDisplay[default=false];status(code)[unique=true,default=UNPUBLISHED]
+"#% afterEach: de.hybris.platform.core.Registry.getApplicationContext().getBean(""ruleEngineSystemSetup"").registerSourceRuleForDeployment(impex.getLastImportedItem(), new String[]{$promotionsModule,$previewModule});"
+;CouponForCartProm;25;1;couponPromotionRuleGroup;"[{""definitionId"":""y_qualifying_coupons"",""parameters"":{""coupons"":{""uuid"":""9644b8a6-ad94-4990-afca-2a132e1bd171"",""type"":""List(ItemType(AbstractCoupon))"",""value"":[""CouponForCart""]}},""children"":[]}]";"[{""definitionId"":""y_order_fixed_discount"",""parameters"":{""value"":{""uuid"":""b4dfe431-e526-42e2-bb08-0dea08f310db"",""type"":""Map(ItemType(Currency),java.math.BigDecimal)"",""value"":{""USD"":10}}}}]";;
+
+INSERT_UPDATE PromotionSourceRule;code[unique=true];priority;maxAllowedRuns;ruleGroup(code);conditions;actions;website(Identifier)[default=$defaultPromoGrp];excludeFromStorefrontDisplay[default=false];status(code)[unique=true,default=UNPUBLISHED]
+"#% afterEach: de.hybris.platform.core.Registry.getApplicationContext().getBean(""ruleEngineSystemSetup"").registerSourceRuleForDeployment(impex.getLastImportedItem(), new String[]{$promotionsModule,$previewModule});"
+;FreeGiftCouponProm;160;1;couponPromotionRuleGroup;"[{""definitionId"":""y_qualifying_coupons"",""parameters"":{""coupons"":{""uuid"":""ff7280f8-3272-4ddb-9e92-d26a083ec234"",""type"":""List(ItemType(AbstractCoupon))"",""value"":[""FreeGiftCoupon""]}},""children"":[]},{""definitionId"":""y_cart_total"",""parameters"":{""value"":{""uuid"":""b4959112-d22e-4bc3-a87c-80c4116ba887"",""type"":""Map(ItemType(Currency),java.math.BigDecimal)"",""value"":{""USD"":200}},""operator"":{""uuid"":""677a62d0-c8cd-4c47-af0b-91d19b6daa9d"",""type"":""Enum(de.hybris.platform.ruledefinitions.AmountOperator)"",""value"":""GREATER_THAN_OR_EQUAL""}},""children"":[]}]";"[{""definitionId"":""y_free_gift"",""parameters"":{""product"":{""uuid"":""5c9f025c-b351-46ee-bc49-662d8746ce56"",""type"":""ItemType(Product)"",""value"":""443175""},""quantity"":{""uuid"":""395a45d1-6f14-4ddd-ae48-d6ef8dc9c468"",""type"":""java.lang.Integer"",""value"":1}}}]";;
+
+INSERT_UPDATE PromotionSourceRule;code[unique=true];priority;maxAllowedRuns;ruleGroup(code);conditions;actions;website(Identifier)[default=$defaultPromoGrp];excludeFromStorefrontDisplay[default=false];status(code)[unique=true,default=UNPUBLISHED]
+"#% afterEach: de.hybris.platform.core.Registry.getApplicationContext().getBean(""ruleEngineSystemSetup"").registerSourceRuleForDeployment(impex.getLastImportedItem(), new String[]{$promotionsModule,$previewModule});"
+;CouponForProductProm;155;1;couponPromotionRuleGroup;"[{""definitionId"":""y_qualifying_coupons"",""parameters"":{""coupons"":{""uuid"":""baa9d67e-66ec-4989-b3c4-7589346db224"",""type"":""List(ItemType(AbstractCoupon))"",""value"":[""CouponForProduct""]}},""children"":[]},{""definitionId"":""y_qualifying_categories"",""parameters"":{""quantity"":{""uuid"":""20fd1aab-396d-4f36-a397-7d11d4549012"",""type"":""java.lang.Integer"",""value"":1},""categories_operator"":{""uuid"":""504c05f5-9092-4827-9950-29b60dd30d3d"",""type"":""Enum(de.hybris.platform.ruledefinitions.CollectionOperator)"",""value"":""CONTAINS_ANY""},""excluded_categories"":{""uuid"":""671ae763-e0c7-4fb9-bb34-c6367f684622"",""type"":""List(ItemType(Category))""},""excluded_products"":{""uuid"":""7f1a0063-0625-437c-90c4-ec00b5e6a3d4"",""type"":""List(ItemType(Product))""},""categories"":{""uuid"":""fe873025-b08c-452c-a649-906cde3fab06"",""type"":""List(ItemType(Category))"",""value"":[""588""]},""operator"":{""uuid"":""6a1f11ef-8bc0-490d-aa69-6e9b70d37e4c"",""type"":""Enum(de.hybris.platform.ruledefinitions.AmountOperator)"",""value"":""GREATER_THAN_OR_EQUAL""}},""children"":[]}]";"[{""definitionId"":""y_order_entry_percentage_discount"",""parameters"":{""value"":{""uuid"":""7850ea3a-cd43-4a94-b12d-c2ef6b81937a"",""type"":""java.math.BigDecimal"",""value"":25}}}]";;
+
+
+################Notification feature E2E test data###################################################################
+UPDATE CronJob;code[unique=true];active[default=false]
+;stockLevelStatusCronJob
+;expiredInterestsCleanUpJob
+
+UPDATE StockLevel;productCode[unique=true];warehouse(code)[unique=true];inStockStatus(code)
+;1978440_green;warehouse_e;forceOutOfStock
+
+INSERT_UPDATE ProductInterest;customer(originalUid)[unique=true, default='test-user-with-orders@ydev.hybris.com'];product(code,catalogVersion(catalog(id),version))[unique=true];baseStore(uid)[unique=true,default='electronics'];notificationType(code)[unique=true, default='BACK_IN_STOCK'];notificationChannels(code)[default='EMAIL'];baseSite(uid)[default='electronics-spa'];language(isocode)[default='en']
+;;898520:electronicsProductCatalog:Staged;;;;;
+;;1934793:electronicsProductCatalog:Staged;;;;;
+;;553637:electronicsProductCatalog:Staged;;;;;
+;;2053266:electronicsProductCatalog:Staged;;;;;
+;;932577:electronicsProductCatalog:Staged;;;;;
+;;816379:electronicsProductCatalog:Staged;;;;;
+;;3357724:electronicsProductCatalog:Staged;;;;;
+;;358639:electronicsProductCatalog:Staged;;;;;
+;;1978440_red:electronicsProductCatalog:Staged;;;;;
+;;592506:electronicsProductCatalog:Staged;;;;;
+;;4205431:electronicsProductCatalog:Staged;;;;;
+
+############# CDS (Merchandising carousel) E2E test data ###################
+$contentCatalog=electronics-spaContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Online])[default=$contentCatalog:Online]
+
+# Homepage carousel
+# Create the CMS Component
+INSERT_UPDATE MerchandisingCarouselComponent;$contentCV[unique=true];uid[unique=true];name;title;numberToDisplay;strategy;&componentRef
+;;HomepageE2EMerchandisingCarousel;Homepage E2E Merchandising Carousel;Homepage E2E Merchandising Carousel;10;00000000-0000-0000-0000-000000000000;HomepageE2EMerchandisingCarousel
+
+# Add the component to the slot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid,$contentCV)
+;;Section2CSlot-Homepage;HomepageE2EMerchandisingCarousel
+
+# Category Page carousel
+# Create the CMS Component
+INSERT_UPDATE MerchandisingCarouselComponent;$contentCV[unique=true];uid[unique=true];name;title;numberToDisplay;strategy;&componentRef
+;;CategoryPageE2EMerchandisingCarousel;Category Page E2E Merchandising Carousel;Category Page E2E Merchandising Carousel;10;00000000-0000-0000-0000-000000000000;CategoryPageE2EMerchandisingCarousel
+
+# Add the component to the slot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid,$contentCV)
+;;BottomHeaderSlot;CategoryPageE2EMerchandisingCarousel
+
+# SLR Page carousel
+# Create the CMS Component
+INSERT_UPDATE MerchandisingCarouselComponent;$contentCV[unique=true];uid[unique=true];name;title;numberToDisplay;strategy;&componentRef
+;;SLRCategoryPageE2EMerchandisingCarousel;SLR Category Page E2E Merchandising Carousel;SLR Category Page E2E Merchandising Carousel;10;00000000-0000-0000-0000-000000000000;SLRCategoryPageE2EMerchandisingCarousel
+
+# Add the component to the slot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid,$contentCV)
+;;SLRCamerasBottomHeaderSlot;SLRCategoryPageE2EMerchandisingCarousel
+############################################################################
+
