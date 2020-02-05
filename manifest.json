@@ -93,7 +93,8 @@
       "cxsskymaevents",
       "kymaexternalservices",
       "kymaexternalservicesbackoffice",
-      "yacceleratorfulfilmentprocess"
+      "yacceleratorfulfilmentprocess",
+      "kymafixes"
     ],
     "properties": [
       {

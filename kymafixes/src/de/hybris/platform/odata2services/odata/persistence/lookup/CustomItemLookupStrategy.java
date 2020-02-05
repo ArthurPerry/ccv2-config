@@ -15,6 +15,9 @@ import org.apache.olingo.odata2.api.edm.EdmException;
  */
 public class CustomItemLookupStrategy extends DefaultItemLookupStrategy
 {
+	/**
+	 * Fix for https://jira.hybris.com/browse/IAPI-1606
+	 */
 	@Override
 	protected FlexibleSearchQueryBuilder queryBuilder(final ItemLookupRequest lookupRequest) throws EdmException
 	{
