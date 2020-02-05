@@ -245,7 +245,7 @@
         "template": "yacceleratorstorefront"
       },
       {
-            "addon": "spacceleratorsamplesaddon",
+            "addon": "spartacussampledataaddon",
             "storefront": "yacceleratorstorefront",
             "template": "yacceleratorstorefront"
        }
