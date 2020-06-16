@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+	<bean id="saveEventSender" class="com.sap.cx.kymasaveevents.service.SaveEventSender">
+		 <property name="channel" ref="eventSourceDataChannel" />
+	</bean>
+	
+	<bean class="com.sap.cx.kymasaveevents.service.SaveEventsService" id="saveEventsService">
+		<property name="flexibleSearchService" ref="flexibleSearchService"/>
+		<property name="saveEventSender" ref="saveEventSender"/>
+		<property name="catalogTypeService" ref="catalogTypeService"/>
+		<property name="scriptingLanguagesService" ref="scriptingLanguagesService"/>  
+		<property name="typeService" ref="typeService"/> 
+		<property name="modelService" ref="modelService"/> 
+		<property name="sessionService" ref="sessionService"/>    
+	</bean>
+	
+	<bean class="com.sap.cx.kymasaveevents.event.SaveEventPopulator" id="saveEventPopulator">
+		 <property name="jacksonObjectMapper" ref="kymaExportJacksonObjectMapper"/>
+	</bean>
+
+	<bean id="saveEventConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.kymaintegrationservices.dto.PublishRequestData"/>
+        <property name="populators">
+            <list merge="true">
+                <ref bean="saveEventPopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="saveEventTopicPopulator" class="com.sap.cx.kymasaveevents.event.SaveEventTopicPopulator">
+    	<property name="typeService" ref="typeService"/>
+    	<property name="catalogTypeService" ref="catalogTypeService"/>
+	</bean>
+    
+    <bean id="defaultTopicConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.kymaintegrationservices.dto.TopicData"/>
+        <property name="populators">
+            <list merge="true">
+                <ref bean="topicPopulator"/>
+                <ref bean="saveEventTopicPopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="saveEventPrepareInterceptor" class="com.sap.cx.kymasaveevents.event.SaveEventInterceptor"/>
+
+	<bean class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="saveEventPrepareInterceptor" />
+        <property name="typeCode" value="SaveEventConfiguration" />
+    </bean>
+    
+   <!--  <bean class="com.sap.cx.kymasaveevents.aop.ModelServiceAspect" factory-method="aspectOf">
+    	<property name="saveEventsService" ref="saveEventsService"/>
+    </bean>  -->
+</beans>

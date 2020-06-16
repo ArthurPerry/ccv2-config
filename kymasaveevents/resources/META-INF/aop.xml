@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<aspectj>
+  <weaver options="-showWeaveInfo">
+    <include within="de.hybris.platform.servicelayer.internal.model.impl.DefaultModelService"/>
+    <include within="com.sap.cx.kymasaveevents.aop.ModelServiceAspect"/>
+  </weaver>
+ 
+  <aspects>
+    <aspect name="com.sap.cx.kymasaveevents.aop.ModelServiceAspect"/>
+  </aspects>
+</aspectj>

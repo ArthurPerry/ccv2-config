@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:noNamespaceSchemaLocation="items.xsd">
+	
+	<enumtypes>
+		<enumtype code="SaveEventType" autocreate="true" generate="true">
+			<value code="UPDATE"/>
+			<value code="CREATE"/>
+			<value code="DELETE"/>
+		</enumtype>
+		<enumtype code="SaveEventAttributeType" autocreate="true" generate="true">
+			<value code="string"/>
+			<value code="integer"/>
+			<value code="long"/>
+			<value code="float"/>
+			<value code="double"/>
+			<value code="boolean"/>
+			<value code="date"/>
+			<value code="object"/>
+			<value code="array"/>
+		</enumtype>
+	</enumtypes>
+	
+	<relations>
+		<relation localized="false" code="SaveEventConfig2SaveEventAttribute">
+			<sourceElement type="SaveEventConfiguration" cardinality="one" qualifier="saveEventConfiguration">
+				<modifiers unique="true" initial="true"/>
+			</sourceElement>
+			<targetElement type="SaveEventAttribute" ordered="true" qualifier="saveEventAttributes" cardinality="many">
+				<modifiers optional="true" partof="true"/>
+			</targetElement>
+		</relation>
+	</relations>
+	<itemtypes>
+	
+		<!-- EventConfiguration has only eventClass, destinationTarget and version. exportName should be unique also -->
+		<itemtype code="EventConfiguration" autocreate="false" generate="false">
+			<indexes>
+				<index name="eventConfIdx" unique="true" replace="true">
+					<key attribute="eventClass"/>
+					<key attribute="destinationTarget"/>
+					<key attribute="version"/>
+					<key attribute="exportName"/>
+				</index>
+			</indexes>
+		</itemtype>
+		
+		<itemtype code="SaveEventAttribute" autocreate="true" generate="true" jaloclass="de.hybris.platform.apiregistryservices.jalo.SaveEventAttribute">
+		<deployment table="SaveEventAttribute" typecode="20181"/>
+			<attributes>
+				<attribute qualifier="qualifier" type="java.lang.String">
+                    <description>name of the attribute</description>
+					<modifiers optional="false" unique="true" initial="true"/>
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="title" type="java.lang.String">
+                    <description>title of the attribute</description>
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="description" type="java.lang.String">
+                    <description>description of the attribute</description>
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="attributeType" type="SaveEventAttributeType">
+                    <description>type/format of the attribute</description>
+					<modifiers optional="false" unique="false"/>
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+		<itemtype code="SaveEventConfiguration" autocreate="true" generate="true" extends="EventConfiguration"
+				  jaloclass="de.hybris.platform.apiregistryservices.jalo.SaveEventConfiguration">
+			<description>Event configuration persistence events</description>
+			<attributes>
+				<attribute qualifier="mappingType" type="EventMappingType" redeclare="true">
+                    <description>Enumeration attribute which defines type of event property mapping</description>
+					<modifiers optional="false" initial="true" write="false"/>
+					<persistence type="property"/>
+				<!-- <defaultvalue>em().getEnumerationValue("EventMappingType", "BEAN")</defaultvalue>  -->	
+				</attribute>
+				<attribute qualifier="saveType" type="ComposedType">
+                    <description>Fully qualified classname of business process</description>
+					<modifiers optional="false" unique="true"/>
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="saveEvent" type="SaveEventType">
+                    <description>Save event type</description>
+					<modifiers optional="false" unique="true"/>
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="filter" type="java.lang.String">
+                    <description>Groovy expression for filtering of events</description>
+					<modifiers optional="true"/>
+					<persistence type="property">
+                        <columntype>
+                            <value>HYBRIS.LONG_STRING</value>
+                        </columntype>
+                    </persistence>
+				</attribute>
+				<attribute qualifier="enricher" type="java.lang.String">
+                    <description>Groovy expression that allows us to manipulate how we enrich the events</description>
+					<modifiers optional="true"/>
+					<persistence type="property">
+                        <columntype>
+                            <value>HYBRIS.LONG_STRING</value>
+                        </columntype>
+                    </persistence>
+				</attribute>
+				<!-- error when redeclaring this attribute
+				<attribute qualifier="eventClass" type="java.lang.String" redeclare="true">
+					<description>Full path of Class</description>
+					<modifiers optional="false" unique="true" initial="true"/>
+					<persistence type="property"/>
+				<defaultvalue>com.sap.cx.kymasaveevents.event.SaveEvent</defaultvalue>
+				</attribute>  -->
+				<attribute qualifier="converterBean" type="java.lang.String" redeclare="true">
+					<description>Spring Bean Name</description>
+					<persistence type="property"/>
+					<modifiers optional="false" initial="true"/>
+					<defaultvalue>saveEventConverter</defaultvalue>
+				</attribute>
+			</attributes>
+		</itemtype>	
+	</itemtypes>
+</items>
