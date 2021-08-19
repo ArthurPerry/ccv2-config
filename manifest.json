@@ -149,7 +149,6 @@
 { "addon": "assistedservicestorefront", "storefront": "yacceleratorstorefront", "template": "yacceleratorstorefront" },
 { "addon": "assistedserviceyprofileaddon", "storefront": "yacceleratorstorefront", "template": "yacceleratorstorefront" },
 { "addon": "captchaaddon", "storefront": "yacceleratorstorefront", "template": "yacceleratorstorefront" },
-{ "addon": "consignmenttrackingaddon", "storefront": "yacceleratorstorefront", "template": "yacceleratorstorefront" },
 { "addon": "customercouponaddon", "storefront": "yacceleratorstorefront", "template": "yacceleratorstorefront" },
 { "addon": "customercouponsamplesaddon", "storefront": "yacceleratorstorefront", "template": "yacceleratorstorefront" },
 { "addon": "customerinterestsaddon", "storefront": "yacceleratorstorefront", "template": "yacceleratorstorefront" },
