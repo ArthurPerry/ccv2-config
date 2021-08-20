@@ -438,9 +438,7 @@
     ],
     "useCloudExtensionPack": false,
     "useConfig": {
-        "languages": {
-            "location": "langpacks"
-        },
+
         "properties": [
             {
                 "key": "lang.packs",
