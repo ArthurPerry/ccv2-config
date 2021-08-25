@@ -94,6 +94,10 @@
             ],
             "webapps": [
                 {
+                   "contextPath": "/hac",
+                   "name": "hac"
+                },
+                {
                     "contextPath": "/adminapi",
                     "name": "adminapi"
                 },
