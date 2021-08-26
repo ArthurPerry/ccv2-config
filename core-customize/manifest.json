@@ -146,6 +146,10 @@
                     "name": "oauth2"
                 },
                 {
+                   "contextPath": "/medias",
+                   "name": "mediaweb"
+                },
+                {
                     "contextPath": "/cmswebservices",
                     "name": "cmswebservices"
                 },
