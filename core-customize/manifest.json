@@ -233,7 +233,6 @@
         "yaasyprofileconnect",
         "captchaaddon",
         "cmsbackoffice",
-        "cmsoccaddon",
         "cmssmartedit",
         "cmssmarteditwebservices",
         "cmswebservices",
@@ -324,6 +323,11 @@
         "customercouponsamplesaddon",
         "customerinterestsaddon",
         "notificationaddon",
+        "cms2",
+        "cms2lib",
+        "cmscockpit",
+        "cmsfacades",
+        "cmsocc",
         "personalizationyprofilesampledataaddon"
     ],
     "properties": [
