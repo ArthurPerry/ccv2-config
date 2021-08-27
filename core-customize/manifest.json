@@ -358,7 +358,7 @@
         {
             "key": "sop.post.url",
             "value": "${ccv2.services.api.url.0}/acceleratorservices/sop-mock/process"
-        }
+        },
         {
             "key": "corsfilter.acceleratorservices.allowedOrigins",
             "value": "*"
