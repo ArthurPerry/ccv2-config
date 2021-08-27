@@ -332,6 +332,12 @@
         "cmscockpit",
         "cmsfacades",
         "cmsocc",
+        "acceleratorbackoffice",
+        "acceleratorcms",
+        "acceleratorfacades",
+        "acceleratorocc",
+        "acceleratorservices",
+        "acceleratorstorefrontcommons",
         "personalizationyprofilesampledataaddon"
     ],
     "properties": [
