@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  pageViewedServiceUrl: 'https://click-stream.c-89617f8.kyma.shoot.live.k8s-hana.ondemand.com/',
-  recommendationServiceUrl: 'https://recommends.c-89617f8.kyma.shoot.live.k8s-hana.ondemand.com/',
+  pageViewedServiceUrl: 'https://click-stream.c-81b58c5.kyma.shoot.live.k8s-hana.ondemand.com/',
+  recommendationServiceUrl: 'https://recommendations.c-81b58c5.kyma.shoot.live.k8s-hana.ondemand.com/',
 };
