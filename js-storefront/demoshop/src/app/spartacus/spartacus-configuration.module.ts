@@ -10,7 +10,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
   providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
     backend: {
       occ: {
-        baseUrl: 'https://localhost:9002',
+        baseUrl: 'https://api.crz8nbwca-internalc6-d29-public.model-t.cc.commerce.ondemand.com',
       }
     },
   }), provideConfig(<SiteContextConfig>{
