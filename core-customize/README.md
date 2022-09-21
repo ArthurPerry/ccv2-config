@@ -1,3 +1,32 @@
+# CCV2-CONFIG for Kyma demos
+
+The current tooling does not completely support the latest changes to the Commerce platform for v 2205.  This repo contains a combination of configuration from the [SAP Samples / cloud-commerce-sample-setup](https://github.com/SAP-samples/cloud-commerce-sample-setup/tree/main) repo ( [CXWorks article](https://www.sap.com/cxworks/article/2589632836/build_and_deploy_your_first_sap_commerce_cloud_project)) )and the tooling from [ccv2-project-template](https://github.com/sap-commerce-tools/ccv2-project-template)
+ 
+
+For example the `installManifestAddons` target will fail.  See below for manual commands to install addons.
+This configuration uses the SAP Commerce maven repository to download the platform.  Add your credentials to `gradle.properties`
+```repositoryUser=
+repositoryPass=
+```
+
+```sh
+git clone <project>
+cd <project>
+docker-compose up -d
+cd core-customize
+# Download and unzip latest commerce platform:
+./gradlew bootstrapPlatform
+#
+# Run addonInstall commands now!
+#
+ant addoninstall -Daddonnames="adaptivesearchsamplesaddon,assistedservicecustomerinterestsaddon,assistedservicepromotionaddon,assistedservicestorefront,assistedserviceyprofileaddon,captchaaddon,chineseaddressaddon,configurablebundleaddon,consignmenttrackingaddon,customercouponaddon,customercouponsamplesaddon,customerinterestsaddon,customerticketingaddon,eventtrackingwsaddon,merchandisingaddon,merchandisingstorefrontsampledataaddon,multicountrysampledataaddon,notificationaddon,ordermanagementaddon,orderselfserviceaddon,pcmbackofficesamplesaddon,personalizationaddon,personalizationsampledataaddon,personalizationyprofilesampledataaddon,profiletagaddon,selectivecartsplitlistaddon,smarteditaddon,stocknotificationaddon,textfieldconfiguratortemplateaddon,timedaccesspromotionengineaddon,timedaccesspromotionenginesamplesaddon,xyformssamples,xyformsstorefrontcommons,ysapproductconfigaddon" -DaddonStorefront.yacceleratorstorefront="yacceleratorstorefront"
+
+ant addoninstall -Daddonnames="adaptivesearchsamplesaddon,assistedservicecustomerinterestsaddon,assistedservicepromotionaddon,assistedservicestorefront,assistedserviceyprofileaddon,captchaaddon,chineseaddressaddon,configurablebundleaddon,consignmenttrackingaddon,customercouponaddon,customercouponsamplesaddon,customerinterestsaddon,customerticketingaddon,eventtrackingwsaddon,merchandisingaddon,merchandisingstorefrontsampledataaddon,multicountrysampledataaddon,notificationaddon,ordermanagementaddon,orderselfserviceaddon,pcmbackofficesamplesaddon,personalizationaddon,personalizationsampledataaddon,personalizationyprofilesampledataaddon,profiletagaddon,selectivecartsplitlistaddon,smarteditaddon,stocknotificationaddon,textfieldconfiguratortemplateaddon,timedaccesspromotionengineaddon,timedaccesspromotionenginesamplesaddon,xyformssamples,xyformsstorefrontcommons,ysapproductconfigaddon,accountsummaryaddon,b2bacceleratoraddon,b2bpunchoutaddon,chinesecommerceorgaddressaddon,commerceorgaddon,commerceorgsamplesaddon,sapproductconfigb2baddon" -DaddonStorefront.yacceleratorstorefront="yb2bacceleratorstorefront"
+
+./gradlew yclean yall
+./gradlew yinitialize
+```
+
 # SAP Commerce Project Template for CCv2
 
 > **Initial project bootstrap**
