@@ -17,6 +17,7 @@
       <!-- <requires-extension name="cms"/> -->
       <requires-extension name="commercefacades"/>
       <requires-extension name="kymaintegrationservices"/>
+      <requires-extension name="sapproductconfigfacades"/>
       <!-- requires-extension name="kymaintegrationsampledata"/ -->
       <coremodule generated="true" manager="com.sap.cx.css.c4core.cxsskymaevents.jalo.CxsskymaeventsManager" packageroot="com.sap.cx.css.c4core.cxsskymaevents"/>
 

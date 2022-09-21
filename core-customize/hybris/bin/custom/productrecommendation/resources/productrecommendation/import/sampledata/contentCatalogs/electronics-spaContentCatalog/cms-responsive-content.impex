@@ -1,0 +1,31 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+$contentCatalog = electronics-spaContentCatalog
+$contentCatalogName = Spartacus Content Catalog
+$version = Online
+$contentCV = catalogVersion(CatalogVersion.catalog(Catalog.id[default = $contentCatalog]), CatalogVersion.version[default = $version])[default = $contentCatalog:$version]
+$productCatalog = electronicsProductCatalog
+$productCatalogName = Electronics Product Catalog
+$productCV = catalogVersion(catalog(id[default = $productCatalog]), version[default = '$version'])[unique = true, default = $productCatalog:$version]
+$mediaContainer = media(qualifier, $contentCV);
+$medias = medias(code, $contentCV);
+$siteUid = electronics-spa
+
+
+# For spartacus beta we create flex components #
+INSERT_UPDATE CMSFlexComponent; $contentCV[unique = true]; uid[unique = true]             ; name                               ; flexType                       ; &componentRef
+                              ;                          ; SpaProductRecommendationsComponent ; Spa Product Recommendations Component ; SpaProductRecommendationsComponent ; SpaProductRecommendationsComponent
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]      ; cmsComponents(uid, $contentCV)
+                         ;                          ; SpaProductRecommendationsSlot      ; SpaProductRecommendationsComponent
+
+INSERT_UPDATE ContentSlotForTemplate; $contentCV[unique = true]; uid[unique = true]                    ; position[unique = true]; pageTemplate(uid, $contentCV)[unique = true][default = 'ProductDetailsPageTemplate']; contentSlot(uid, $contentCV)[unique = true]; allowOverwrite
+                                    ;                          ; SpaProductRecommendations    ; SpaProductRecommendationsPosition  ;                                                                                  ; SpaProductRecommendationsSlot              ; true

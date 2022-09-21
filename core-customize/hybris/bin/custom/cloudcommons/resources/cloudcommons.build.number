@@ -1,0 +1,11 @@
+#Ant properties
+#Wed May 25 02:36:20 UTC 2022
+version.api=2205
+vendor=hybris
+group.id=de.hybris.platform
+name=cloudcommons
+description=cloudcommons
+builddate=20220525 0236
+releasedate=20220520 1247
+version=2205.0
+module.name=platform-module

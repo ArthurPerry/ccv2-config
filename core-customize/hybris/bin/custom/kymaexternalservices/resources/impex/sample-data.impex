@@ -1,5 +1,0 @@
-INSERT_UPDATE Endpoint;id[unique=true];version[unique=true];name;specUrl;specData;extensionName
-;externalPriceService;v1;"External Price Service";"https://price-service-redis-production.c4core-demo-2.cluster.int.faros.kyma.cx/";;
-
-INSERT_UPDATE ConsumedDestination;id[unique=true];url;endpoint(id)[unique=true];additionalProperties(key,value)[map-delimiter=|];channel(code)[default=KYMA];active[default=true];credential(id)
-;externalPriceService;"https://price-service-redis-production.c4core-demo-2.cluster.int.faros.kyma.cx/";externalPriceService;;;;

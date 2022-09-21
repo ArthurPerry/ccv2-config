@@ -1,0 +1,27 @@
+$contentCatalog = electronics-spaContentCatalog
+$contentCatalogName = Spartacus Content Catalog
+$version = Online
+$contentCV = catalogVersion(CatalogVersion.catalog(Catalog.id[default = $contentCatalog]), CatalogVersion.version[default = $version])[default = $contentCatalog:$version]
+$productCatalog = electronicsProductCatalog
+$productCatalogName = Electronics Product Catalog
+$productCV = catalogVersion(catalog(id[default = $productCatalog]), version[default = '$version'])[unique = true, default = $productCatalog:$version]
+$mediaContainer = media(qualifier, $contentCV);
+$medias = medias(code, $contentCV);
+$siteUid = electronics-spa
+$lang = en
+
+# CMS Link Components
+#UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]; linkName[lang = $lang]
+#;;CartLink;"Cart"
+#                       ;                          ; FAQLink           ; "Frequently Asked Questions"
+#                      ;                          ; HelpLink          ; "Help"
+#                       ;                          ; SaleLink          ; "Sale"
+#                       ;                          ; SignOutLink       ; "Sign Out"
+#                       ;                          ; StoreFinderLink   ; "Find a Store"
+
+#INSERT_UPDATE ContentPage; $contentCV[unique = true]; uid[unique = true]; title[lang = $lang]
+#                         ;                          ; dashboardPage     ; My account
+
+# CMSParagraphComponent
+#UPDATE CMSParagraphComponent; $contentCV[unique = true]; uid[unique = true]  ; content[lang = en]
+#                            ;                          ; NoticeTextParagraph ; "<div class=""cx-notice"">Copyright © 2019 SAP SE or an SAP affiliate company. All rights reserved.</div>"

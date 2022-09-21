@@ -3,7 +3,6 @@ package com.sap.cx.css.c4core.cxsskymaevents.facade.impl;
 import com.sap.cx.css.c4core.cxsskymaevents.event.ProductReviewSubmittedEvent;
 import de.hybris.platform.commercefacades.product.impl.DefaultProductFacade;
 import de.hybris.platform.commercefacades.product.data.ReviewData;
-import de.hybris.platform.commercefacades.product.impl.DefaultProductVariantFacade;
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.core.model.user.UserModel;
 import de.hybris.platform.customerreview.model.CustomerReviewModel;
@@ -12,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-public class KymaEventProductFacade extends DefaultProductVariantFacade {
+public class KymaEventProductFacade extends DefaultProductFacade {
 
     public KymaEventProductFacade(){
         super();
@@ -41,7 +40,8 @@ public class KymaEventProductFacade extends DefaultProductVariantFacade {
         customerReviewModel.setLanguage(getCommonI18NService().getCurrentLanguage());
         customerReviewModel.setAlias(reviewData.getAlias());
         getModelService().save(customerReviewModel);
-        ReviewData result =   getCustomerReviewConverter().convert(customerReviewModel);
+        //ReviewData result = getCustomerReviewConverter().convert(customerReviewModel);
+        ReviewData result = (ReviewData) getCustomerReviewConverter().convert(customerReviewModel);
 
         if(log.isInfoEnabled()) {
             log.info("Posting Review!@!@! Alias: {} Headline: {} ", reviewData.getAlias(), reviewData.getHeadline());
