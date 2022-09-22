@@ -1,5 +1,26 @@
 # Spartacusstore
 
+[Prerequisites](https://sap.github.io/spartacus-docs/building-the-spartacus-storefront-from-libraries-4-x/#prerequisites) for node, ng, yarn (depending on Spartacus verion)
+
+[Import Spartacus OCC Credentials](https://sap.github.io/spartacus-docs/installing-sap-commerce-cloud-2105/#step-3-import-occ-credentials)
+
+[Import Product Recommendation CMS config](../../core-customize/hybris/bin/custom/productrecommendation/resources/productrecommendation/import/sampledata/contentCatalogs/electronics-spaContentCatalog/) (2 files)
+
+```
+cms-responsive-content.impex
+cms-responsive-content_en.impex
+```
+
+To run:
+
+```
+yarn
+yarn build
+yarn start
+```
+
+## Background
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.5.
 
 ## Development server
