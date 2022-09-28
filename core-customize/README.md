@@ -16,6 +16,9 @@ docker-compose up -d
 cd core-customize
 # Download and unzip latest commerce platform:
 ./gradlew bootstrapPlatform
+cd hybris/bin/platform
+. ./setantenv.sh
+
 #
 # Run addonInstall commands now!
 #
@@ -23,8 +26,6 @@ ant addoninstall -Daddonnames="adaptivesearchsamplesaddon,assistedservicecustome
 
 ant addoninstall -Daddonnames="adaptivesearchsamplesaddon,assistedservicecustomerinterestsaddon,assistedservicepromotionaddon,assistedservicestorefront,assistedserviceyprofileaddon,captchaaddon,chineseaddressaddon,configurablebundleaddon,consignmenttrackingaddon,customercouponaddon,customercouponsamplesaddon,customerinterestsaddon,customerticketingaddon,eventtrackingwsaddon,merchandisingaddon,merchandisingstorefrontsampledataaddon,multicountrysampledataaddon,notificationaddon,ordermanagementaddon,orderselfserviceaddon,pcmbackofficesamplesaddon,personalizationaddon,personalizationsampledataaddon,personalizationyprofilesampledataaddon,profiletagaddon,selectivecartsplitlistaddon,smarteditaddon,stocknotificationaddon,textfieldconfiguratortemplateaddon,timedaccesspromotionengineaddon,timedaccesspromotionenginesamplesaddon,xyformssamples,xyformsstorefrontcommons,ysapproductconfigaddon,accountsummaryaddon,b2bacceleratoraddon,b2bpunchoutaddon,chinesecommerceorgaddressaddon,commerceorgaddon,commerceorgsamplesaddon,sapproductconfigb2baddon" -DaddonStorefront.yacceleratorstorefront="yb2bacceleratorstorefront"
 
-cd hybris/bin/platform
-. ./setantenv.sh
 ant clean all
 ant initialize
 ```
