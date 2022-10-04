@@ -14,6 +14,7 @@ cms-responsive-content_en.impex
 To run:
 
 ```
+npm install
 yarn
 yarn build
 yarn start
