@@ -417,6 +417,10 @@
                     "value": ""
                 },
                 {
+                    "contextPath": "/odata2webservices",
+                    "name": "odata2webservices"
+                },
+                {
                     "key": "xss.filter.header.X-Frame-Options",
                     "value": ""
                 },

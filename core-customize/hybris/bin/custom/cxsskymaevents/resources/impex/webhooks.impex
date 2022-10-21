@@ -1,0 +1,12 @@
+$webhook_name=cc-customerreview-webook
+$endpoint_url=https://webhook.site/f112d768-42a5-4b59-bda7-e0094b0942c9
+$destination_target=webhookServices
+
+INSERT_UPDATE Endpoint;id[unique=true];name;version[unique=true];description;specUrl;specData;extensionName
+;$webhook_name;"CC Customer Review Webhook v1";v1;"Customer Review Webhook";$endpoint_url;;odata2webservices
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]                 ; url                    ; credential(id)                   ;destinationTarget(id)[unique = true,default=$destination_target] ; active[default=true]
+; $webhook_name       ; $endpoint_url ; ;
+
+INSERT_UPDATE WebhookConfiguration; integrationObject(code)[unique = true]; destination(id)[unique = true]; eventType
+; InboundCustomerReview                             ; $webhook_name ; de.hybris.platform.webhookservices.event.ItemCreatedEvent

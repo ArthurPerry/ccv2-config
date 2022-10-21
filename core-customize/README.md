@@ -29,6 +29,10 @@ ant clean all
 ant initialize
 ```
 
+## Additional steps
+- Run Facet search indexes for backoffice and storefront via backoffice
+- Execute Impex for [productrecomendation](hybris/bin/custom/productrecommendation/resources/productrecommendation/import/sampledata/contentCatalogs/electronics-spaContentCatalog) CMS components
+
 # Background: SAP Commerce Project Template for CCv2
 
 > **Initial project bootstrap**
