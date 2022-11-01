@@ -309,7 +309,7 @@
 
 <!-- Kyma Demo support -->
 	<extension name='spartacussampledata' />
-    <extension name='cxsskymaevents' />
+    <!-- <extension name='cxsskymaevents' /> -->
     <extension name='productrecommendation' />
     <extension name='c4hfdemodata' />
 
