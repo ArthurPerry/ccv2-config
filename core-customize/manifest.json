@@ -417,10 +417,6 @@
                     "value": ""
                 },
                 {
-                    "contextPath": "/odata2webservices",
-                    "name": "odata2webservices"
-                },
-                {
                     "key": "xss.filter.header.X-Frame-Options",
                     "value": ""
                 },
@@ -617,6 +613,11 @@
                 {
                     "name": "b2bordermanagementwebservices",
                     "contextPath": "/b2bordermanagementwebservices"
+                },
+                {
+                    "name": "odata2webservices",
+                    "contextPath": "/odata2webservices"
+                    
                 },
                 {
                     "name": "datahubadapter",
