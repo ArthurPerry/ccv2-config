@@ -23,6 +23,9 @@ UserGroup ; integrationadmingroup        ;                ;          ;          
 ;                                        ;                ;          ; Product                        ; +    ; +      ; +      ; +      ; +
 ;                                        ;                ;          ; CustomerReviewApprovalType     ; +    ; +      ; +      ; +      ; +
 ;                                        ;                ;          ; Catalog                        ; +    ; +      ; +      ; +      ; +
+;                                        ;                ;          ; Language                       ; +    ; +      ; +      ; +      ; +
+;                                        ;                ;          ; User                           ; +    ; +      ; +      ; +      ; +
+;                                        ;                ;          ; Address                        ; +    ; +      ; +      ; +      ; +
 $END_USERRIGHTS; ; ; ; ;
 
 ## Update to the correct url and destinationTarget values
