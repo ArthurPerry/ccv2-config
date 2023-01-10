@@ -10,15 +10,15 @@ import de.hybris.platform.acceleratorstorefrontcommons.controllers.util.GlobalMe
 import de.hybris.platform.acceleratorstorefrontcommons.util.XSSFilterUtil;
 import de.hybris.platform.accountsummaryaddon.breadcrumb.impl.AccountSummaryMyCompanyBreadcrumbBuilder;
 import de.hybris.platform.accountsummaryaddon.constants.AccountsummaryaddonConstants;
-import de.hybris.platform.accountsummaryaddon.data.AccountSummaryInfoData;
-import de.hybris.platform.accountsummaryaddon.document.criteria.DefaultCriteria;
-import de.hybris.platform.accountsummaryaddon.document.criteria.FilterByCriteriaData;
+import de.hybris.platform.b2bacceleratorfacades.data.AccountSummaryInfoData;
+import de.hybris.platform.b2bacceleratorservices.document.criteria.DefaultCriteria;
+import de.hybris.platform.b2bacceleratorservices.document.criteria.FilterByCriteriaData;
 import de.hybris.platform.accountsummaryaddon.document.criteria.validator.CriteriaValidator;
-import de.hybris.platform.accountsummaryaddon.document.data.B2BDocumentData;
-import de.hybris.platform.accountsummaryaddon.facade.B2BAccountSummaryFacade;
-import de.hybris.platform.accountsummaryaddon.model.B2BDocumentModel;
-import de.hybris.platform.accountsummaryaddon.model.B2BDocumentTypeModel;
-import de.hybris.platform.accountsummaryaddon.utils.AccountSummaryAddonUtils;
+import de.hybris.platform.b2bacceleratorfacades.document.data.B2BDocumentData;
+import de.hybris.platform.b2bacceleratorfacades.company.B2BAccountSummaryFacade;
+import de.hybris.platform.b2bacceleratorservices.model.B2BDocumentModel;
+import de.hybris.platform.b2bacceleratorservices.model.B2BDocumentTypeModel;
+import de.hybris.platform.b2bacceleratorservices.document.utils.AccountSummaryUtils;
 import de.hybris.platform.b2bcommercefacades.company.B2BUnitFacade;
 import de.hybris.platform.b2bcommercefacades.company.data.B2BUnitNodeData;
 import de.hybris.platform.cms2.exceptions.CMSItemNotFoundException;
@@ -143,7 +143,7 @@ public class AccountSummaryPageController extends AbstractSearchPageController
 		}
 		model.addAttribute("dateFormat", AccountsummaryaddonConstants.DATE_FORMAT_MM_DD_YYYY);
 		model.addAttribute("filterByList", filterByList.keySet());
-		model.addAttribute("documentStatusList", AccountSummaryAddonUtils.getDocumentStatusList());
+		model.addAttribute("documentStatusList", AccountSummaryUtils.getDocumentStatusList());
 		model.addAttribute("filterByKey", filterByKey);
 		model.addAttribute("criteriaData", filterByCriteriaData);
 		storeCmsPageInModel(model,

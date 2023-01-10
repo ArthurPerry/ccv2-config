@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.controllers;
 
@@ -49,8 +44,9 @@ import javax.json.JsonReader;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.ui.Model;
 
 
@@ -60,6 +56,7 @@ import org.springframework.ui.Model;
  * Unit test for {@link PricingController}
  */
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class PricingControllerTest
 {
 	private static final String SAVING = "Saving";
@@ -85,7 +82,6 @@ public class PricingControllerTest
 	@Before
 	public void setUp()
 	{
-		MockitoAnnotations.initMocks(this);
 		classUnderTest = spy(new PricingController());
 		classUnderTest.setSessionAccessFacade(sessionAccessFacade);
 		classUnderTest.setUiStateHandler(new UiStateHandler());

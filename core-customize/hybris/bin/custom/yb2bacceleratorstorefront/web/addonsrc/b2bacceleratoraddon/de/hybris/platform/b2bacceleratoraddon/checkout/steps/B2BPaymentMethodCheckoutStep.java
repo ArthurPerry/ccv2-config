@@ -4,7 +4,7 @@
 package de.hybris.platform.b2bacceleratoraddon.checkout.steps;
 
 import de.hybris.platform.acceleratorstorefrontcommons.checkout.steps.CheckoutStep;
-import de.hybris.platform.b2bacceleratorservices.enums.CheckoutPaymentType;
+import de.hybris.platform.b2b.enums.CheckoutPaymentType;
 import de.hybris.platform.commercefacades.order.CheckoutFacade;
 
 import de.hybris.platform.commercefacades.order.data.CartData;

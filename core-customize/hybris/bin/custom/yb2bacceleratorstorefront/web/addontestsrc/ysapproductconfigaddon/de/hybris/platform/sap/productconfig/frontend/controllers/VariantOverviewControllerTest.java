@@ -1,12 +1,13 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.controllers;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import de.hybris.bootstrap.annotations.UnitTest;
 import de.hybris.platform.acceleratorservices.data.RequestContextData;
@@ -22,20 +23,16 @@ import de.hybris.platform.sap.productconfig.frontend.model.ProductConfigOverview
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.servlet.ModelAndView;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class VariantOverviewControllerTest extends AbstractProductConfigControllerTCBase
 {
 	private static final String BASE_PRODUCT_CODE = "BASE_PRODUCT_CODE";
@@ -52,8 +49,6 @@ public class VariantOverviewControllerTest extends AbstractProductConfigControll
 	@Before
 	public void setUp() throws Exception
 	{
-		classUnderTest = new VariantOverviewController();
-		MockitoAnnotations.initMocks(this);
 		injectMocks(classUnderTest);
 		classUnderTest.setConfigurationOverviewFacade(configurationOverviewFacade);
 
@@ -139,7 +134,6 @@ public class VariantOverviewControllerTest extends AbstractProductConfigControll
 	@Test
 	public void testResetUiCartConfigurationForProductUiStatusNull()
 	{
-		given(sessionAccessFacade.getUiStatusForProduct(PRODUCT_CODE)).willReturn(null);
 		classUnderTest.resetUiCartConfigurationForProduct(PRODUCT_CODE);
 
 		verify(sessionAccessFacade, times(0)).removeUiStatusForProduct(PRODUCT_CODE);
@@ -174,9 +168,6 @@ public class VariantOverviewControllerTest extends AbstractProductConfigControll
 	@Test
 	public void testAddVariantToCartCleanUp()
 	{
-		given(productData.getBaseProduct()).willReturn(BASE_PRODUCT_CODE);
-		given(productData.getCode()).willReturn(PRODUCT_CODE);
-
 		classUnderTest.addVariantToCartCleanUp(PRODUCT_CODE);
 		verify(sessionAccessFacade, times(0)).removeUiStatusForProduct(PRODUCT_CODE);
 		verify(configurationProductLinkStrategy, times(0)).removeConfigIdForProduct(PRODUCT_CODE);
@@ -186,9 +177,10 @@ public class VariantOverviewControllerTest extends AbstractProductConfigControll
 	@Test
 	public void testUpdateVariantOverview() throws CMSItemNotFoundException
 	{
-		ModelAndView modelAndView = classUnderTest.updateVariantOverview(PRODUCT_CODE, model, request);
+		final ModelAndView modelAndView = classUnderTest.updateVariantOverview(PRODUCT_CODE, model, request);
 		final int length = StringUtils.length(SapproductconfigfrontendWebConstants.OVERVIEW_PAGE_VIEW_NAME);
-		assertEquals(SapproductconfigfrontendWebConstants.OVERVIEW_PAGE_VIEW_NAME, StringUtils.substring(modelAndView.getViewName(),0,length));
+		assertEquals(SapproductconfigfrontendWebConstants.OVERVIEW_PAGE_VIEW_NAME,
+				StringUtils.substring(modelAndView.getViewName(), 0, length));
 	}
 
 

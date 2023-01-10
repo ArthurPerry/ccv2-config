@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.util.impl;
 
@@ -17,9 +12,11 @@ import de.hybris.platform.sap.productconfig.frontend.constants.Sapproductconfigf
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.ui.Model;
@@ -29,8 +26,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class ConfigErrorHanderImplTest
 {
+	@InjectMocks
 	private ConfigErrorHandlerImpl classUnderTest;
 	@Mock
 	private Model model;
@@ -49,8 +48,6 @@ public class ConfigErrorHanderImplTest
 	@Before
 	public void setup()
 	{
-		MockitoAnnotations.initMocks(this);
-		classUnderTest = new ConfigErrorHandlerImpl();
 		servletContext = new MockServletContext();
 		servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, wac);
 

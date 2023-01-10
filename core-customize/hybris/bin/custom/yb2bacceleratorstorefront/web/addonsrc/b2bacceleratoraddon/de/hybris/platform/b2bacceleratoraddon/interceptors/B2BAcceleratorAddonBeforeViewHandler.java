@@ -7,10 +7,10 @@ package de.hybris.platform.b2bacceleratoraddon.interceptors;
 import de.hybris.platform.acceleratorstorefrontcommons.interceptors.BeforeViewHandler;
 import de.hybris.platform.b2bacceleratoraddon.constants.B2bacceleratoraddonConstants;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.Map;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,7 +23,6 @@ public class B2BAcceleratorAddonBeforeViewHandler implements BeforeViewHandler
 
 	@Override
 	public void beforeView(final HttpServletRequest request, final HttpServletResponse response, final ModelAndView modelAndView)
-			throws Exception
 	{
 		final String viewName = modelAndView.getViewName();
 		if (viewMap.containsKey(viewName))

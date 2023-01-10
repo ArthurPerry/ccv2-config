@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.controllers;
 
@@ -14,9 +9,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -48,16 +43,18 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.servlet.ModelAndView;
 
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class UpdateConfigureProductControllerTest extends AbstractProductConfigControllerTCBase
 {
 	@Mock
@@ -72,8 +69,6 @@ public class UpdateConfigureProductControllerTest extends AbstractProductConfigC
 	@Before
 	public void setUp()
 	{
-		classUnderTest = new UpdateConfigureProductController();
-		MockitoAnnotations.initMocks(this);
 		injectMocks(classUnderTest);
 
 		kbKey = createKbKey();
@@ -92,7 +87,6 @@ public class UpdateConfigureProductControllerTest extends AbstractProductConfigC
 		configDataFromRequest.setGroups(null);
 		updateData.setConfigData(configDataFromRequest);
 
-		Mockito.doThrow(NullPointerException.class).when(configFacade).updateConfiguration(configDataFromRequest);
 		given(configFacade.getConfiguration(configDataFromRequest)).willReturn(configData);
 
 		classUnderTest.executeUpdate(updateData);
@@ -123,10 +117,6 @@ public class UpdateConfigureProductControllerTest extends AbstractProductConfigC
 	{
 		initializeFirstCall();
 		configData.setGroupIdToDisplay("_GEN");
-		given(configFacade.getConfiguration(configData)).willReturn(configData);
-		when(Boolean.valueOf(bindingResults.hasErrors())).thenReturn(Boolean.FALSE);
-
-		given(sessionAccessFacade.getUiStatusForProduct("YSAP_SIMPLE_POC")).willReturn(null);
 
 		request.setAttribute("de.hybris.platform.acceleratorcms.utils.SpringHelper.bean.requestContextData",
 				new RequestContextData());
@@ -312,7 +302,6 @@ public class UpdateConfigureProductControllerTest extends AbstractProductConfigC
 	public void testUpdateConfigurationWithRemovedDraft() throws Exception
 	{
 		initializeFirstCall();
-		given(configFacade.getConfiguration(configData)).willReturn(configData);
 		given(configurationProductLinkStrategy.getConfigIdForProduct("YSAP_SIMPLE_POC")).willReturn(CONFIG_ID);
 
 		willThrow(new ConfigurationNotFoundException("Not found")).given(configFacade).updateConfiguration(configData);

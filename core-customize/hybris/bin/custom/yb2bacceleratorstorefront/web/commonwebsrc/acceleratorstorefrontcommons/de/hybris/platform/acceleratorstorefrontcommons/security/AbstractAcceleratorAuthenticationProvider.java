@@ -1,13 +1,17 @@
 /*
- * Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+ * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
  */
 package de.hybris.platform.acceleratorstorefrontcommons.security;
 
+import de.hybris.platform.basecommerce.model.site.BaseSiteModel;
 import de.hybris.platform.core.Constants;
+import de.hybris.platform.core.Registry;
+import de.hybris.platform.core.model.user.CustomerModel;
 import de.hybris.platform.core.model.user.UserModel;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 import de.hybris.platform.servicelayer.model.ModelService;
 import de.hybris.platform.servicelayer.user.UserService;
+import de.hybris.platform.site.BaseSiteService;
 import de.hybris.platform.spring.security.CoreAuthenticationProvider;
 
 import org.apache.commons.lang.StringUtils;
@@ -41,6 +45,7 @@ public abstract class AbstractAcceleratorAuthenticationProvider extends CoreAuth
 	private BruteForceAttackCounter bruteForceAttackCounter;
 	private UserService userService;
 	private ModelService modelService;
+	private BaseSiteService baseSiteService;
 
 
 	@Override
@@ -95,10 +100,30 @@ public abstract class AbstractAcceleratorAuthenticationProvider extends CoreAuth
 			throws AuthenticationException
 	{
 		super.additionalAuthenticationChecks(details, authentication);
+
+		checkSiteConsistency(authentication);
+
 		// Check if user has supplied no password
 		if (StringUtils.isEmpty((String) authentication.getCredentials()))
 		{
 			throw new BadCredentialsException("Login without password");
+		}
+	}
+
+	protected void checkSiteConsistency(final AbstractAuthenticationToken authentication)
+	{
+		// check the site consistency during login
+		final UserModel currentUser = getUserService().getUserForUID(authentication.getName());
+		final BaseSiteModel currentBaseSite = getBaseSiteService().getCurrentBaseSite();
+
+		if (currentUser instanceof CustomerModel && currentBaseSite != null)
+		{
+			final CustomerModel currentCustomer = (CustomerModel) currentUser;
+			if ((!currentBaseSite.getDataIsolationEnabled() && currentCustomer.getSite() != null) || (
+					currentBaseSite.getDataIsolationEnabled() && !currentBaseSite.equals(currentCustomer.getSite())))
+			{
+				throw new BadCredentialsException(messages.getMessage(CORE_AUTHENTICATION_PROVIDER_BAD_CREDENTIALS, BAD_CREDENTIALS));
+			}
 		}
 	}
 
@@ -133,5 +158,19 @@ public abstract class AbstractAcceleratorAuthenticationProvider extends CoreAuth
 	public void setModelService(final ModelService modelService)
 	{
 		this.modelService = modelService;
+	}
+
+	protected BaseSiteService getBaseSiteService()
+	{
+		if (baseSiteService == null)
+		{
+			baseSiteService = Registry.getApplicationContext().getBean("baseSiteService", BaseSiteService.class);
+		}
+		return baseSiteService;
+	}
+
+	public void setBaseSiteService(final BaseSiteService baseSiteService)
+	{
+		this.baseSiteService = baseSiteService;
 	}
 }

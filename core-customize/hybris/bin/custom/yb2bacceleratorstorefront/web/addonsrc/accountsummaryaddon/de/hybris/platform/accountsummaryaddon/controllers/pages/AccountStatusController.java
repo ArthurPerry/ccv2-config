@@ -8,8 +8,8 @@ import de.hybris.platform.acceleratorstorefrontcommons.controllers.ThirdPartyCon
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.pages.AbstractSearchPageController;
 import de.hybris.platform.accountsummaryaddon.breadcrumb.impl.AccountSummaryMyCompanyBreadcrumbBuilder;
 import de.hybris.platform.accountsummaryaddon.constants.AccountsummaryaddonConstants;
-import de.hybris.platform.accountsummaryaddon.document.data.B2BDocumentData;
-import de.hybris.platform.accountsummaryaddon.facade.B2BAccountSummaryFacade;
+import de.hybris.platform.b2bacceleratorfacades.document.data.B2BDocumentData;
+import de.hybris.platform.b2bacceleratorfacades.company.B2BAccountSummaryFacade;
 import de.hybris.platform.b2b.company.B2BCommerceUnitService;
 import de.hybris.platform.b2bacceleratorfacades.company.CompanyB2BCommerceFacade;
 import de.hybris.platform.b2bacceleratorfacades.query.QueryParameters;

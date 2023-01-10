@@ -5,12 +5,12 @@ package de.hybris.platform.accountsummaryaddon.controllers;
 
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.cms.AbstractCMSComponentController;
 import de.hybris.platform.accountsummaryaddon.constants.AccountsummaryaddonConstants;
-import de.hybris.platform.accountsummaryaddon.document.data.B2BAmountBalanceData;
-import de.hybris.platform.accountsummaryaddon.facade.B2BAccountSummaryFacade;
-import de.hybris.platform.accountsummaryaddon.formatters.AmountFormatter;
-import de.hybris.platform.accountsummaryaddon.jalo.B2BDocument;
+import de.hybris.platform.b2bacceleratorfacades.document.data.B2BAmountBalanceData;
+import de.hybris.platform.b2bacceleratorfacades.company.B2BAccountSummaryFacade;
+import de.hybris.platform.b2bacceleratorfacades.formatters.AmountFormatter;
+import de.hybris.platform.b2bacceleratorservices.jalo.B2BDocument;
 import de.hybris.platform.accountsummaryaddon.model.AccountSummaryAccountStatusComponentModel;
-import de.hybris.platform.accountsummaryaddon.model.B2BDocumentTypeModel;
+import de.hybris.platform.b2bacceleratorservices.model.B2BDocumentTypeModel;
 import de.hybris.platform.b2b.company.B2BCommerceUnitService;
 import de.hybris.platform.b2b.model.B2BCreditLimitModel;
 import de.hybris.platform.b2b.model.B2BUnitModel;

@@ -4,9 +4,9 @@
 package de.hybris.platform.accountsummaryaddon.document.criteria.validator.impl;
 
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.util.GlobalMessages;
-import de.hybris.platform.accountsummaryaddon.constants.AccountsummaryaddonConstants;
+import de.hybris.platform.b2bacceleratorservices.constants.B2BAccountSummaryConstants;
 import de.hybris.platform.accountsummaryaddon.document.criteria.validator.CriteriaValidator;
-import de.hybris.platform.accountsummaryaddon.utils.AccountSummaryAddonUtils;
+import de.hybris.platform.b2bacceleratorservices.document.utils.AccountSummaryUtils;
 
 import java.util.Date;
 import java.util.Optional;
@@ -37,7 +37,7 @@ public class DateCriteriaValidator implements CriteriaValidator
 
 		if (StringUtils.isNotBlank(startRange))
 		{
-			parsedStartRange = AccountSummaryAddonUtils.parseDate(startRange, AccountsummaryaddonConstants.DATE_FORMAT_MM_DD_YYYY);
+			parsedStartRange = AccountSummaryUtils.parseDate(startRange, B2BAccountSummaryConstants.DATE_FORMAT_MM_DD_YYYY);
 			if (!parsedStartRange.isPresent())
 			{
 				GlobalMessages.addErrorMessage(model, "text.company.accountsummary.criteria.date.format.from.invalid");
@@ -48,7 +48,7 @@ public class DateCriteriaValidator implements CriteriaValidator
 
 		if (StringUtils.isNotBlank(endRange))
 		{
-			parsedEndRange = AccountSummaryAddonUtils.parseDate(endRange, AccountsummaryaddonConstants.DATE_FORMAT_MM_DD_YYYY);
+			parsedEndRange = AccountSummaryUtils.parseDate(endRange, B2BAccountSummaryConstants.DATE_FORMAT_MM_DD_YYYY);
 			if (!parsedEndRange.isPresent())
 			{
 				GlobalMessages.addErrorMessage(model, "text.company.accountsummary.criteria.date.format.to.invalid");

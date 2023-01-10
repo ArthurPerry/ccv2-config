@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.controllers;
 
@@ -44,12 +39,12 @@ import de.hybris.platform.sap.productconfig.frontend.UiGroupStatus;
 import de.hybris.platform.sap.productconfig.frontend.UiStatus;
 import de.hybris.platform.sap.productconfig.frontend.breadcrumb.ProductConfigureBreadcrumbBuilder;
 import de.hybris.platform.sap.productconfig.frontend.constants.SapproductconfigfrontendWebConstants;
-import de.hybris.platform.sap.productconfig.frontend.model.ProductConfigPageModel;
 import de.hybris.platform.sap.productconfig.frontend.util.ConfigErrorHandler;
 import de.hybris.platform.sap.productconfig.frontend.util.impl.ConstantHandler;
 import de.hybris.platform.sap.productconfig.frontend.util.impl.UiStateHandler;
 import de.hybris.platform.sap.productconfig.frontend.util.impl.UiStatusSync;
 import de.hybris.platform.sap.productconfig.frontend.validator.ConflictChecker;
+import de.hybris.platform.sap.productconfig.runtime.interf.services.impl.UniqueKeyGeneratorImpl;
 import de.hybris.platform.sap.productconfig.services.strategies.lifecycle.intf.ConfigurationAbstractOrderEntryLinkStrategy;
 import de.hybris.platform.sap.productconfig.services.strategies.lifecycle.intf.ConfigurationProductLinkStrategy;
 import de.hybris.platform.servicelayer.session.Session;
@@ -138,20 +133,13 @@ public class AbstractProductConfigControllerTCBase
 
 	protected void injectMocks(final AbstractProductConfigController classUnderTest)
 	{
-		classUnderTest.setConfigCartFacade(configCartIntegrationFacade);
-		classUnderTest.setConfigFacade(configFacade);
-		classUnderTest.setBreadcrumbBuilder(productConfigurationBreadcrumbBuilder);
-		classUnderTest.setProductConfigurationConflictChecker(conflictChecker);
-		classUnderTest.setProductConfigurationValidator(null);
-		classUnderTest.setProductFacade(productFacade);
 		classUnderTest.setSessionAccessFacade(sessionAccessFacade);
 		classUnderTest.setAbstractOrderEntryLinkStrategy(abstractOrderEntryLinkStrategy);
 		classUnderTest.setProductLinkStrategy(configurationProductLinkStrategy);
-		classUnderTest.setProductService(productService);
-		classUnderTest.setUiRecorder(uiTrackingRecorder);
-		classUnderTest.setConfigurationErrorHandler(errorHandler);
 		final UiStateHandler uiStateHandler = new UiStateHandler();
-		uiStateHandler.setUiKeyGenerator(new UniqueUIKeyGeneratorImpl());
+		final UniqueUIKeyGeneratorImpl uiKeyGenerator = new UniqueUIKeyGeneratorImpl();
+		uiKeyGenerator.setKeyGenerator(new UniqueKeyGeneratorImpl());
+		uiStateHandler.setUiKeyGenerator(uiKeyGenerator);
 		classUnderTest.setUiStateHandler(uiStateHandler);
 		classUnderTest.setUiStatusSync(uiStatusSync);
 		classUnderTest.setCartFacade(cartFacadeMock);
@@ -701,7 +689,6 @@ public class AbstractProductConfigControllerTCBase
 		request = new MockHttpServletRequest(servletContext);
 
 		given(productFacade.getProductForCodeAndOptions(any(String.class), any(Collection.class))).willReturn(productData);
-		given(cmsPageService.getPageForId("productConfig")).willReturn(new ProductConfigPageModel());
 	}
 
 	protected FieldError createErrorForCstic3()

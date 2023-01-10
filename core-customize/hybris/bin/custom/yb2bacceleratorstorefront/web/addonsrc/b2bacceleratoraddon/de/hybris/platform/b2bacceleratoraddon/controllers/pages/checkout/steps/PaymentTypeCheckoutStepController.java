@@ -16,7 +16,7 @@ import de.hybris.platform.b2bacceleratoraddon.forms.PaymentTypeForm;
 import de.hybris.platform.b2bacceleratoraddon.forms.validation.PaymentTypeFormValidator;
 import de.hybris.platform.b2bacceleratorfacades.api.cart.CheckoutFacade;
 import de.hybris.platform.b2bacceleratorfacades.order.data.B2BPaymentTypeData;
-import de.hybris.platform.b2bacceleratorservices.enums.CheckoutPaymentType;
+import de.hybris.platform.b2b.enums.CheckoutPaymentType;
 import de.hybris.platform.b2bcommercefacades.company.B2BCostCenterFacade;
 import de.hybris.platform.b2bcommercefacades.company.data.B2BCostCenterData;
 import de.hybris.platform.cms2.exceptions.CMSItemNotFoundException;

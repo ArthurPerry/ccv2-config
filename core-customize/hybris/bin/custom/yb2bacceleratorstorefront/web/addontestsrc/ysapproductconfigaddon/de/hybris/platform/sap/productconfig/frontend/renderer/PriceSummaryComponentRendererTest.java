@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.renderer;
 
@@ -20,20 +15,23 @@ import de.hybris.platform.sap.productconfig.runtime.interf.PricingConfigurationP
 import de.hybris.platform.sap.productconfig.runtime.interf.ProviderFactory;
 import de.hybris.platform.servicelayer.model.ModelService;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class PriceSummaryComponentRendererTest
 {
 
+	@InjectMocks
 	private PriceSummaryComponentRenderer classUnderTest;
 
 	private final AbstractCMSComponentModel component = new AbstractCMSComponentModel();
@@ -50,14 +48,10 @@ public class PriceSummaryComponentRendererTest
 	@Before
 	public void setUp()
 	{
-		MockitoAnnotations.initMocks(this);
-		classUnderTest = new PriceSummaryComponentRenderer();
 		classUnderTest.setProviderFactory(providerFactory);
 		classUnderTest.setCmsComponentService(cmsComponentService);
 		classUnderTest.setModelService(modelService);
 		given(providerFactory.getPricingParameter()).willReturn(pricingParams);
-		given(cmsComponentService.getEditorProperties(component))
-				.willReturn(Collections.singleton(GeneratedProductConfigurationPriceSummaryComponent.SHOWPRICEDETAILS));
 		given(cmsComponentService.getReadableEditorProperties(component))
 				.willReturn(Collections.singleton(GeneratedProductConfigurationPriceSummaryComponent.SHOWPRICEDETAILS));
 
@@ -109,5 +103,4 @@ public class PriceSummaryComponentRendererTest
 		assertFalse(Boolean.valueOf(vars.get(GeneratedProductConfigurationPriceSummaryComponent.SHOWPRICEDETAILS).toString())
 				.booleanValue());
 	}
-	
 }

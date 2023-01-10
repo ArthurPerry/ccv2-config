@@ -39,8 +39,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import atg.taglib.json.util.JSONException;
-import atg.taglib.json.util.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 /**
@@ -144,11 +144,11 @@ public class ReCaptchaAspect
 			{
 				return false;
 			}
-
-			final JSONObject response = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));
-			return response.getBoolean("success");
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode jsonNode = objectMapper.readTree(EntityUtils.toString(httpResponse.getEntity()));
+			return jsonNode.get("success").asBoolean(false);
 		}
-		catch (IOException | JSONException e)
+		catch (IOException e)
 		{
 			LOG.error("Exception occurred while checking captcha answer", e);
 			return false;

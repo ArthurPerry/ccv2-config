@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.controllers;
 
@@ -35,10 +30,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -46,6 +42,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class ConfigureProductControllerTest extends AbstractProductConfigControllerTCBase
 {
 
@@ -66,17 +63,11 @@ public class ConfigureProductControllerTest extends AbstractProductConfigControl
 	@Before
 	public void setUp()
 	{
-
-		classUnderTest = new ConfigureProductController();
-		MockitoAnnotations.initMocks(this);
 		injectMocks(classUnderTest);
 
 		kbKey = createKbKey();
 		csticList = createCsticsList();
 		configData = createConfigurationDataWithGeneralGroupOnly();
-
-		given(mockedRequest.getServerName()).willReturn("localhost");
-
 	}
 
 

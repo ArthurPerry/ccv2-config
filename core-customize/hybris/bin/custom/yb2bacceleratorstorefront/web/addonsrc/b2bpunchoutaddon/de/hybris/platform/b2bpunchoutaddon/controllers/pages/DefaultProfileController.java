@@ -7,6 +7,7 @@ import de.hybris.platform.acceleratorservices.urlresolver.SiteBaseUrlResolutionS
 import de.hybris.platform.b2b.punchout.PunchOutException;
 import de.hybris.platform.b2b.punchout.PunchOutResponseCode;
 import de.hybris.platform.b2b.punchout.PunchOutUtils;
+import de.hybris.platform.b2b.punchout.aop.annotation.PunchOutAuthentication;
 import de.hybris.platform.b2b.punchout.services.CXMLBuilder;
 import de.hybris.platform.b2b.punchout.services.PunchOutService;
 import de.hybris.platform.servicelayer.session.SessionService;
@@ -38,8 +39,6 @@ public class DefaultProfileController implements PunchOutController
 {
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultProfileController.class);
 
-	private Map<String, String> profilePathsMap = null;
-
 	@Resource(name = "punchOutService")
 	private PunchOutService punchOutService;
 
@@ -65,6 +64,7 @@ public class DefaultProfileController implements PunchOutController
 	 */
 	@PostMapping(value = "/punchout/cxml/profile")
 	@ResponseBody
+	@PunchOutAuthentication
 	public CXML handleProfileRequest(@RequestBody final CXML request)
 	{
 		if (LOG.isDebugEnabled()) {
@@ -81,13 +81,10 @@ public class DefaultProfileController implements PunchOutController
 	// Generate profile list for populator
 	private void setSupportedURLS()
 	{
-		if (profilePathsMap == null)
+		final Map<String, String> profilePathsMap = new HashMap<>();
+		for (final Map.Entry<String, String> entry : supportedTransactionURLPaths.entrySet())
 		{
-			profilePathsMap = new HashMap<>();
-			for (final Map.Entry<String, String> entry : supportedTransactionURLPaths.entrySet())
-			{
-				profilePathsMap.put(entry.getKey(), formCompleteURL(entry.getValue()));
-			}
+			profilePathsMap.put(entry.getKey(), formCompleteURL(entry.getValue()));
 		}
 		sessionService.setAttribute(PunchOutUtils.SUPPORTED_TRANSACTION_URL_PATHS, profilePathsMap);
 	}

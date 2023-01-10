@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.textfieldconfiguratortemplateaddon.controllers.pages;
 
@@ -40,13 +35,13 @@ import de.hybris.platform.textfieldconfiguratortemplateaddon.forms.TextFieldConf
 import de.hybris.platform.textfieldconfiguratortemplatefacades.TextFieldFacade;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -71,6 +66,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ProductTextfieldConfiguratorController extends AbstractPageController
 {
 
+	private static final String MODE_ATTR_NAME_PRODUCT = "product";
 	public static final String PRODUCT_CONFIGURATOR_PAGE = "addon:/textfieldconfiguratortemplateaddon/pages/productConfiguratorPage";
 	public static final String ENTRY_CONFIGURATOR_PAGE = "addon:/textfieldconfiguratortemplateaddon/pages/cartEntryConfiguratorPage";
 	protected static final String ENTRY_READ_ONLY_PAGE = "addon:/textfieldconfiguratortemplateaddon/pages/readOnlyEntryConfiguratorPage";
@@ -219,7 +215,7 @@ public class ProductTextfieldConfiguratorController extends AbstractPageControll
 		{
 			return getConfigurePageRedirectPath(productCode);
 		}
-		model.addAttribute("product",
+		model.addAttribute(MODE_ATTR_NAME_PRODUCT,
 				productFacade.getProductForCodeAndOptions(productCode, Collections.singletonList(ProductOption.BASIC)));
 		return REDIRECT_PREFIX + "/cart";
 	}
@@ -252,7 +248,7 @@ public class ProductTextfieldConfiguratorController extends AbstractPageControll
 			return REDIRECT_PREFIX + request.getServletPath();
 		}
 		cartFacade.updateCartEntry(enrichOrderEntryWithConfigurationData(form, entry));
-		model.addAttribute("product", productFacade.getProductForCodeAndOptions(entry.getProduct().getCode(),
+		model.addAttribute(MODE_ATTR_NAME_PRODUCT, productFacade.getProductForCodeAndOptions(entry.getProduct().getCode(),
 				Collections.singletonList(ProductOption.BASIC)));
 		model.addAttribute("quantity", entry.getQuantity());
 		model.addAttribute("entry", entry);
@@ -310,14 +306,14 @@ public class ProductTextfieldConfiguratorController extends AbstractPageControll
 			throws CMSItemNotFoundException
 	{
 		model.addAttribute(WebConstants.BREADCRUMBS_KEY, productBreadcrumbBuilder.getBreadcrumbs(productCode));
-		final Set<ProductOption> options = new HashSet<>(Arrays.asList(ProductOption.VARIANT_FIRST_VARIANT, ProductOption.BASIC,
-				ProductOption.URL, ProductOption.PRICE, ProductOption.SUMMARY, ProductOption.DESCRIPTION, ProductOption.GALLERY,
+		final Set<ProductOption> options = EnumSet.of(ProductOption.VARIANT_FIRST_VARIANT, ProductOption.BASIC, ProductOption.URL,
+				ProductOption.PRICE, ProductOption.SUMMARY, ProductOption.DESCRIPTION, ProductOption.GALLERY,
 				ProductOption.CATEGORIES, ProductOption.REVIEW, ProductOption.PROMOTIONS, ProductOption.CLASSIFICATION,
 				ProductOption.VARIANT_FULL, ProductOption.STOCK, ProductOption.VOLUME_PRICES, ProductOption.PRICE_RANGE,
-				ProductOption.DELIVERY_MODE_AVAILABILITY));
+				ProductOption.DELIVERY_MODE_AVAILABILITY);
 
 		final ProductData productData = getProductFacade().getProductForCodeAndOptions(productCode, options);
-		model.addAttribute("product", productData);
+		model.addAttribute(MODE_ATTR_NAME_PRODUCT, productData);
 		model.addAttribute("pageType", PageType.PRODUCT.name());
 		final ContentPageModel pageModel = getContentPageForLabelOrId(PAGE_LABEL);
 		storeCmsPageInModel(model, pageModel);
@@ -346,7 +342,7 @@ public class ProductTextfieldConfiguratorController extends AbstractPageControll
 					configurationInfoData.setConfiguratorType(item.getKey());
 					configurationInfoData.setStatus(ProductInfoStatus.SUCCESS);
 					return configurationInfoData;
-				}).forEach(configurationInfoDataList::add);
+				}).map(configurationInfoDataList::add).collect(Collectors.toList());
 			}
 		}
 		orderEntryData.setConfigurationInfos(configurationInfoDataList);

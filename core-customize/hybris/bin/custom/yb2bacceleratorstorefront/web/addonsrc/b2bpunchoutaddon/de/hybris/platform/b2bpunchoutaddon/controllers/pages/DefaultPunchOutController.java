@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+ * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
  */
 package de.hybris.platform.b2bpunchoutaddon.controllers.pages;
 
@@ -9,12 +9,17 @@ import de.hybris.platform.b2b.punchout.PunchOutException;
 import de.hybris.platform.b2b.punchout.PunchOutSession;
 import de.hybris.platform.b2b.punchout.PunchOutUtils;
 import de.hybris.platform.b2b.punchout.constants.PunchOutSetupOperation;
+import de.hybris.platform.b2b.punchout.enums.PunchOutLevel;
 import de.hybris.platform.b2b.punchout.security.PunchOutUserAuthenticationStrategy;
 import de.hybris.platform.b2b.punchout.services.PunchOutService;
 import de.hybris.platform.b2b.punchout.services.PunchOutSessionService;
 import de.hybris.platform.b2bpunchoutaddon.constants.B2bpunchoutaddonConstants;
 import de.hybris.platform.cms2.exceptions.CMSItemNotFoundException;
+import de.hybris.platform.commercefacades.product.ProductFacade;
+import de.hybris.platform.commercefacades.product.ProductOption;
+import de.hybris.platform.commercefacades.product.data.ProductData;
 import de.hybris.platform.servicelayer.config.ConfigurationService;
+import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
@@ -63,6 +69,9 @@ public class DefaultPunchOutController extends AbstractPageController implements
 	@Resource(name = "redirectStrategy")
 	private RedirectStrategy redirectStrategy;
 
+	@Resource(name = "productFacade")
+	private ProductFacade productFacade;
+
 	/**
 	 * Used to create a new punch out session by authenticating a punch out user.
 	 *
@@ -90,8 +99,10 @@ public class DefaultPunchOutController extends AbstractPageController implements
 
 		session.setAttribute(B2bpunchoutaddonConstants.PUNCHOUT_USER, userId);
 
-		String redirectUrl = getRedirectPage(punchOutSession.getOperation());
-		redirectStrategy.sendRedirect(request, response, redirectUrl);
+		final String redirectUrl = getRedirectPage(punchOutSession.getOperation());
+
+		final String targetURL = getTargetPage(punchOutSession, redirectUrl);
+		redirectStrategy.sendRedirect(request, response, targetURL);
 	}
 
 	/**
@@ -112,6 +123,28 @@ public class DefaultPunchOutController extends AbstractPageController implements
 			return configuration.getString("b2bpunchoutaddon.redirect.inspect");
 		}
 		return configuration.getString("b2bpunchoutaddon.redirect.create");
+	}
+
+	/**
+	 * get Target page that user will be redirected depending on the provided punchout getTargetId().
+	 *
+	 * @param punchoutSession,redirectUrl
+	 */
+	protected String getTargetPage(final PunchOutSession punchoutSession, final String redirectUrl)
+	{
+		if (PunchOutLevel.PRODUCT.equals(punchoutSession.getPunchoutLevel()))
+		{
+			try
+			{
+				final ProductData productData = productFacade.getProductForCodeAndOptions(punchoutSession.getSelectedItem(), Arrays.asList(ProductOption.URL));
+				return redirectUrl + productData.getUrl();
+			}
+			catch (UnknownIdentifierException e)
+			{
+				return "/404";
+			}
+		}
+		return redirectUrl;
 	}
 
 	/**
@@ -160,6 +193,10 @@ public class DefaultPunchOutController extends AbstractPageController implements
 			throws CMSItemNotFoundException
 	{
 		final CXML cXML = punchOutService.processPunchOutOrderMessage();
+		if (LOG.isDebugEnabled())
+		{
+			LOG.debug("CXML input:{}", PunchOutUtils.marshallFromBeanTree(cXML));
+		}
 		processRequisitionMessage(cXML, model);
 
 		return ADDON_PREFIX + BASE_ADDON_PAGE_PATH + "/punchout/punchoutSendOrderPage";
@@ -169,10 +206,6 @@ public class DefaultPunchOutController extends AbstractPageController implements
 	protected void processRequisitionMessage(final CXML cXML, final Model model)
 			throws CMSItemNotFoundException
 	{
-		if (LOG.isDebugEnabled())
-		{
-			LOG.debug("CXML input:{}", PunchOutUtils.marshallFromBeanTree(cXML));
-		}
 		final String cXMLContents = PunchOutUtils.transformCXMLToBase64(cXML);
 		model.addAttribute("orderAsCXML", cXMLContents);
 		model.addAttribute("browseFormPostUrl", punchoutSessionService.getCurrentPunchOutSession().getBrowserFormPostUrl());

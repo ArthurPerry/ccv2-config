@@ -1,30 +1,14 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.web.bind.WebDataBinder;
 
 import de.hybris.bootstrap.annotations.UnitTest;
 import de.hybris.platform.commercefacades.order.OrderFacade;
@@ -45,8 +29,21 @@ import de.hybris.platform.sap.productconfig.frontend.OverviewUiData;
 import de.hybris.platform.sap.productconfig.frontend.UiStatus;
 import de.hybris.platform.servicelayer.exceptions.BusinessException;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.web.bind.WebDataBinder;
+
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class AbstractConfigurationOverviewControllerTest extends AbstractProductConfigControllerTCBase
 {
 	public static final String ORDER_CODE = "ORDER_CODE";
@@ -78,7 +75,6 @@ public class AbstractConfigurationOverviewControllerTest extends AbstractProduct
 	@Before
 	public void setUp() throws Exception
 	{
-		MockitoAnnotations.initMocks(this);
 		classUnderTest = new AbstractConfigurationOverviewController();
 		classUnderTest.setCartFacade(cartFacadeMock);
 		classUnderTest.setAbstractOrderEntryLinkStrategy(abstractOrderEntryLinkStrategy);

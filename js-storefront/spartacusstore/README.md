@@ -1,8 +1,10 @@
 # Spartacusstore
 
-[Prerequisites](https://sap.github.io/spartacus-docs/building-the-spartacus-storefront-from-libraries-4-x/#prerequisites) for node, ng, yarn (depending on Spartacus verion)
+## SAP Commerce Cloud, composable storefront
 
-[Import Spartacus OCC Credentials](https://sap.github.io/spartacus-docs/installing-sap-commerce-cloud-2105/#step-3-import-occ-credentials)
+[Build Documentation](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/cfcf687ce2544bba9799aa6c8314ecd0/5de67850bd8d487181fef9c9ba59a31d.html)
+
+Import Spartacus OCC Credentials](https://sap.github.io/spartacus-docs/installing-sap-commerce-cloud-2105/#step-3-import-occ-credentials)
 
 [Import Product Recommendation CMS config](../../core-customize/hybris/bin/custom/productrecommendation/resources/productrecommendation/import/sampledata/contentCatalogs/electronics-spaContentCatalog/) (2 files)
 
@@ -22,11 +24,11 @@ yarn start
 
 ## Background
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.5.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.10.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 

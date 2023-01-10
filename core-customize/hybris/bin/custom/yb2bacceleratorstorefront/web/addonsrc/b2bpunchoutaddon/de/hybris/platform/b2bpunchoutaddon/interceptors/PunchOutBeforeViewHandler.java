@@ -8,12 +8,12 @@ import de.hybris.platform.b2b.punchout.PunchOutException;
 import de.hybris.platform.b2b.punchout.PunchOutResponseCode;
 import de.hybris.platform.b2bpunchoutaddon.constants.B2bpunchoutaddonConstants;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.ui.ModelMap;

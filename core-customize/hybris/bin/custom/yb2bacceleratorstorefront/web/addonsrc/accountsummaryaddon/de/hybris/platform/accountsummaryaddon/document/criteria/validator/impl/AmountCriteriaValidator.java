@@ -5,7 +5,7 @@ package de.hybris.platform.accountsummaryaddon.document.criteria.validator.impl;
 
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.util.GlobalMessages;
 import de.hybris.platform.accountsummaryaddon.document.criteria.validator.CriteriaValidator;
-import de.hybris.platform.accountsummaryaddon.utils.AccountSummaryAddonUtils;
+import de.hybris.platform.b2bacceleratorservices.document.utils.AccountSummaryUtils;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -36,7 +36,7 @@ public class AmountCriteriaValidator implements CriteriaValidator
 
 		if (StringUtils.isNotBlank(startRange))
 		{
-			parsedStartRange = AccountSummaryAddonUtils.parseBigDecimal(startRange);
+			parsedStartRange = AccountSummaryUtils.parseBigDecimal(startRange);
 			if (!parsedStartRange.isPresent())
 			{
 				GlobalMessages.addErrorMessage(model, "text.company.accountsummary.criteria.amount.format.from.invalid");
@@ -46,7 +46,7 @@ public class AmountCriteriaValidator implements CriteriaValidator
 
 		if (StringUtils.isNotBlank(endRange))
 		{
-			parsedEndRange = AccountSummaryAddonUtils.parseBigDecimal(endRange);
+			parsedEndRange = AccountSummaryUtils.parseBigDecimal(endRange);
 			if (!parsedEndRange.isPresent())
 			{
 				GlobalMessages.addErrorMessage(model, "text.company.accountsummary.criteria.amount.format.to.invalid");

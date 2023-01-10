@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.b2bfrontend.controllers;
 
@@ -34,17 +29,21 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class CPQReorderControllerTest
 {
 	private static final String PRODUCT_NAME = "PRODUCT_NAME";
 	private static final String ORDER_CODE = "order123";
+	@InjectMocks
 	private CPQReorderController classUnderTest;
 	private CartModificationData cartModification;
 	private RedirectAttributes redirectModel;
@@ -59,13 +58,6 @@ public class CPQReorderControllerTest
 	@Before
 	public void setUp()
 	{
-		MockitoAnnotations.initMocks(this);
-		classUnderTest = new CPQReorderController();
-		classUnderTest.setB2bCheckoutFacade(b2bCheckoutFacade);
-		classUnderTest.setCartFacade(cartFacade);
-		classUnderTest.setCpqOrderIntegrationFacade(cpqOrderIntegrationFacade);
-
-
 		redirectModel = new RedirectAttributesModelMap();
 		cartModification = new CartModificationData();
 		cartModification.setEntry(new OrderEntryData());

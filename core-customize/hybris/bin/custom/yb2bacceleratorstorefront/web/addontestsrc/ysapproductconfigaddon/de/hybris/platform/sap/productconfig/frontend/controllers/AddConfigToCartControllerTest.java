@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.controllers;
 
@@ -18,14 +13,11 @@ import static org.mockito.Mockito.verify;
 
 import de.hybris.bootstrap.annotations.UnitTest;
 import de.hybris.platform.acceleratorstorefrontcommons.controllers.util.GlobalMessages;
-import de.hybris.platform.cms2.model.pages.ProductPageModel;
 import de.hybris.platform.commercefacades.order.CartFacade;
 import de.hybris.platform.commercefacades.order.data.CartData;
 import de.hybris.platform.commercefacades.order.data.OrderEntryData;
 import de.hybris.platform.commerceservices.order.CommerceCartModificationException;
-import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.sap.productconfig.facades.ConfigurationData;
-import de.hybris.platform.sap.productconfig.facades.KBKeyData;
 import de.hybris.platform.sap.productconfig.frontend.UiStatus;
 import de.hybris.platform.servicelayer.exceptions.BusinessException;
 
@@ -36,19 +28,23 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class AddConfigToCartControllerTest extends AbstractProductConfigControllerTCBase
 {
 
 	private static final String CART_ITEM_KEY = "123";
 
+	@InjectMocks
 	private AddConfigToCartController classUnderTest;
 	private OrderEntryData cartItem;
 
@@ -64,8 +60,6 @@ public class AddConfigToCartControllerTest extends AbstractProductConfigControll
 	@Before
 	public void setUp()
 	{
-		classUnderTest = new AddConfigToCartController();
-		MockitoAnnotations.initMocks(this);
 		super.injectMocks(classUnderTest);
 		classUnderTest.setCartFacade(cartFacade);
 
@@ -84,7 +78,6 @@ public class AddConfigToCartControllerTest extends AbstractProductConfigControll
 	@Test
 	public void testAddConfigToCartIsCorrect() throws Exception
 	{
-		initializeFirstCall();
 		given(configFacade.getConfiguration(configData)).willReturn(configData);
 		given(configCartIntegrationFacade.addConfigurationToCart(configData)).willReturn(CART_ITEM_KEY);
 
@@ -100,7 +93,6 @@ public class AddConfigToCartControllerTest extends AbstractProductConfigControll
 	@Test
 	public void testAddConfigToCartProblemWithProduct() throws Exception
 	{
-		initializeFirstCall();
 		given(configFacade.getConfiguration(configData)).willReturn(configData);
 		given(configCartIntegrationFacade.addConfigurationToCart(configData))
 				.willThrow(new CommerceCartModificationException(CART_ITEM_KEY));
@@ -117,15 +109,10 @@ public class AddConfigToCartControllerTest extends AbstractProductConfigControll
 	@Test
 	public void testAddConfigToCartFailed() throws Exception
 	{
-		initializeFirstCall();
-
 		final List<FieldError> fieldErrors = new ArrayList<>();
 		final FieldError error = new FieldError("config", "cstic[0].value", "a", true, null, null, null);
 		fieldErrors.add(error);
 
-		given(configFacade.getConfiguration(configData)).willReturn(configData);
-		given(Integer.valueOf(bindingResults.getErrorCount())).willReturn(Integer.valueOf(1));
-		given(bindingResults.getFieldErrors()).willReturn(fieldErrors);
 		given(Boolean.valueOf(bindingResults.hasErrors())).willReturn(Boolean.TRUE);
 
 		final String targetUrl = classUnderTest.addConfigToCart(kbKey.getProductCode(), configData, bindingResults, model,
@@ -141,7 +128,6 @@ public class AddConfigToCartControllerTest extends AbstractProductConfigControll
 	@Test
 	public void testAddConfigToCartTwice() throws Exception
 	{
-		initializeFirstCall();
 		given(configFacade.getConfiguration(configData)).willReturn(configData);
 		given(configCartIntegrationFacade.addConfigurationToCart(configData)).willReturn(CART_ITEM_KEY);
 
@@ -163,10 +149,7 @@ public class AddConfigToCartControllerTest extends AbstractProductConfigControll
 	@Test
 	public void testReset() throws Exception
 	{
-		initializeFirstCall();
-
 		final UiStatus uiStatus = new UiStatus();
-		given(sessionAccessFacade.getUiStatusForProduct(kbKey.getProductCode())).willReturn(uiStatus);
 
 		final String targetUrl = classUnderTest.resetConfiguration(kbKey.getProductCode());
 		verify(sessionAccessFacade, times(1)).removeUiStatusForProduct(kbKey.getProductCode());
@@ -175,23 +158,6 @@ public class AddConfigToCartControllerTest extends AbstractProductConfigControll
 		assertEquals("redirect:/cart", targetUrl);
 	}
 
-
-	@Override
-	protected void initializeFirstCall() throws Exception
-	{
-		given(productData.getCode()).willReturn(PRODUCT_CODE);
-		given(productModel.getCode()).willReturn(PRODUCT_CODE);
-
-		given(sessionService.getCurrentSession()).willReturn(hybriSession);
-		given(hybriSession.getSessionId()).willReturn("1");
-
-		given(configFacade.getConfiguration(any(KBKeyData.class))).willReturn(configData);
-		given(productService.getProductForCode(PRODUCT_CODE)).willReturn(productModel);
-
-		given(storeSessionFacade.getCurrentCurrency()).willReturn(createCurrencyData());
-		given(cmsPageService.getPageForProduct(any(ProductModel.class))).willReturn(new ProductPageModel());
-		given(pageTitleResolver.resolveProductPageTitle(any(ProductModel.class))).willReturn("TEST");
-	}
 
 	@Test
 	public void testGetCartEntryNumber() throws BusinessException

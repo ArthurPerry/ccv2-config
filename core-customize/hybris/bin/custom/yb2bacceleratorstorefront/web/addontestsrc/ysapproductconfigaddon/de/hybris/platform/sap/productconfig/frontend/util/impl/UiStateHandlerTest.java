@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.util.impl;
 
@@ -38,6 +33,7 @@ import de.hybris.platform.sap.productconfig.frontend.UiStatus;
 import de.hybris.platform.sap.productconfig.frontend.constants.SapproductconfigfrontendWebConstants;
 import de.hybris.platform.sap.productconfig.frontend.controllers.AbstractProductConfigControllerTCBase;
 import de.hybris.platform.sap.productconfig.frontend.controllers.DummyModel;
+import de.hybris.platform.sap.productconfig.runtime.interf.services.impl.UniqueKeyGeneratorImpl;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -52,18 +48,19 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-
-
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class UiStateHandlerTest extends AbstractProductConfigControllerTCBase // inherit all the test helper methods for controller
 {
 	private static final String UIGROUP_ID = "1-THE_PRODUCT@_GEN";
@@ -75,6 +72,7 @@ public class UiStateHandlerTest extends AbstractProductConfigControllerTCBase //
 	private static final String INSTANCE_NAME = "THE_PRODUCT";
 	private static final String ERROR_KEY = "root.WCEM_STRING_SIMPLE";
 	private static final String FIELD_NAME_ERRONEOUS = "WCEM_STRING_SIMPLE";
+	@InjectMocks
 	private UiStateHandler classUnderTest;
 	private UiStatus uiStatus;
 	private String groupIdSub;
@@ -85,17 +83,16 @@ public class UiStateHandlerTest extends AbstractProductConfigControllerTCBase //
 	@Mock
 	private BindingResult bindingResult;
 
-
 	@Before
 	public void setUp()
 	{
-		MockitoAnnotations.initMocks(this);
-		classUnderTest = new UiStateHandler();
 		csticList = createCsticsList();
 		configData = createConfigurationDataWithGeneralGroupOnly();
 		uiStatus = new UiStatus();
 		fieldError = new FieldError("ObjectName", FIELD_NAME_ERRONEOUS, defaultMessage);
-		classUnderTest.setUiKeyGenerator(new UniqueUIKeyGeneratorImpl());
+		final UniqueUIKeyGeneratorImpl uiKeyGenerator = new UniqueUIKeyGeneratorImpl();
+		uiKeyGenerator.setKeyGenerator(new UniqueKeyGeneratorImpl());
+		classUnderTest.setUiKeyGenerator(uiKeyGenerator);
 
 		model = Mockito.mock(Model.class);
 	}
@@ -1806,5 +1803,4 @@ public class UiStateHandlerTest extends AbstractProductConfigControllerTCBase //
 		group.setCstics(cstics);
 		return group;
 	}
-
 }

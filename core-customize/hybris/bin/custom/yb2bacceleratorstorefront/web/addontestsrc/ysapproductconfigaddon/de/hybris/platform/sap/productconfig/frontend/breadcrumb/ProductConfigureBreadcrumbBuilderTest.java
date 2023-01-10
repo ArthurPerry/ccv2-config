@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.breadcrumb;
 
@@ -39,14 +34,16 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 
 /**
  * Unit test for {@link ProductConfigureBreadcrumbBuilder}
  */
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class ProductConfigureBreadcrumbBuilderTest
 {
 
@@ -78,7 +75,6 @@ public class ProductConfigureBreadcrumbBuilderTest
 	@Before
 	public void setup()
 	{
-		MockitoAnnotations.initMocks(this);
 		final UrlResolver<ProductModel> productModelUrlResolver = new ProductUrlResolverTest();
 		final UrlResolver<CategoryModel> categoryModelUrlResolver = new CategoryModelUrlResolverTest();
 		final BrowseHistory browseHistory = new BrowseHistoryTest();

@@ -389,7 +389,7 @@ INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;fle
 
 ## Delivery address page (/checkout/delivery-address)
 INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved'];homepage[default='false']
-;;CheckoutDeliveryAddress;Checkout Delivery Address Page;MultiStepCheckoutSummaryPageTemplate;/checkout/shipping-address
+;;CheckoutDeliveryAddress;Checkout Delivery Address Page;MultiStepCheckoutSummaryPageTemplate;/checkout/delivery-address
 
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;cmsComponents(uid, $contentCV)
 ;;BodyContentSlot-checkoutDeliveryAddress;Checkout Delivery Address Slot;CheckoutProgressComponent,CheckoutProgressMobileTopComponent,CheckoutDeliveryAddressComponent,CheckoutProgressMobileBottomComponent
@@ -402,7 +402,7 @@ INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];positi
 INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType
 ;;CheckoutProgressComponent;Checkout Progress Component;CheckoutProgress
 ;;CheckoutProgressMobileTopComponent;Checkout Progress Mobile Top Component;CheckoutProgressMobileTop
-;;CheckoutDeliveryAddressComponent;Checkout Delivery Address Component;CheckoutShippingAddress
+;;CheckoutDeliveryAddressComponent;Checkout Delivery Address Component;CheckoutDeliveryAddress
 ;;CheckoutProgressMobileBottomComponent;Checkout Progress Mobile Bottom Component;CheckoutProgressMobileBottom
 
 ## Delivery mode page (/checkout/delivery-mode)
@@ -653,7 +653,7 @@ INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;fle
 ;;ScrollToTopComponent;Scroll To Top Component;ScrollToTopComponent;ScrollToTopComponent
 
 UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid, $contentCV)
-;;FooterSlot;FooterNavigationComponent,AnonymousConsentOpenDialogComponent,NoticeTextParagraph,AnonymousConsentManagementBannerComponent,ProfileTagComponent,ScrollToTopComponent 
+;;FooterSlot;FooterNavigationComponent,AnonymousConsentOpenDialogComponent,NoticeTextParagraph,AnonymousConsentManagementBannerComponent,ProfileTagComponent,ScrollToTopComponent
 
 ###### My Company Menu Update ######
 ## MyCompanyComponent is not in HeaderLinksSlot any more
@@ -757,6 +757,10 @@ INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];flexType
 
 INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];flexType;name;&componentRef
 ;;ConfiguratorOverviewForm;ConfiguratorOverviewForm;Configuration Overview;ConfiguratorOverviewForm
+;;ConfiguratorOverviewSidebar;ConfiguratorOverviewSidebar;Configuration Overview Sidebar;ConfiguratorOverviewSidebar
+;;ConfiguratorOverviewMenu;ConfiguratorOverviewMenu;Configuration Overview Menu;ConfiguratorOverviewMenu
+;;ConfiguratorOverviewFilter;ConfiguratorOverviewFilter;Configuration Overview Filter;ConfiguratorOverviewFilter
+;;ConfiguratorOverviewFilterButton;ConfiguratorOverviewFilterButton;Configuration Overview Filter Button;ConfiguratorOverviewFilterButton
 
 INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];flexType;name;&componentRef
 ;;ConfigurationOverviewLoading;ConfigurationOverviewLoading;Configuration Overview Loading;ConfigurationOverviewLoading
@@ -841,6 +845,7 @@ INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=
 ;VariantConfigOverviewHeader;;CMSFlexComponent;wide
 ;VariantConfigOverviewContent;;CMSFlexComponent;narrow
 ;VariantConfigOverviewSidebar;;CMSFlexComponent;narrow
+;VariantConfigOverviewFilterButton;;CMSFlexComponent;narrow
 ;VariantConfigOverviewBottombarSlot;;CMSFlexComponent;narrow
 ;VariantConfigOverviewLoading;;CMSFlexComponent;wide
 ;VariantConfigOverviewBanner;;CMSFlexComponent;wide
@@ -855,6 +860,10 @@ INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active
 ;;VariantConfigOverviewBannerContentSlot;Variant Configuration Overview Banner Content Slot;true
 ;;VariantConfigOverviewExitButtonSlot;Variant Configuration Overview Exit Button Slot;true
 
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;VariantConfigOverviewSidebarSlot;Variant Configuration Overview Sidebar Slot;true;ConfiguratorOverviewSidebar,ConfiguratorOverviewMenu,ConfiguratorOverviewFilter
+;;VariantConfigOverviewFilterButtonSlot;Variant Configuration Overview Filter Button Slot;true;ConfiguratorOverviewFilterButton
+
 INSERT_UPDATE ContentSlotForTemplate;$contentCV;uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='VariantConfigurationOverviewTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
 ;;SiteContext-VariantConfigOverviewPage;SiteContext;;SiteContextSlot;true
 ;;SiteLogo-VariantConfigOverviewPage;SiteLogo;;SiteLogoSlot;true
@@ -868,6 +877,7 @@ INSERT_UPDATE ContentSlotForTemplate;$contentCV;uid[unique=true];position[unique
 ;;ConfigOverviewHeader-VariantConfigOverviewPage;VariantConfigOverviewHeader;;VariantConfigOverviewHeaderSlot;true
 ;;ConfigOverviewContent-VariantConfigOverviewPage;VariantConfigOverviewContent;;VariantConfigOverviewContentSlot;true
 ;;ConfigOverviewSidebar-VariantConfigOverviewPage;VariantConfigOverviewSidebar;;VariantConfigOverviewSidebarSlot;true
+;;ConfigOverviewFilterButton-VariantConfigOverviewPage;VariantConfigOverviewFilterButton;;VariantConfigOverviewFilterButtonSlot;true
 ;;ConfigOverviewBottombar-VariantConfigOverviewPage;VariantConfigOverviewBottombar;;VariantConfigOverviewBottombarSlot;true
 ;;ConfigExitButton-VariantConfigOverviewPage;VariantConfigOverviewExitButton;;VariantConfigOverviewExitButtonSlot;true
 

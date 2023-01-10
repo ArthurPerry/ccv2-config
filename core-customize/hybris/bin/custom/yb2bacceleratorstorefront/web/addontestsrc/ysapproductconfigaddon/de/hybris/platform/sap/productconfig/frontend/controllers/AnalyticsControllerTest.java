@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.controllers;
 
@@ -13,8 +8,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.spy;
 
@@ -40,8 +33,9 @@ import javax.json.JsonReader;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 
 
@@ -49,6 +43,7 @@ import org.mockito.MockitoAnnotations;
  * Unit test for {@link AnalyticsController}
  */
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class AnalyticsControllerTest
 {
 	private AnalyticsController classUnderTest;
@@ -65,7 +60,6 @@ public class AnalyticsControllerTest
 	@Before
 	public void setUp()
 	{
-		MockitoAnnotations.initMocks(this);
 		classUnderTest = spy(new AnalyticsController());
 		classUnderTest.setSessionAccessFacade(sessionAccessFacade);
 		classUnderTest.setUiStateHandler(new UiStateHandler());
@@ -74,15 +68,12 @@ public class AnalyticsControllerTest
 		classUnderTest.setAbstractOrderEntryLinkStrategy(orderEntryLinkStrategy);
 		uiStatus = new UiStatus();
 
-		given(configurationProductLinkStrategy.getConfigIdForProduct("pCode")).willReturn("123");
-		given(sessionAccessFacade.getUiStatusForProduct("pCode")).willReturn(uiStatus);
 		willReturn("_XX_ of customer chose this option").given(classUnderTest).callLocalisation(anyString(), any());
 	}
 
 	@Test
 	public void testUpdateAnalytics_uiStatusNull()
 	{
-		given(sessionAccessFacade.getUiStatusForProduct("pCode")).willReturn(null);
 		final String jsonString = classUnderTest.updateAnalytics("pCode");
 
 		assertNotNull(jsonString);
@@ -93,7 +84,6 @@ public class AnalyticsControllerTest
 	@Test
 	public void testUpdateAnalytics_configNull()
 	{
-		given(configurationProductLinkStrategy.getConfigIdForProduct("pCode")).willReturn(null);
 		final String jsonString = classUnderTest.updateAnalytics("pCode");
 
 		assertNotNull(jsonString);
@@ -106,7 +96,6 @@ public class AnalyticsControllerTest
 	public void testUpdateAnalytics()
 	{
 		final List<AnalyticCsticData> analyticData = new ArrayList<>();
-		given(mockedAnalyticsFacade.getAnalyticData(any(List.class), eq("123"))).willReturn(analyticData);
 
 		final String jsonString = classUnderTest.updateAnalytics("pCode");
 

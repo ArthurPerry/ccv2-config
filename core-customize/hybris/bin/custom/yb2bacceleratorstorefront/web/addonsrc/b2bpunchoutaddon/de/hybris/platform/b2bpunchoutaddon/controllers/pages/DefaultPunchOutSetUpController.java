@@ -1,11 +1,12 @@
 /*
- * Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+ * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
  */
 package de.hybris.platform.b2bpunchoutaddon.controllers.pages;
 
 import de.hybris.platform.b2b.punchout.PunchOutException;
 import de.hybris.platform.b2b.punchout.PunchOutResponseCode;
 import de.hybris.platform.b2b.punchout.PunchOutUtils;
+import de.hybris.platform.b2b.punchout.aop.annotation.PunchOutAuthentication;
 import de.hybris.platform.b2b.punchout.services.CXMLBuilder;
 import de.hybris.platform.b2b.punchout.services.PunchOutService;
 
@@ -46,6 +47,7 @@ public class DefaultPunchOutSetUpController implements PunchOutController
 	 */
 	@PostMapping(value = "/punchout/cxml/setup")
 	@ResponseBody
+	@PunchOutAuthentication
 	public CXML handlePunchOutSetUpRequest(@RequestBody final CXML requestBody)
 	{
 		if (LOG.isDebugEnabled()) {

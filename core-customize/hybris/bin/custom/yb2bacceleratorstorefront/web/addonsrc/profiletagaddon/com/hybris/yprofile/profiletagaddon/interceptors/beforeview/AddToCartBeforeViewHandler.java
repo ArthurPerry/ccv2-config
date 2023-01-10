@@ -84,7 +84,6 @@ public class AddToCartBeforeViewHandler implements BeforeViewHandler {
         this.productFacade = productFacade;
     }
 
-    @Required
     public void setObjectMapper(final ObjectMapper objectMapper)
     {
         objectMapper.configure( JsonParser.Feature.ALLOW_COMMENTS, true);

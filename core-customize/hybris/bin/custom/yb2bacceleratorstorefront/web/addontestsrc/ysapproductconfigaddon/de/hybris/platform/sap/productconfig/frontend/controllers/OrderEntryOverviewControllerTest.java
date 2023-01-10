@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.controllers;
 
@@ -12,9 +7,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 
 import de.hybris.bootstrap.annotations.UnitTest;
@@ -48,10 +40,11 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -59,6 +52,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class OrderEntryOverviewControllerTest extends AbstractProductConfigControllerTCBase
 {
 	private static final String SOURCE_DOCUMENT_ID = "sourceDocumentId";
@@ -110,7 +104,7 @@ public class OrderEntryOverviewControllerTest extends AbstractProductConfigContr
 	private ConfigurationOverviewData configOverviewData;
 	private ConfigurationOverviewData configOverviewData2;
 
-	private RedirectAttributes redirectModel = null;
+	private final RedirectAttributes redirectModel = null;
 
 	@Mock
 	private CommerceSaveCartResultData savedCartResultData;
@@ -126,19 +120,12 @@ public class OrderEntryOverviewControllerTest extends AbstractProductConfigContr
 	@Before
 	public void setUp() throws CommerceSaveCartException
 	{
-		classUnderTest = new OrderEntryOverviewController();
-		MockitoAnnotations.initMocks(this);
 		setFacades();
 		injectMocks(classUnderTest);
 
-		configOverviewData = createOverviewData("p123", "c123","001");
-		given(configQuoteFacade.getConfiguration("001", 1)).willReturn(configOverviewData);
-
+		configOverviewData = createOverviewData("p123", "c123", "001");
 		configOverviewData2 = createOverviewData("p128", null, "002");
-		given(configQuoteFacade.getConfiguration("002", 1)).willReturn(configOverviewData2);
-
 		given(configOverviewFacade.getOverviewForConfiguration("c123", configOverviewData)).willReturn(configOverviewData);
-		given(configOverviewFacade.getOverviewForConfiguration("c128", configOverviewData)).willReturn(configOverviewData2);
 
 		given(quoteFacade.getQuoteForCode(QUOTE_CODE)).willReturn(quoteData);
 
@@ -155,12 +142,8 @@ public class OrderEntryOverviewControllerTest extends AbstractProductConfigContr
 
 	private void defineSavedCartFacadeBehavior() throws CommerceSaveCartException
 	{
-		Mockito.when(savedCartResultData.getSavedCartData()).thenReturn(cartData);
 		Mockito.when(configurationSavedCartIntegrationFacade.getConfiguration(CART_CODE, CART_ENTRY_NUMBER))
 				.thenReturn(configOverviewData);
-		Mockito.when(savedCartFacade.getCartForCodeAndCurrentUser(Mockito.any())).thenReturn(savedCartResultData);
-
-		Mockito.when(cartFacade.getSessionCart()).thenReturn(cartData);
 	}
 
 	private void createCartData()
@@ -180,14 +163,17 @@ public class OrderEntryOverviewControllerTest extends AbstractProductConfigContr
 	private void defineErrorHandlerBehavior()
 	{
 		classUnderTest.setConfigurationErrorHandler(configErrorHandler);
-		given(configErrorHandler.handleErrorFromQuotes(QUOTE_CODE, QUOTE_ENTRY_NUMBER, redirectModel)).willReturn(NAVIGATION_END_POINT);
-		given(configErrorHandler.handleErrorFromOrderHistory(ORDER_CODE, ORDER_ENTRY_NUMBER, redirectModel)).willReturn(NAVIGATION_END_POINT);
-		given(configErrorHandler.handleErrorFromSavedCarts(CART_CODE, CART_ENTRY_NUMBER, redirectModel)).willReturn(NAVIGATION_END_POINT);
+		given(configErrorHandler.handleErrorFromQuotes(QUOTE_CODE, QUOTE_ENTRY_NUMBER, redirectModel))
+				.willReturn(NAVIGATION_END_POINT);
+		given(configErrorHandler.handleErrorFromOrderHistory(ORDER_CODE, ORDER_ENTRY_NUMBER, redirectModel))
+				.willReturn(NAVIGATION_END_POINT);
+		given(configErrorHandler.handleErrorFromSavedCarts(CART_CODE, CART_ENTRY_NUMBER, redirectModel))
+				.willReturn(NAVIGATION_END_POINT);
 	}
 
-	private ConfigurationOverviewData createOverviewData(String productCode, String id, String sourceDocumentId)
+	private ConfigurationOverviewData createOverviewData(final String productCode, final String id, final String sourceDocumentId)
 	{
-		ConfigurationOverviewData data = new ConfigurationOverviewData();
+		final ConfigurationOverviewData data = new ConfigurationOverviewData();
 		data.setProductCode(productCode);
 		data.setId(id);
 		data.setSourceDocumentId(sourceDocumentId);
@@ -382,7 +368,6 @@ public class OrderEntryOverviewControllerTest extends AbstractProductConfigContr
 	public void testSavedCartOverview() throws Exception
 	{
 		initializeFirstCall();
-		given(configurationProductLinkStrategy.getConfigIdForProduct(configData.getKbKey().getProductCode())).willReturn(CONFIG_ID);
 		assertEquals(SapproductconfigfrontendWebConstants.OVERVIEW_PAGE_VIEW_NAME,
 				classUnderTest.getSavedCartOverview(CART_CODE, CART_ENTRY_NUMBER, model, redirectModel, request));
 		Mockito.verify(configurationSavedCartIntegrationFacade, times(1)).getConfiguration(CART_CODE, CART_ENTRY_NUMBER);
@@ -417,7 +402,6 @@ public class OrderEntryOverviewControllerTest extends AbstractProductConfigContr
 	public void testGetQuotationOverviewData() throws Exception
 	{
 		initializeFirstCall();
-		given(configurationProductLinkStrategy.getConfigIdForProduct(configData.getKbKey().getProductCode())).willReturn(CONFIG_ID);
 		given(configQuoteFacade.getConfiguration(QUOTE_CODE, QUOTE_ENTRY_NUMBER)).willReturn(configOverviewData);
 		assertEquals(SapproductconfigfrontendWebConstants.OVERVIEW_PAGE_VIEW_NAME,
 				classUnderTest.getQuotationOverview(QUOTE_CODE, QUOTE_ENTRY_NUMBER, model, redirectModel, request));
@@ -429,7 +413,6 @@ public class OrderEntryOverviewControllerTest extends AbstractProductConfigContr
 	public void testGetOrderOverviewData() throws Exception
 	{
 		initializeFirstCall();
-		given(configurationProductLinkStrategy.getConfigIdForProduct(configData.getKbKey().getProductCode())).willReturn(CONFIG_ID);
 		given(configurationOrderIntegrationFacade.getConfiguration(ORDER_CODE, ORDER_ENTRY_NUMBER)).willReturn(configOverviewData);
 		assertEquals(SapproductconfigfrontendWebConstants.OVERVIEW_PAGE_VIEW_NAME,
 				classUnderTest.getOrderOverview(ORDER_CODE, ORDER_ENTRY_NUMBER, model, redirectModel, request));

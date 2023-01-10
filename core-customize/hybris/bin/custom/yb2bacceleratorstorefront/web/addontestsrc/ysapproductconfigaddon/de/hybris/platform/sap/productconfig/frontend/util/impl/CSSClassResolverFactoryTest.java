@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.util.impl;
 
@@ -19,12 +14,14 @@ import de.hybris.platform.sap.productconfig.frontend.util.CSSClassResolver;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class CSSClassResolverFactoryTest
 {
 
@@ -38,7 +35,6 @@ public class CSSClassResolverFactoryTest
 	@Before
 	public void setUp()
 	{
-		MockitoAnnotations.initMocks(this);
 		CSSClassResolverFactory.setResolver(resolver);
 		cstic = new CsticData();
 		group = new UiGroupData();
@@ -48,7 +44,6 @@ public class CSSClassResolverFactoryTest
 		Mockito.when(resolver.getLabelStyleClass(cstic)).thenReturn("labelStyle");
 		Mockito.when(resolver.getValueStyleClass(cstic)).thenReturn("valueStyle");
 		Mockito.when(resolver.getValuePromoStyleClass(cstic, csticValue)).thenReturn("valuePromoStyle");
-		Mockito.when(resolver.getGroupStyleClass(group, false)).thenReturn("groupStyle");
 		Mockito.when(resolver.getMessageTextAdditionalStyleClass(message)).thenReturn("messageTextAdditionalStyle");
 		Mockito.when(resolver.getExtendedMessageStyleClass(message)).thenReturn("extendedMessageStyle");
 		Mockito.when(resolver.getMessageIconStyleClass(message)).thenReturn("messageIconStyle");
@@ -96,6 +91,4 @@ public class CSSClassResolverFactoryTest
 		final String extendedMessageStyleClass = CSSClassResolverFactory.getMessageIconStyleClass(message);
 		assertEquals("messageIconStyle", extendedMessageStyleClass);
 	}
-
-
 }

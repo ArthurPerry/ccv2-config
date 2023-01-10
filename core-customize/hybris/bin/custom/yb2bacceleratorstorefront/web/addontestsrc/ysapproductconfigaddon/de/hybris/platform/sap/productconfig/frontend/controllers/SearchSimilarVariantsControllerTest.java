@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.controllers;
 
@@ -29,13 +24,16 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class SearchSimilarVariantsControllerTest
 {
 
@@ -43,6 +41,7 @@ public class SearchSimilarVariantsControllerTest
 	private static final String CONFIG_ID = "ABCD";
 	private static final Integer ENTRY_NUMBER = Integer.valueOf(3);
 	private static final String ENTRY_KEY = "324f";
+	@InjectMocks
 	private SearchSimilarVariantsController classUnderTest;
 	private Model model;
 
@@ -62,9 +61,6 @@ public class SearchSimilarVariantsControllerTest
 	@Before
 	public void setUp()
 	{
-		classUnderTest = new SearchSimilarVariantsController();
-		MockitoAnnotations.initMocks(this);
-
 		model = new ExtendedModelMap();
 		variants = new ArrayList<ConfigurationVariantData>();
 		variants.add(variant);
@@ -75,9 +71,6 @@ public class SearchSimilarVariantsControllerTest
 		given(variantFacadeMock.searchForSimilarVariants("config_123", "Product_123")).willReturn(variants);
 		given(abstractOrderLinkStrategy.getCartEntryForDraftConfigId(CONFIG_ID)).willReturn(ENTRY_KEY);
 		given(cartFacade.getSessionCart()).willReturn(cartData);
-		classUnderTest.setVariantFacade(variantFacadeMock);
-		classUnderTest.setAbstractOrderEntryLinkStrategy(abstractOrderLinkStrategy);
-		classUnderTest.setCartFacade(cartFacade);
 	}
 
 	@Test

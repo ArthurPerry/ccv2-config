@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.controllers;
 
@@ -52,16 +47,18 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class ConfigurationOverviewControllerTest extends AbstractProductConfigControllerTCBase
 {
 
@@ -93,8 +90,6 @@ public class ConfigurationOverviewControllerTest extends AbstractProductConfigCo
 	@Before
 	public void setUp() throws CommerceCartModificationException
 	{
-		classUnderTest = new ConfigurationOverviewController();
-		MockitoAnnotations.initMocks(this);
 		injectMocks(classUnderTest);
 		classUnderTest.setConfigurationErrorHandler(errorHandler);
 		classUnderTest.setConfigurationOverviewFacade(configurationOverviewFacade);
@@ -121,16 +116,12 @@ public class ConfigurationOverviewControllerTest extends AbstractProductConfigCo
 		configurationInfos.add(configurationInfo);
 		configurationInfo.setConfigId(CONFIG_ID);
 		cartData.setEntries(Arrays.asList(abstractOrderEntry));
-		Mockito.when(cartFacadeMock.addToCart(PRODUCT_CODE, 1)).thenReturn(addedToCart);
-		Mockito.when(configCartIntegrationFacade.configureCartItem(CART_ENTRY_KEY)).thenReturn(configData);
-		Mockito.when(cartFacadeMock.getSessionCart()).thenReturn(cartData);
 	}
 
 	@Test
 	public void testRedirectToErrorPage() throws Exception
 	{
 		initializeFirstCall();
-		Mockito.when(sessionAccessFacade.getUiStatusForProduct(PRODUCT_CODE)).thenReturn(null);
 		final OverviewUiData uiData = new OverviewUiData();
 		uiData.setProductCode(PRODUCT_CODE);
 		classUnderTest.updateConfiguationOverview(uiData, model, request);
@@ -568,8 +559,6 @@ public class ConfigurationOverviewControllerTest extends AbstractProductConfigCo
 	public void prepareUpdateCall() throws Exception
 	{
 		prepareGetCall();
-		//configLinkRemoved
-		given(configurationProductLinkStrategy.getConfigIdForProduct(PRODUCT_CODE)).willReturn(null);
 
 		overviewUIData = new OverviewUiData();
 		overviewUIData.setConfigId(CONFIG_ID);
@@ -589,10 +578,8 @@ public class ConfigurationOverviewControllerTest extends AbstractProductConfigCo
 	protected void prepareGetCall() throws Exception
 	{
 		initializeFirstCall();
-		given(configurationProductLinkStrategy.getConfigIdForProduct(PRODUCT_CODE)).willReturn(CONFIG_ID);
 		given(abstractOrderEntryLinkStrategy.getCartEntryForConfigId(CONFIG_ID)).willReturn(CART_ENTRY_KEY);
 		given(configurationOverviewFacade.getOverviewForConfiguration(eq(CONFIG_ID), any())).willReturn(configOverviewData);
-		given(sessionAccessFacade.getUiStatusForProduct(PRODUCT_CODE)).willReturn(uiStatus);
 		given(sessionAccessFacade.getUiStatusForCartEntry(CART_ENTRY_KEY)).willReturn(uiStatus);
 		final CartData cartData = new CartData();
 		final OrderEntryData entry = new OrderEntryData();
@@ -600,6 +587,7 @@ public class ConfigurationOverviewControllerTest extends AbstractProductConfigCo
 		final ProductData productData = new ProductData();
 		productData.setCode(PRODUCT_CODE);
 		entry.setProduct(productData);
+		entry.setEntryNumber(Integer.valueOf(1));
 		cartData.setEntries(Collections.singletonList(entry));
 		given(cartFacadeMock.getSessionCart()).willReturn(cartData);
 	}
@@ -696,6 +684,9 @@ public class ConfigurationOverviewControllerTest extends AbstractProductConfigCo
 	@Test
 	public void testReReadEntry() throws Exception
 	{
+		final CartData cartData = new CartData();
+		cartData.setEntries(Collections.singletonList(abstractOrderEntry));
+		given(cartFacadeMock.getSessionCart()).willReturn(cartData);
 		final OrderEntryData orderEntryData = classUnderTest.reReadEntry(addedToCart);
 		assertEquals(abstractOrderEntry, orderEntryData);
 	}
@@ -710,6 +701,9 @@ public class ConfigurationOverviewControllerTest extends AbstractProductConfigCo
 	@Test(expected = IllegalStateException.class)
 	public void testReReadEntryNumbersDoNotMatch() throws Exception
 	{
+		final CartData cartData = new CartData();
+		cartData.setEntries(Collections.singletonList(abstractOrderEntry));
+		given(cartFacadeMock.getSessionCart()).willReturn(cartData);
 		final OrderEntryData wrongEntry = new OrderEntryData();
 		wrongEntry.setEntryNumber(Integer.valueOf(999));
 		cartData.setEntries(Arrays.asList(wrongEntry));

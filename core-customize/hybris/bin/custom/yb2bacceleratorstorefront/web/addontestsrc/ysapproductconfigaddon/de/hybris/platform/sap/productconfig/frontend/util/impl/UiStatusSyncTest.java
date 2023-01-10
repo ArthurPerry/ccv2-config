@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.util.impl;
 
@@ -42,13 +37,16 @@ import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.MockitoAnnotations;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.MockitoJUnitRunner;
 
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class UiStatusSyncTest extends AbstractProductConfigControllerTCBase
 {
-
+	@InjectMocks
 	private UiStatusSync classUnderTest;
 	private ConfigurationData requestData;
 	private UiStatus uiStatus;
@@ -61,8 +59,6 @@ public class UiStatusSyncTest extends AbstractProductConfigControllerTCBase
 	@Before
 	public void setup()
 	{
-		MockitoAnnotations.initMocks(this);
-		classUnderTest = new UiStatusSync();
 		requestData = new ConfigurationData();
 		uiStatus = new UiStatus();
 		uiGroups = new ArrayList<>();

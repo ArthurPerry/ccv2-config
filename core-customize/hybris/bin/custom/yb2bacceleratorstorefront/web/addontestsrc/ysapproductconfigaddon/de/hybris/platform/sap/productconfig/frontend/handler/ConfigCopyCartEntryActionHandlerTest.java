@@ -1,10 +1,5 @@
 /*
  * Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
- *
- * This software is the confidential and proprietary information of SAP
- * ("Confidential Information"). You shall not disclose such Confidential
- * Information and shall use it only in accordance with the terms of the
- * license agreement you entered into with SAP.
  */
 package de.hybris.platform.sap.productconfig.frontend.handler;
 
@@ -13,11 +8,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.same;
 
 import de.hybris.bootstrap.annotations.UnitTest;
 import de.hybris.platform.acceleratorfacades.cart.action.CartEntryAction;
@@ -43,14 +35,18 @@ import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 
 @UnitTest
+@RunWith(MockitoJUnitRunner.class)
 public class ConfigCopyCartEntryActionHandlerTest
 {
+	@InjectMocks
 	private ConfigCopyCartEntryActionHandler classUnderTest;
 	private CartData cart;
 	private List<OrderEntryData> entryList;
@@ -68,8 +64,6 @@ public class ConfigCopyCartEntryActionHandlerTest
 	@Before
 	public void setUp() throws Exception
 	{
-		MockitoAnnotations.initMocks(this);
-		classUnderTest = new ConfigCopyCartEntryActionHandler();
 		classUnderTest.setAbstractOrderEntryLinkStrategy(configurationAbstractOrderEntryLinkStrategy);
 		classUnderTest.setCartFacade(mockedCartFacade);
 		classUnderTest.setConfigCartFacade(mockedConfigCartFacade);
@@ -81,8 +75,6 @@ public class ConfigCopyCartEntryActionHandlerTest
 		cart.setEntries(entryList);
 
 		given(mockedCartFacade.getSessionCart()).willReturn(cart);
-		given(configurationCopyStrategy.deepCopyConfiguration(anyString(), anyString(), same(null), eq(true)))
-				.willReturn("newConfigId");
 	}
 
 	@Test
@@ -175,8 +167,6 @@ public class ConfigCopyCartEntryActionHandlerTest
 	@Test
 	public void testSupports_False()
 	{
-		given(cpqConfigurableChecker.isCPQConfigurableProduct(any(ProductModel.class))).willReturn(false);
-
 		final CartEntryModel cartEntry = new CartEntryModel();
 		cartEntry.setProduct(new ProductModel());
 		final boolean support = classUnderTest.supports(cartEntry);
