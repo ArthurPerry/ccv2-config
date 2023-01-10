@@ -7,6 +7,11 @@ import { AppRoutingModule } from "@spartacus/storefront";
 import { AppComponent } from './app.component';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
+import { environment } from '../environments/environment';
+import {ConfigModule} from "@spartacus/core";
+import { LayoutConfig } from '@spartacus/storefront';
+import { ProductRecommendationsModule } from './cms-components/product-recommendations/product-recommendations.module';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -17,7 +22,22 @@ import { SpartacusModule } from './spartacus/spartacus.module';
     AppRoutingModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
-    SpartacusModule
+    SpartacusModule,
+    ConfigModule.withConfig(<LayoutConfig>{
+      layoutSlots: {
+        ProductDetailsPageTemplate: {
+          slots: [
+            'PlaceholderContentSlot',
+            'Summary',
+            'SpaProductRecommendationsPosition',
+            'UpSelling',
+            'CrossSelling',
+            'Tabs',
+          ],
+        },
+      },
+    }),
+    ProductRecommendationsModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

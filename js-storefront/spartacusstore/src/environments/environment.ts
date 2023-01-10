@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  occBaseUrl: 'https://localhost:9002',
+  pageViewedServiceUrl: 'https://click-stream.c-81b58c5.kyma.shoot.live.k8s-hana.ondemand.com/',
+  recommendationServiceUrl: 'https://recommendations.c-81b58c5.kyma.shoot.live.k8s-hana.ondemand.com/',
 };
 
 /*
