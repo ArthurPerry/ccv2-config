@@ -4,7 +4,7 @@
     <!--<path dir='${HYBRIS_BIN_DIR}/modules-cep'  autoload='false' />-->
     
     <path dir='${HYBRIS_BIN_DIR}' autoload='false' />
-	  <extension name= 'yb2bacceleratorstorefront' />
+<!--	  <extension name= 'yb2bacceleratorstorefront' />-->
 	  <extension name= 'adaptivesearch' />
 	  <extension name= 'adaptivesearchbackoffice' />
 	  <extension name= 'adaptivesearchfacades' />
@@ -63,7 +63,7 @@
 	  <extension name= 'yacceleratorcore' />
 	  <extension name= 'yacceleratorfacades' />
 	  <extension name= 'yacceleratorinitialdata' />
-	  <extension name= 'yacceleratorstorefront' />
+<!--	  <extension name= 'yacceleratorstorefront' />-->
 	  <extension name= 'yaddon' />
 	  <extension name= 'basecommerce' />
 	  <extension name= 'basecommercebackoffice' />

@@ -13,6 +13,8 @@ cms-responsive-content.impex
 cms-responsive-content_en.impex
 ```
 
+Also note issue with checkout page described in this [Stack@SAP Question](https://stackoverflow.com/questions/73651946/spartacus-sampledata-inconsistency-spartacus-requests-shipping-address-but-in/73898605#73898605)
+
 To run:
 
 ```
