@@ -8,6 +8,17 @@ ACC.navigation = {
         "orderToolsNavigation"
     ],
 
+    js_userAccount_Links: ".js-userAccount-Links",
+    js_enquire_offcanvas_navigation_and_ul_js_offcanvas_links: ".js-enquire-offcanvas-navigation ul.js-offcanvas-links",
+    js_enquire_offcanvas_navigation_and_js_enquire_has_sub: ".js-enquire-offcanvas-navigation .js-enquire-has-sub",
+    liOffcanvas_a: ".liOffcanvas a ",
+    data_toggle: "data-toggle",
+    js_secondaryNavAccount: ".js-secondaryNavAccount",
+    js_secondaryNavCompany: ".js-secondaryNavCompany",
+    data_trigger: "data-trigger",
+    glyphicon_chevron_down: "glyphicon-chevron-down",
+    glyphicon_chevron_up: "glyphicon-chevron-up",
+
     offcanvasNavigation: function(){
 
     	enquire.register("screen and (max-width:"+ ACC.common.encodeHtml(screenSmMax) +")", {
@@ -16,27 +27,27 @@ ACC.navigation = {
 
                 $(document).on("click",".js-enquire-offcanvas-navigation .js-enquire-has-sub .js_nav__link--drill__down",function(e){
                     e.preventDefault();
-                    $(".js-userAccount-Links").hide();
-                    $(".js-enquire-offcanvas-navigation ul.js-offcanvas-links").addClass("active");
-                    $(".js-enquire-offcanvas-navigation .js-enquire-has-sub").removeClass("active");
+                    $(ACC.navigation.js_userAccount_Links).hide();
+                    $(ACC.navigation.js_enquire_offcanvas_navigation_and_ul_js_offcanvas_links).addClass("active");
+                    $(ACC.navigation.js_enquire_offcanvas_navigation_and_js_enquire_has_sub).removeClass("active");
                     $(this).parent(".js-enquire-has-sub").addClass("active");
                 });
 
 
                 $(document).on("click",".js-enquire-offcanvas-navigation .js-enquire-sub-close",function(e){
                     e.preventDefault();
-                    $(".js-userAccount-Links").show();
-                    $(".js-enquire-offcanvas-navigation ul.js-offcanvas-links").removeClass("active");
-                    $(".js-enquire-offcanvas-navigation .js-enquire-has-sub").removeClass("active");
+                    $(ACC.navigation.js_userAccount_Links).show();
+                    $(ACC.navigation.js_enquire_offcanvas_navigation_and_ul_js_offcanvas_links).removeClass("active");
+                    $(ACC.navigation.js_enquire_offcanvas_navigation_and_js_enquire_has_sub).removeClass("active");
                 });
 
             },
 
             unmatch : function() {
 
-                $(".js-userAccount-Links").show();
-                $(".js-enquire-offcanvas-navigation ul.js-offcanvas-links").removeClass("active");
-                $(".js-enquire-offcanvas-navigation .js-enquire-has-sub").removeClass("active");
+                $(ACC.navigation.js_userAccount_Links).show();
+                $(ACC.navigation.js_enquire_offcanvas_navigation_and_ul_js_offcanvas_links).removeClass("active");
+                $(ACC.navigation.js_enquire_offcanvas_navigation_and_js_enquire_has_sub).removeClass("active");
 
                 $(document).off("click",".js-enquire-offcanvas-navigation .js-enquire-has-sub > a");
                 $(document).off("click",".js-enquire-offcanvas-navigation .js-enquire-sub-close");
@@ -83,11 +94,11 @@ ACC.navigation = {
 				.append($("<span>").addClass("glyphicon glyphicon-remove")));
 
         //create Sign In/Sign Out Button
-        if($(".liOffcanvas a") && $(".liOffcanvas a").length > 0){
+        if($(ACC.navigation.liOffcanvas_a) && $(ACC.navigation.liOffcanvas_a).length > 0){
         	sSignBtn = $("<li>").addClass("auto liUserSign")
 			.append($("<a>").addClass("userSign")
-					.attr("href", $(".liOffcanvas a")[0].href)
-					.text($(".liOffcanvas a")[0].innerHTML));
+					.attr("href", $(ACC.navigation.liOffcanvas_a)[0].href)
+					.text($(ACC.navigation.liOffcanvas_a)[0].innerHTML));
         }
 
         //create Welcome User + expand/collapse and close button
@@ -108,7 +119,7 @@ ACC.navigation = {
             if(aAcctData.length > 0){
             	$(sUserBtn).find(".userGroup").append($("<a>").addClass("collapsed js-nav-collapse")
         				.attr("id", "signedInUserOptionsToggle")
-        				.attr("data-toggle", "collapse")
+        				.attr(ACC.navigation.data_toggle, "collapse")
         				.attr("data-target", ".offcanvasGroup1")
         				.append($("<span>").addClass("glyphicon glyphicon-chevron-up myAcctExp")));
             }
@@ -116,35 +127,27 @@ ACC.navigation = {
 
             $('.js-sticky-user-group').html(sUserBtn);
 
-            $('.js-userAccount-Links').append(sSignBtn);
-            $('.js-userAccount-Links').append($("<li>").addClass("auto").append($("<div>").addClass("myAccountLinksContainer js-myAccountLinksContainer")));
+            $(ACC.navigation.js_userAccount_Links).append(sSignBtn);
+            $(ACC.navigation.js_userAccount_Links).append($("<li>").addClass("auto").append($("<div>").addClass("myAccountLinksContainer js-myAccountLinksContainer")));
 
 
             //FOR DESKTOP
             var myAccountHook = $("<div>").addClass("myAccountLinksHeader js-myAccount-toggle")
-			.attr("data-toggle", "collapse")
+			.attr(ACC.navigation.data_toggle, "collapse")
 			.attr("data-parent", ".nav__right")
 			.text(oMyAccountData.data("title"));
 
             myAccountHook.insertBefore(oMyAccountData);
 
             //*For toggling collapse myAccount on Desktop instead of with Bootstrap.js
-            $('.myAccountLinksHeader').click(function () {
-                $(this).toggleClass('show');
-                $(".js-secondaryNavAccount").slideToggle(400);
-                if ( $(this).hasClass('show') ) {
-                    $('.myCompanyLinksHeader').removeClass('show'); // hide the other one
-                    $('.js-secondaryNavCompany').slideUp(400);
-                }
-                return false;
-            });
+            $('.myAccountLinksHeader').click(ACC.navigation.toggleCollapseMyAccount);
 
             //FOR MOBILE
             //create a My Account Top link for desktop - in case more components come then more parameters need to be passed from the backend
             var myAccountHook = $("<div>").addClass("sub-nav")
 			.append($("<a>").attr("id", "signedInUserAccountToggle")
 					.addClass("myAccountLinksHeader collapsed js-myAccount-toggle")
-					.attr("data-toggle", "collapse")
+					.attr(ACC.navigation.data_toggle, "collapse")
 					.attr("data-target", ".offcanvasGroup2")
 					.text(oMyAccountData.data("title"))
 					.append($("<span>").addClass("glyphicon glyphicon-chevron-down myAcctExp")));
@@ -153,23 +156,11 @@ ACC.navigation = {
 
             //add UL element for nested collapsing list
             $('.js-myAccountLinksContainer').append($("<ul>")
-					.attr("data-trigger" ,"#signedInUserAccountToggle")
+					.attr(ACC.navigation.data_trigger ,"#signedInUserAccountToggle")
 					.addClass("offcanvasGroup2 offcanvasNoBorder collapse js-nav-collapse-body subNavList js-myAccount-root sub-nav"));
 
             //*For toggling collapse on Mobile instead of with Bootstrap.js
-            $('#signedInUserAccountToggle').click(function () {
-                $(this).toggleClass('show');
-                $(".offcanvasGroup2").slideToggle(400);
-                if ( $(this).hasClass('show') ) {
-                    $(this).find('span').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
-                    $('#signedInCompanyToggle').removeClass('show'); // hide the other one
-                    $('#signedInCompanyToggle').find('span').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
-                    $('.offcanvasGroup3').slideUp(400);
-                }
-                else {
-                    $(this).find('span').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
-                }
-            });
+            $('#signedInUserAccountToggle').click(ACC.navigation.toggleCollapseOnMobile);
 
             //offcanvas items
             //TODO Follow up here to see the output of the account data in the offcanvas menu
@@ -186,12 +177,9 @@ ACC.navigation = {
                 $('.js-myAccount-root').append(oListItem);
             }
 
-        } else {
-        	if(sSignBtn)
-        		{
-        			var navButtons = sSignBtn.append(navClose);
-        			$('.js-sticky-user-group').append(navButtons);
-        		}
+        } else if(sSignBtn) {
+            var navButtons = sSignBtn.append(navClose);
+            $('.js-sticky-user-group').append(navButtons);
         }
 
         //desktop
@@ -209,46 +197,73 @@ ACC.navigation = {
         }
 
         //hide and show content areas for desktop
-        $('.js-secondaryNavAccount').on('shown.bs.collapse', function () {
+        $(ACC.navigation.js_secondaryNavAccount).on('shown.bs.collapse', ACC.navigation.hideOrShowNavAccountForDesktop);
 
-            if($('.js-secondaryNavCompany').hasClass('in')){
-                $('.js-myCompany-toggle').click();
-            }
-
-        });
-
-        $('.js-secondaryNavCompany').on('shown.bs.collapse', function () {
-
-            if($('.js-secondaryNavAccount').hasClass('in')){
-                $('.js-myAccount-toggle').click();
-            }
-
-        });
+        $(ACC.navigation.js_secondaryNavCompany).on('shown.bs.collapse', ACC.navigation.hideOrShowNavCompanyForDesktop);
 
         //change icons for up and down
-        $('.js-nav-collapse-body').on('hidden.bs.collapse', function(e){
+        $('.js-nav-collapse-body').on('hidden.bs.collapse', ACC.navigation.hideNavCollapseBody);
 
-            var target = $(e.target);
-            var targetSpanSelector = target.attr('data-trigger') + ' > span';
+        $('.js-nav-collapse-body').on('show.bs.collapse', ACC.navigation.showNavCollapseBody);
+
+    },
+
+    toggleCollapseMyAccount: function() {
+        $(this).toggleClass('show');
+        $(ACC.navigation.js_secondaryNavAccount).slideToggle(400);
+        if ( $(this).hasClass('show') ) {
+            $('.myCompanyLinksHeader').removeClass('show'); // hide the other one
+            $(ACC.navigation.js_secondaryNavCompany).slideUp(400);
+        }
+        return false;
+    },
+
+    toggleCollapseOnMobile: function() {
+        $(this).toggleClass('show');
+        $(".offcanvasGroup2").slideToggle(400);
+        if ( $(this).hasClass('show') ) {
+            $(this).find('span').removeClass(ACC.navigation.glyphicon_chevron_down).addClass(ACC.navigation.glyphicon_chevron_up);
+            $('#signedInCompanyToggle').removeClass('show'); // hide the other one
+            $('#signedInCompanyToggle').find('span').removeClass(ACC.navigation.glyphicon_chevron_up).addClass(ACC.navigation.glyphicon_chevron_down);
+            $('.offcanvasGroup3').slideUp(400);
+        }
+        else {
+            $(this).find('span').removeClass(ACC.navigation.glyphicon_chevron_up).addClass(ACC.navigation.glyphicon_chevron_down);
+        }
+    },
+
+    hideOrShowNavAccountForDesktop: function() {
+        if($(ACC.navigation.js_secondaryNavCompany).hasClass('in')) {
+            $('.js-myCompany-toggle').click();
+        }
+    },
+
+    hideOrShowNavCompanyForDesktop: function() {
+        if($(ACC.navigation.js_secondaryNavAccount).hasClass('in')){
+            $('.js-myAccount-toggle').click();
+        }
+    },
+
+    hideNavCollapseBody: function(event) {
+            var target = $(event.target);
+            var targetSpanSelector = target.attr(ACC.navigation.data_trigger) + ' > span';
             if(target.hasClass('in')) {
-                $(document).find(targetSpanSelector).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $(document).find(targetSpanSelector).removeClass(ACC.navigation.glyphicon_chevron_down).addClass(ACC.navigation.glyphicon_chevron_up);
             }
             else {
-                $(document).find(targetSpanSelector).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                $(document).find(targetSpanSelector).removeClass(ACC.navigation.glyphicon_chevron_up).addClass(ACC.navigation.glyphicon_chevron_down);
             }
-        });
+        },
 
-        $('.js-nav-collapse-body').on('show.bs.collapse', function(e){
-            var target = $(e.target);
-            var targetSpanSelector = target.attr('data-trigger') + ' > span';
-            if(target.hasClass('in')) {
-                $(document).find(targetSpanSelector).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
-            }
-            else {
-                $(document).find(targetSpanSelector).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
-            }
-        });
-
+    showNavCollapseBody: function(event) {
+        var target = $(event.target);
+        var targetSpanSelector = target.attr(ACC.navigation.data_trigger) + ' > span';
+        if(target.hasClass('in')) {
+            $(document).find(targetSpanSelector).removeClass(ACC.navigation.glyphicon_chevron_up).addClass(ACC.navigation.glyphicon_chevron_down);
+        }
+        else {
+            $(document).find(targetSpanSelector).removeClass(ACC.navigation.glyphicon_chevron_down).addClass(ACC.navigation.glyphicon_chevron_up);
+        }
     },
 
     orderToolsNavigation: function(){

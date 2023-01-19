@@ -1,9 +1,13 @@
+ACC.CONSTANT_STORE_FINDER = {
+    store_finder: ".js-store-finder"
+};
+
 ACC.storefinder = {
 
 	_autoload: [
-		["init", $(".js-store-finder").length != 0],
-		["bindStoreChange", $(".js-store-finder").length != 0],
-		["bindSearch", $(".js-store-finder").length != 0],
+		["init", $(ACC.CONSTANT_STORE_FINDER.store_finder).length !== 0],
+		["bindStoreChange", $(ACC.CONSTANT_STORE_FINDER.store_finder).length !== 0],
+		["bindSearch", $(ACC.CONSTANT_STORE_FINDER.store_finder).length !== 0],
 		"bindPagination"
 	],
 	
@@ -11,6 +15,12 @@ ACC.storefinder = {
 	storeId:"",
 	coords:{},
 	storeSearchData:{},
+	show_store: "show-store",
+	js_store_finder_pager_prev: ".js-store-finder-pager-prev",
+	js_store_finder_pager_next: ".js-store-finder-pager-next",
+	js_store_prefix: ".js-store-",
+	js_store_finder_map: ".js-store-finder-map",
+	findStoresNearMe: "#findStoresNearMe",
 
 	createListItemHtml: function (data,id){
 
@@ -64,7 +74,7 @@ ACC.storefinder = {
 		var to = ((page*10+10)>ACC.storefinder.storeData.total)? ACC.storefinder.storeData.total : page*10+10 ;
 		$(".js-store-finder-pager-item-to").text(to);
 		$(".js-store-finder-pager-item-all").text(ACC.storefinder.storeData.total);
-		$(".js-store-finder").removeClass("show-store");
+		$(ACC.CONSTANT_STORE_FINDER.store_finder).removeClass(ACC.storefinder.show_store);
 
 	},
 
@@ -77,21 +87,21 @@ ACC.storefinder = {
 		$(document).on("click",".js-store-finder-details-back",function(e){
 			e.preventDefault();
 			
-			$(".js-store-finder").removeClass("show-store");
+			$(ACC.CONSTANT_STORE_FINDER.store_finder).removeClass(ACC.storefinder.show_store);
 			
 		})
 		
 
 
 
-		$(document).on("click",".js-store-finder-pager-prev",function(e){
+		$(document).on("click",ACC.storefinder.js_store_finder_pager_prev,function(e){
 			e.preventDefault();
 			var page = ACC.storefinder.storeSearchData.page;
 			ACC.storefinder.getStoreData(page-1)
 			checkStatus(page-1);
 		})
 
-		$(document).on("click",".js-store-finder-pager-next",function(e){
+		$(document).on("click",ACC.storefinder.js_store_finder_pager_next,function(e){
 			e.preventDefault();
 			var page = ACC.storefinder.storeSearchData.page;
 			ACC.storefinder.getStoreData(page+1)
@@ -100,15 +110,15 @@ ACC.storefinder = {
 
 		function checkStatus(page){
 			if(page==0){
-				$(".js-store-finder-pager-prev").attr("disabled","disabled")
+				$(ACC.storefinder.js_store_finder_pager_prev).attr("disabled","disabled");
 			}else{
-				$(".js-store-finder-pager-prev").removeAttr("disabled")
+				$(ACC.storefinder.js_store_finder_pager_prev).removeAttr("disabled");
 			}
 			
 			if(page == Math.floor(ACC.storefinder.storeData.total/10)){
-				$(".js-store-finder-pager-next").attr("disabled","disabled")
+				$(ACC.storefinder.js_store_finder_pager_next).attr("disabled","disabled");
 			}else{
-				$(".js-store-finder-pager-next").removeAttr("disabled")
+				$(ACC.storefinder.js_store_finder_pager_next).removeAttr("disabled");
 			}
 		}
 
@@ -140,7 +150,7 @@ ACC.storefinder = {
 					$ele.find(".js-store-productcode").val(value);
 				}
 				else if(key=="openings"){
-					var $oele = $ele.find(".js-store-"+key);
+					var $oele = $ele.find(ACC.storefinder.js_store_prefix + key);
 					$oele.empty();
 					if(value!=""){
 						$.each(value,function(key2,value2){
@@ -151,23 +161,18 @@ ACC.storefinder = {
 					}
 
 				}
-				else if(key=="specialOpenings")
-				{}
 				else if(key=="features"){
-					var $features = $ele.find(".js-store-"+key);
+					var $features = $ele.find(ACC.storefinder.js_store_prefix + key);
 					$features.empty();
 					$.each(value,function(key2,value2){
 						$features.append($("<li>").text(value2));
 					});
 				}
-				else{
-					if(value!=""){
-						$ele.find(".js-store-"+key).text(value);
-					}else{
-						$ele.find(".js-store-"+key).empty();
-					}
+				else if(value!==""){
+				    $ele.find(ACC.storefinder.js_store_prefix + key).text(value);
+				} else {
+				    $ele.find(ACC.storefinder.js_store_prefix + key).empty();
 				}
-
 			})
 
 
@@ -177,11 +182,11 @@ ACC.storefinder = {
 		})
 
 		$(document).on("click",".js-select-store-label",function(e){
-			$(".js-store-finder").addClass("show-store")
+			$(ACC.CONSTANT_STORE_FINDER.store_finder).addClass(ACC.storefinder.show_store);
 		})
 
 		$(document).on("click",".js-back-to-storelist",function(e){
-			$(".js-store-finder").removeClass("show-store")
+			$(ACC.CONSTANT_STORE_FINDER.store_finder).removeClass(ACC.storefinder.show_store);
 		})
 
 	},
@@ -190,7 +195,7 @@ ACC.storefinder = {
 
 	initGoogleMap:function(){
 
-		if($(".js-store-finder-map").length > 0){
+		if($(ACC.storefinder.js_store_finder_map).length > 0){
 			ACC.global.addGoogleMapsApi("ACC.storefinder.loadGoogleMap");
 		}
 	},
@@ -199,9 +204,9 @@ ACC.storefinder = {
 
 		storeInformation = ACC.storefinder.storeId;
 
-		if($(".js-store-finder-map").length > 0)
+		if($(ACC.storefinder.js_store_finder_map).length > 0)
 		{			
-			$(".js-store-finder-map").attr("id","store-finder-map")
+			$(ACC.storefinder.js_store_finder_map).attr("id","store-finder-map");
 			var centerPoint = new google.maps.LatLng(storeInformation["latitude"], storeInformation["longitude"]);
 			
 			var mapOptions = {
@@ -245,7 +250,7 @@ ACC.storefinder = {
 			}else{
 				if($(".js-storefinder-alert").length<1){
 					var emptySearchMessage = $(".btn-primary").data("searchEmpty")
-					$(".js-store-finder").hide();
+					$(ACC.CONSTANT_STORE_FINDER.store_finder).hide();
 					$("#storeFinder").before(
 							$("<div>").addClass("js-storefinder-alert alert alert-danger alert-dismissable getAccAlert")
 								.append($("<button>").addClass("close closeAccAlert")
@@ -263,8 +268,8 @@ ACC.storefinder = {
 		})
 
 
-		$(".js-store-finder").hide();
-		$(document).on("click",'#findStoresNearMe', function(e){
+		$(ACC.CONSTANT_STORE_FINDER.store_finder).hide();
+		$(document).on("click",ACC.storefinder.findStoresNearMe, function(e){
 			e.preventDefault()
 			ACC.storefinder.getInitStoreData(null,ACC.storefinder.coords.latitude,ACC.storefinder.coords.longitude);
 		})
@@ -275,7 +280,7 @@ ACC.storefinder = {
 
 	getStoreData: function(page){
 		ACC.storefinder.storeSearchData.page = page;
-		url= $(".js-store-finder").data("url");
+		var url= $(ACC.CONSTANT_STORE_FINDER.store_finder).data("url");
 		$.ajax({
 			url: url,
 			data: ACC.storefinder.storeSearchData,
@@ -285,7 +290,7 @@ ACC.storefinder = {
                 ACC.storefinder.storeData = response;
 				ACC.storefinder.refreshNavigation();
 				if(ACC.storefinder.storeData.total < 10){
-					$(".js-store-finder-pager-next").attr("disabled","disabled");
+					$(ACC.storefinder.js_store_finder_pager_next).attr("disabled","disabled");
 				}
 			}
 		});
@@ -311,9 +316,9 @@ ACC.storefinder = {
 
 		ACC.storefinder.storeSearchData = data;
 		ACC.storefinder.getStoreData(data.page);
-		$(".js-store-finder").show();
-		$(".js-store-finder-pager-prev").attr("disabled","disabled")
-		$(".js-store-finder-pager-next").removeAttr("disabled")
+		$(ACC.CONSTANT_STORE_FINDER.store_finder).show();
+		$(ACC.storefinder.js_store_finder_pager_prev).attr("disabled","disabled");
+		$(ACC.storefinder.js_store_finder_pager_next).removeAttr("disabled");
 	},
 
 	init:function(){
@@ -322,7 +327,7 @@ ACC.storefinder = {
 			navigator.geolocation.getCurrentPosition(
 				function (position){
 					ACC.storefinder.coords = position.coords;
-					$('#findStoresNearMe').removeAttr("disabled");
+					$(ACC.storefinder.findStoresNearMe).removeAttr("disabled");
 				},
 				function (error)
 				{

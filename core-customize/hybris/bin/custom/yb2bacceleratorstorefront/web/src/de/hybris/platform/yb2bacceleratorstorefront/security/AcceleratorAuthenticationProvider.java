@@ -23,7 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * <li>prevent login without password for users created via CSCockpit</li>
  * <li>prevent login as user in group admingroup</li>
  * </ul>
- *
+ * <p>
  * any login as admin disables SearchRestrictions and therefore no page can be viewed correctly
  */
 public class AcceleratorAuthenticationProvider extends AbstractAcceleratorAuthenticationProvider
@@ -34,7 +34,7 @@ public class AcceleratorAuthenticationProvider extends AbstractAcceleratorAuthen
 
 	/**
 	 * @see de.hybris.platform.acceleratorstorefrontcommons.security.AbstractAcceleratorAuthenticationProvider#additionalAuthenticationChecks(org.springframework.security.core.userdetails.UserDetails,
-	 *      org.springframework.security.authentication.AbstractAuthenticationToken)
+	 * org.springframework.security.authentication.AbstractAuthenticationToken)
 	 */
 	@Override
 	protected void additionalAuthenticationChecks(final UserDetails details, final AbstractAuthenticationToken authentication)

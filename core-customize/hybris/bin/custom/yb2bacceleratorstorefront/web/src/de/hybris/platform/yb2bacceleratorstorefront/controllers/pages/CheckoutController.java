@@ -178,7 +178,7 @@ public class CheckoutController extends AbstractCheckoutController
 			GlobalMessages.addFlashMessage(redirectModel, GlobalMessages.ERROR_MESSAGES_HOLDER,
 					"guest.checkout.existingaccount.register.error", new Object[]
 					{ form.getUid() });
-			return REDIRECT_PREFIX + request.getHeader("Referer");
+			return REDIRECT_URL_ORDER_CONFIRMATION + form.getOrderCode();
 		}
 
 		// Consent form data
@@ -307,7 +307,7 @@ public class CheckoutController extends AbstractCheckoutController
 		}
 		else
 		{
-			uid = orderDetails.getUser().getUid();
+			uid = getCustomerFacade().getUserForUID(orderDetails.getUser().getUid()).getDisplayUid();
 		}
 		model.addAttribute("email", uid);
 	}

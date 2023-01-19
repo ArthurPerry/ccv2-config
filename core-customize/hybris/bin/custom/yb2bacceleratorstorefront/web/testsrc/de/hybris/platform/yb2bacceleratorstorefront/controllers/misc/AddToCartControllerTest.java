@@ -57,9 +57,6 @@ public class AddToCartControllerTest
 	private ProductFacade productFacade;
 
 	@Mock
-	private GroupCartModificationListPopulator groupCartModificationListPopulator;
-
-	@Mock
 	private AddToEntryGroupForm form;
 
 	@Mock
@@ -76,9 +73,6 @@ public class AddToCartControllerTest
 
 	@Mock
 	private OrderEntryData orderEntryData;
-
-	@Captor
-	private ArgumentCaptor<List> listArgumentCaptor;
 
 	@Before
 	public void setUp()

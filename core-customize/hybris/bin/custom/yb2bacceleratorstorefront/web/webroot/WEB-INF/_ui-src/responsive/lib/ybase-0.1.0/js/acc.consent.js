@@ -1,14 +1,24 @@
+ACC.CONSTANT_CONSENT = {
+    consent_management_form: "#consent-management-form"
+};
+
 ACC.consent = {
+    is_expanded: "is-expanded",
+    consent_management_list__content: ".consent-management-list__content",
+    aria_selected: "aria-selected",
+    aria_expanded: "aria-expanded",
+    aria_hidden: "aria-hidden",
+
     _autoload: [
-        ["bindSendConsent", $("#consent-management-form").length != 0],
-        ["bindToggleConsentTemplateDescription", $("#consent-management-form").length != 0],
+        ["bindSendConsent", $(ACC.CONSTANT_CONSENT.consent_management_form).length !== 0],
+        ["bindToggleConsentTemplateDescription", $(ACC.CONSTANT_CONSENT.consent_management_form).length !== 0],
         "bindConsentClick",
         "bindConsentManagementAlertBar"
     ],
    
     bindSendConsent: function ()
     {
-        var consentCheckbox = $('#consent-management-form').find('input.toggle-button__input');
+        var consentCheckbox = $(ACC.CONSTANT_CONSENT.consent_management_form).find('input.toggle-button__input');
         consentCheckbox.removeAttr('disabled');
 
         consentCheckbox.click(function ()
@@ -34,8 +44,8 @@ ACC.consent = {
 
     bindToggleConsentTemplateDescription: function () {
 
-        var accordion = $('#consent-management-form').find('[data-behavior="accordion"]');
-        var expandedClass = 'is-expanded';
+        var accordion = $(ACC.CONSTANT_CONSENT.consent_management_form).find('[data-behavior="accordion"]');
+        var expandedClass = ACC.consent.is_expanded;
 
         $.each(accordion, function() {
 
@@ -49,7 +59,7 @@ ACC.consent = {
 
                     var innerContent = nV.find('.consent-management-list__content-inner')[0],
                         maxHeight = $(innerContent).outerHeight(),
-                        content = nV.find('.consent-management-list__content')[0];
+                        content = nV.find(ACC.consent.consent_management_list__content)[0];
 
                     if (!content.style.height || content.style.height === '0px') {
                         $(content).css('height', maxHeight);
@@ -61,19 +71,19 @@ ACC.consent = {
                 var toggleClasses = function(event) {
                     var clickedItem = event.currentTarget;
                     var currentItem = $(clickedItem).parent();
-                    var clickedContent = $(currentItem).find('.consent-management-list__content')
+                    var clickedContent = $(currentItem).find(ACC.consent.consent_management_list__content);
                     $(currentItem).toggleClass(expandedClass);
                     setHeight(currentItem);
 
-                    if ($(currentItem).hasClass('is-expanded')) {
-                        $(clickedItem).attr('aria-selected', 'true');
-                        $(clickedItem).attr('aria-expanded', 'true');
-                        $(clickedContent).attr('aria-hidden', 'false');
+                    if ($(currentItem).hasClass(ACC.consent.is_expanded)) {
+                        $(clickedItem).attr(ACC.consent.aria_selected, 'true');
+                        $(clickedItem).attr(ACC.consent.aria_expanded, 'true');
+                        $(clickedContent).attr(ACC.consent.aria_hidden, 'false');
 
                     } else {
-                        $(clickedItem).attr('aria-selected', 'false');
-                        $(clickedItem).attr('aria-expanded', 'false');
-                        $(clickedContent).attr('aria-hidden', 'true');
+                        $(clickedItem).attr(ACC.consent.aria_selected, 'false');
+                        $(clickedItem).attr(ACC.consent.aria_expanded, 'false');
+                        $(clickedContent).attr(ACC.consent.aria_hidden, 'true');
                     }
                 }
 
@@ -119,7 +129,7 @@ ACC.consent = {
 
         //accordion behaviour
         var accordion = $('#consent-management-alert').find('[data-behavior="accordion"]');
-        var expandedClass = 'is-expanded';
+        var expandedClass = ACC.consent.is_expanded;
 
         $.each(accordion, function() {
 
@@ -133,7 +143,7 @@ ACC.consent = {
 
                     var innerContent = nV.find('.consent-management-list__content-inner')[0],
                         maxHeight = $(innerContent).outerHeight(),
-                        content = nV.find('.consent-management-list__content')[0];
+                        content = nV.find(ACC.consent.consent_management_list__content)[0];
 
                     if (!content.style.height || content.style.height === '0px') {
                         $(content).css('height', maxHeight);
@@ -145,19 +155,19 @@ ACC.consent = {
                 var toggleClasses = function(event) {
                     var clickedItem = event.currentTarget;
                     var currentItem = $(clickedItem).parent();
-                    var clickedContent = $(currentItem).find('.consent-management-list__content')
+                    var clickedContent = $(currentItem).find(ACC.consent.consent_management_list__content);
                     $(currentItem).toggleClass(expandedClass);
                     setHeight(currentItem);
 
-                    if ($(currentItem).hasClass('is-expanded')) {
-                        $(clickedItem).attr('aria-selected', 'true');
-                        $(clickedItem).attr('aria-expanded', 'true');
-                        $(clickedContent).attr('aria-hidden', 'false');
+                    if ($(currentItem).hasClass(ACC.consent.is_expanded)) {
+                        $(clickedItem).attr(ACC.consent.aria_selected, 'true');
+                        $(clickedItem).attr(ACC.consent.aria_expanded, 'true');
+                        $(clickedContent).attr(ACC.consent.aria_hidden, 'false');
 
                     } else {
-                        $(clickedItem).attr('aria-selected', 'false');
-                        $(clickedItem).attr('aria-expanded', 'false');
-                        $(clickedContent).attr('aria-hidden', 'true');
+                        $(clickedItem).attr(ACC.consent.aria_selected, 'false');
+                        $(clickedItem).attr(ACC.consent.aria_expanded, 'false');
+                        $(clickedContent).attr(ACC.consent.aria_hidden, 'true');
                     }
                 }
 

@@ -1,6 +1,9 @@
 var ACC = ACC || {}; // make sure ACC is available
 
 if ($("#quickOrder").length > 0) {
+    ACC.CONSTANT_QUICK_ORDER = {
+        quick_order_container: '.js-quick-order-container'
+    };
     ACC.quickorder = {
         _autoload: [
             "bindClearQuickOrderRow",
@@ -10,10 +13,10 @@ if ($("#quickOrder").length > 0) {
             "bindCompileTemplate"
         ],
 
-        $quickOrderContainer: $('.js-quick-order-container'),
-        $quickOrderMinRows: Number($('.js-quick-order-container').data('quickOrderMinRows')),
-        $quickOrderMaxRows: Number($('.js-quick-order-container').data('quickOrderMaxRows')),
-        $productExistsInFormMsg: $('.js-quick-order-container').data('productExistsInFormMsg'),
+        $quickOrderContainer: $(ACC.CONSTANT_QUICK_ORDER.quick_order_container),
+        $quickOrderMinRows: Number($(ACC.CONSTANT_QUICK_ORDER.quick_order_container).data('quickOrderMinRows')),
+        $quickOrderMaxRows: Number($(ACC.CONSTANT_QUICK_ORDER.quick_order_container).data('quickOrderMaxRows')),
+        $productExistsInFormMsg: $(ACC.CONSTANT_QUICK_ORDER.quick_order_container).data('productExistsInFormMsg'),
         $quickOrderLeavePageMsg: $('#quickOrder').data('gridConfirmMessage'),
         $hiddenSkuInput: 'input.js-hidden-sku-field',
         $addToCartBtn: $('#js-add-to-cart-quick-order-btn-top, #js-add-to-cart-quick-order-btn-bottom'),
@@ -138,7 +141,7 @@ if ($("#quickOrder").length > 0) {
         validateAndUpdateItemTotal: function (event) {
             var parentLi = ACC.quickorder.getCurrentParentLi(event.target);
             var qtyValue = jQuery.trim(ACC.productorderform.filterSkuEntry($(event.target).val()));
-            if (isNaN(qtyValue) || qtyValue == "") {
+            if (ACC.quickorder.invalidNumber(qtyValue)) {
                 qtyValue = 0;
                 $(event.target).removeClass(ACC.quickorder.$classHasError);
                 ACC.quickorder.findElement(parentLi, ACC.quickorder.$qtyValidationContainer).text('');
@@ -171,6 +174,10 @@ if ($("#quickOrder").length > 0) {
             else {
                 ACC.quickorder.findElement(parentLi, ACC.quickorder.$productItemTotal).text('');
             }
+        },
+
+        invalidNumber: function(value) {
+            return isNaN(value) || value === "";
         },
 
         clearQuickOrderRow: function () {

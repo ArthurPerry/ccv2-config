@@ -6,6 +6,10 @@ ACC.tabs = {
 		"determineToDisplayReviews"
 	],
 
+	all_reviews_btn: '.all-reviews-btn',
+    less_reviews_btn: '.less-reviews-btn',
+    js_review_write: '.js-review-write',
+
 	bindTabs: function(){
 
 		$e = $(".js-tabs");
@@ -38,34 +42,34 @@ ACC.tabs = {
 			ACC.tabs.showReviewsAction("reviews");
 		});
 		
-		$e.on("click",".all-reviews-btn",function(e){
+		$e.on("click",ACC.tabs.all_reviews_btn,function(e){
 			e.preventDefault();
 			ACC.tabs.showReviewsAction("allreviews");
-			ACC.tabs.hideReviewBtn(".all-reviews-btn");
-			ACC.tabs.showReviewBtn(".less-reviews-btn");
+			ACC.tabs.hideReviewBtn(ACC.tabs.all_reviews_btn);
+			ACC.tabs.showReviewBtn(ACC.tabs.less_reviews_btn);
 		});
 		
-		$e.on("click",".less-reviews-btn",function(e){
+		$e.on("click",ACC.tabs.less_reviews_btn,function(e){
 			e.preventDefault();
 			ACC.tabs.showReviewsAction("reviews");
-			ACC.tabs.hideReviewBtn(".less-reviews-btn");
-			ACC.tabs.showReviewBtn(".all-reviews-btn");
+			ACC.tabs.hideReviewBtn(ACC.tabs.less_reviews_btn);
+			ACC.tabs.showReviewBtn(ACC.tabs.all_reviews_btn);
 		});
 		
 		$(document).on("click", '.js-writeReviewTab', function(e){
 			e.preventDefault();
 			tabs.showAccessibleTabSelector($(this).attr("href"));
-			$(".js-review-write").show();
+			$(ACC.tabs.js_review_write).show();
 			$('#reviewForm input[name=headline]').focus();
 		});
 		
 		$(document).on("click",".js-review-write-toggle",function(e){
 			e.preventDefault();
 			if($(".js-review-write:visible").length<1){
-				$(".js-review-write").show();
+				$(ACC.tabs.js_review_write).show();
 
 			}else{
-				$(".js-review-write").hide();
+				$(ACC.tabs.js_review_write).hide();
 			}		
 		});
 
@@ -87,7 +91,7 @@ ACC.tabs = {
 	
 	hideReviewBtn: function (btnClass) {
 
-		btnClass = (btnClass === undefined) ? ".less-reviews-btn" : btnClass;
+		btnClass = (btnClass === undefined) ? ACC.tabs.less_reviews_btn : btnClass;
 		$(btnClass).hide();
 	},
 	
@@ -99,7 +103,7 @@ ACC.tabs = {
 	{
 		var isShowingAllReviews = $("#showingAllReviews").data("showingallreviews");
 		if(isShowingAllReviews){
-			ACC.tabs.hideReviewBtn(".all-reviews-btn");
+			ACC.tabs.hideReviewBtn(ACC.tabs.all_reviews_btn);
 		}
 	},
 	

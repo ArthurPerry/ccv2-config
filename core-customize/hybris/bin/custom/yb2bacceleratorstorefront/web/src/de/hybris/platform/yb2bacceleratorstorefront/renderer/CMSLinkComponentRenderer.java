@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.apache.taglibs.standard.tag.common.core.UrlSupport;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.util.HtmlUtils;
 
@@ -46,7 +47,7 @@ public class CMSLinkComponentRenderer implements CMSComponentRenderer<CMSLinkCom
 			.onElements("a")
 			.allowAttributes("class")
 			.onElements("span")
-			.toFactory();
+			.toFactory().and(Sanitizers.STYLES);
 
 
 	private Converter<ProductModel, ProductData> productUrlConverter;

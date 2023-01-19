@@ -5,6 +5,8 @@ ACC.autocomplete = {
         "bindDisableSearch"
 	],
 
+	js_site_search_input: "#js-site-search-input",
+
 	bindSearchAutocomplete: function ()
 	{
 		// extend the default autocomplete widget, to solve issue on multiple instances of the searchbox component
@@ -45,20 +47,19 @@ ACC.autocomplete = {
 							.appendTo(ul);
 				}
 				else if (item.type == "productResult"){
-					var renderHtml = $("<a>").attr("href", item.url)
-							.append(
-									item.image  
-											? $("<div>").addClass("thumb")
-													.append($("<img>").attr("src", item.image))
-											: null
-							)
+				    var imageHtml = ACC.autocomplete.renderImage(item);
+					var _renderHtml = $("<a>").attr("href", item.url)
+							.append(imageHtml)
 							.append($("<div>").addClass("name").html(ACC.sanitizer.sanitize(item.value)))
 							.append($("<div>").addClass("price").text(item.price));
 
 					return $("<li>")
 							.data("item.autocomplete", item)
-							.append(renderHtml)
+							.append(_renderHtml)
 							.appendTo(ul);
+				} else {
+				    return $("<li>")
+                           	.appendTo(ul);
 				}
 			},
 			source: function (request, response)
@@ -86,6 +87,7 @@ ACC.autocomplete = {
 					if(data.products != null){
 						$.each(data.products, function (i, obj)
 						{
+						    var imageUrl = ACC.autocomplete.getImageUrl(obj, self);
 							autoSearchData.push({
 								value: ACC.sanitizer.sanitize(obj.name),
 								code: obj.code,
@@ -94,7 +96,7 @@ ACC.autocomplete = {
 								url:  ACC.config.encodedContextPath + obj.url,
 								price: obj.price.formattedValue,
 								type: "productResult",
-								image: (obj.images!=null && self.options.displayProductImages) ? obj.images[0].url : null // prevent errors if obj.images = null
+								image: imageUrl // prevent errors if obj.images = null
 							});
 						});
 					}
@@ -104,7 +106,6 @@ ACC.autocomplete = {
 			}
 
 		});
-
 	
 		$search = $(".js-site-search-input");
 		if($search.length>0){
@@ -113,10 +114,21 @@ ACC.autocomplete = {
 
 	},
 
+	renderImage: function(item) {
+        return item.image
+                            ? $("<div>").addClass("thumb")
+                                    .append($("<img>").attr("src", item.image))
+                            : null;
+    },
+
+    getImageUrl: function(obj, self) {
+        return (obj.images != null && self.options.displayProductImages) ? obj.images[0].url : null;
+    },
+
 	bindDisableSearch: function ()
     {
-        $('#js-site-search-input').keyup(function(){
-        	$('#js-site-search-input').val($('#js-site-search-input').val().replace(/^\s+/gm,''));
+        $(ACC.autocomplete.js_site_search_input).keyup(function(){
+        	$(ACC.autocomplete.js_site_search_input).val($(ACC.autocomplete.js_site_search_input).val().replace(/^\s+/gm,''));
             $('.js_search_button').prop('disabled', this.value == "" ? true : false);
         })
     }

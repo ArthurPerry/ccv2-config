@@ -25,6 +25,10 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     features: {
       level: '5.0'
     }
+  }), provideConfig(<FeaturesConfig>{
+    features: {
+      level: '5.1'
+    }
   })]
 })
 export class SpartacusConfigurationModule { }

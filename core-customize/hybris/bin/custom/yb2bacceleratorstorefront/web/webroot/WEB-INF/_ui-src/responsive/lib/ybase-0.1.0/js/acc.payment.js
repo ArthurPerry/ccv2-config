@@ -1,5 +1,6 @@
 ACC.payment = {
-		
+
+        startDate_issueNum: '#startDate, #issueNum',
 		activateSavedPaymentButton: function(){
 
 			$(document).on("click",".js-saved-payments",function(e){
@@ -15,7 +16,8 @@ ACC.payment = {
 					width:"320px",
 					title: titleHtml,
 					close:'<span class="glyphicon glyphicon-remove"></span>',
-					onComplete: function(){
+					onComplete: function() {
+					    // This is intentional
 					}
 				});
 			})
@@ -28,11 +30,11 @@ ACC.payment = {
 				var cardType = $(this).val();
 				if (cardType == '024')
 				{
-					$('#startDate, #issueNum').show();
+					$(ACC.payment.startDate_issueNum).show();
 				}
 				else
 				{
-					$('#startDate, #issueNum').hide();
+					$(ACC.payment.startDate_issueNum).hide();
 				}
 			});
 		},
@@ -41,11 +43,11 @@ ACC.payment = {
 			var cardType = $('#card_cardType').val();
 			if (cardType == '024')
 			{
-				$('#startDate, #issueNum').show();
+				$(ACC.payment.startDate_issueNum).show();
 			}
 			else
 			{
-				$('#startDate, #issueNum').hide();
+				$(ACC.payment.startDate_issueNum).hide();
 			}
 		}
 }

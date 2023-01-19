@@ -1,18 +1,44 @@
+ACC.CONSTANT_QUOTE = {
+    quote_comments: '#js-quote-comments',
+    quote_name: '#js-quote-name',
+    quote_description: '#js-quote-description',
+    quote_expiration_time: '#js-quote-expiration-time'
+};
+
 ACC.quote = {
+
+    entry_number: 'entry-number',
+    quoteForm: '#quoteForm',
+    show_all_comments: 'show-all-comments',
+    entryCommentListDiv_prefix: '#entryCommentListDiv_',
+    moreCommentsAnchor: '#moreCommentsAnchor',
+    js_more_entry_comments_anchor: '.js-more-entry-comments-anchor',
+    js_less_entry_comments_anchor: '.js-less-entry-comments-anchor',
+    show_all_entry_comments: 'show-all-entry-comments',
+    js_quote_discount_by_percentage: '#js-quote-discount-by-percentage',
+    js_quote_discount_by_amount: '#js-quote-discount-by-amount',
+    js_quote_discount_adjust_total: '#js-quote-discount-adjust-total',
+    border_color: 'border-color',
+    submitButton: '#submitButton',
+    js_quote_discount_rate: '#js-quote-discount-rate',
+    js_quote_discount_type: '#js-quote-discount-type',
+    expirationTime: '#expirationTime',
+    lessCommentsAnchor: '#lessCommentsAnchor',
+
 	_autoload : [
-		[ "bindAddComment", $("#js-quote-comments").length !== 0 ],
+		[ "bindAddComment", $(ACC.CONSTANT_QUOTE.quote_comments).length !== 0 ],
 		[ "bindAddEntryComment", $(".js-quote-entry-comments").length !== 0],
-		[ "toggleMoreComments", $("#js-quote-comments").length !== 0 ],
-		[ "toggleLessComments", $("#js-quote-comments").length !== 0 ],
-		[ "displayLessComments", $("#js-quote-comments").length !== 0 ],
+		[ "toggleMoreComments", $(ACC.CONSTANT_QUOTE.quote_comments).length !== 0 ],
+		[ "toggleLessComments", $(ACC.CONSTANT_QUOTE.quote_comments).length !== 0 ],
+		[ "displayLessComments", $(ACC.CONSTANT_QUOTE.quote_comments).length !== 0 ],
 		[ "quoteDetailsNavigation", $(".js-quote-actions").length !== 0],
 		[ "bindQuoteButtons", $(".js-btn-quote").length !== 0 ],
 		[ "bindEditQuoteButton", $(".js-quote-edit-btn").length !== 0 ],
 		[ "bindSubmitConfirmation", $(".js-quote-submit-btn").length !== 0],
 		[ "bindCancelConfirmation", $(".js-quote-cancel-btn").length !== 0],
-		[ "bindName" , $("#js-quote-name").length !== 0],
-		[ "bindDescription" , $("#js-quote-description").length !== 0],
-		[ "bindExpirationTime", $("#js-quote-expiration-time").length !== 0],
+		[ "bindName" , $(ACC.CONSTANT_QUOTE.quote_name).length !== 0],
+		[ "bindDescription" , $(ACC.CONSTANT_QUOTE.quote_description).length !== 0],
+		[ "bindExpirationTime", $(ACC.CONSTANT_QUOTE.quote_expiration_time).length !== 0],
 		[ "bindCheckoutConfirmation", $(".js-quote-checkout-btn").length !== 0],
 		[ "bindEditConfirmation", $(".js-quote-warning-btn").length !== 0],
 		[ "bindQuoteDiscount", $(".js-quote-discount-link").length !== 0],
@@ -61,7 +87,7 @@ ACC.quote = {
 
 				if (key === 13) {
 					event.preventDefault();
-					ACC.quote.quoteEntryCommentSubmit($(this).val(), $(this).data("entry-number"));
+					ACC.quote.quoteEntryCommentSubmit($(this).val(), $(this).data(ACC.quote.entry_number));
 					return false;
 				} else {
 					return true;
@@ -73,22 +99,22 @@ ACC.quote = {
 	bindQuoteButtons : function() {
 		$('.js-save-quote-btn').click(function() {
 			var url = $(this).data("saveQuoteUrl");
-			$('#quoteForm').attr('action', url).submit();
+			$(ACC.quote.quoteForm).attr('action', url).submit();
 		});
 		$('.js-submit-quote-btn').click(function() {
 			var url = $(this).data("submitQuoteUrl");
-			$('#quoteForm').attr('action', url).submit();
+			$(ACC.quote.quoteForm).attr('action', url).submit();
 		});
 		$('.js-accept-quote-btn').click(function() {
 			var url = $(this).data("acceptQuoteUrl");
-			$('#quoteForm').attr('action', url).submit();
+			$(ACC.quote.quoteForm).attr('action', url).submit();
 		});
 	},
 
 	quoteCommentSubmit : function(comment) {
-		var quoteComments = $("#js-quote-comments");
+		var quoteComments = $(ACC.CONSTANT_QUOTE.quote_comments);
 		var addCommentUrl = quoteComments.data("quote-base-link") + "comment";
-		var showAllComments = quoteComments.data("show-all-comments");
+		var showAllComments = quoteComments.data(ACC.quote.show_all_comments);
 
 		$.ajax({
 			url : addCommentUrl,
@@ -107,7 +133,7 @@ ACC.quote = {
 			return;
 		}
 
-		var quoteComments = $("#js-quote-comments");
+		var quoteComments = $(ACC.CONSTANT_QUOTE.quote_comments);
 		var addEntryCommentUrl = quoteComments.data("quote-base-link") + "entry/comment";
 
 		$.ajax({
@@ -131,7 +157,7 @@ ACC.quote = {
 
 	onEntryCommentSuccess: function (entryNumber) {
         var entryNumberHtml = ACC.common.encodeHtml(entryNumber);
-		$("#entryCommentListDiv_" + entryNumberHtml).load(location.href + " #entryCommentListDiv_" + entryNumberHtml, function () {
+		$(ACC.quote.entryCommentListDiv_prefix + entryNumberHtml).load(`${location.href} #entryCommentListDiv_${entryNumberHtml}`, function () {
 			ACC.quote.displayEntryComments(entryNumberHtml);
 		});
 
@@ -139,13 +165,13 @@ ACC.quote = {
 	},
 
 	toggleMoreComments : function() {
-		$(document).on('click', '#moreCommentsAnchor', ACC.quote.displayMoreComments);
-		$(document).on('click', '.js-more-entry-comments-anchor', ACC.quote.displayMoreEntryComments);
+		$(document).on('click', ACC.quote.moreCommentsAnchor, ACC.quote.displayMoreComments);
+		$(document).on('click', ACC.quote.js_more_entry_comments_anchor, ACC.quote.displayMoreEntryComments);
 	},
 
 	toggleLessComments : function() {
-		$(document).on('click', '#lessCommentsAnchor', ACC.quote.displayLessComments);
-		$(document).on('click', '.js-less-entry-comments-anchor', ACC.quote.displayLessEntryComments);
+		$(document).on('click', ACC.quote.lessCommentsAnchor, ACC.quote.displayLessComments);
+		$(document).on('click', ACC.quote.js_less_entry_comments_anchor, ACC.quote.displayLessEntryComments);
 	},
 
 	displayMoreComments : function(e) {
@@ -155,7 +181,7 @@ ACC.quote = {
 
 	displayMoreEntryComments: function (e) {
 		e.preventDefault();
-		ACC.quote.displayEntryComments($(this).data("entry-number"), "true");
+		ACC.quote.displayEntryComments($(this).data(ACC.quote.entry_number), "true");
 	},
 
 	displayLessComments : function(e) {
@@ -167,11 +193,11 @@ ACC.quote = {
 
 	displayLessEntryComments: function (e) {
 		e.preventDefault();
-		ACC.quote.displayEntryComments($(this).data("entry-number"), "false");
+		ACC.quote.displayEntryComments($(this).data(ACC.quote.entry_number), "false");
 	},
 
 	displayComments : function(showAll) {
-		var quoteComments = $("#js-quote-comments");
+		var quoteComments = $(ACC.CONSTANT_QUOTE.quote_comments);
 		var currentCommentsShown = quoteComments.data("current-comments-shown");
 		var comments = $('[id^="comment_"]');
 
@@ -190,13 +216,13 @@ ACC.quote = {
 
 		// toggle anchors
 		if (showAll === "false") {
-			$('#moreCommentsAnchor').show();
-			$('#lessCommentsAnchor').hide();
-			quoteComments.data("show-all-comments", false);
+			$(ACC.quote.moreCommentsAnchor).show();
+			$(ACC.quote.lessCommentsAnchor).hide();
+			quoteComments.data(ACC.quote.show_all_comments, false);
 		} else {
-			$('#moreCommentsAnchor').hide();
-			$('#lessCommentsAnchor').show();
-			quoteComments.data("show-all-comments", true);
+			$(ACC.quote.moreCommentsAnchor).hide();
+			$(ACC.quote.lessCommentsAnchor).show();
+			quoteComments.data(ACC.quote.show_all_comments, true);
 		}
 
 		return false;
@@ -204,10 +230,10 @@ ACC.quote = {
 
 	displayEntryComments: function (entryNumber, showAll) {
 		var entryNumberHtml = ACC.common.encodeHtml(entryNumber);
-		var quoteEntryComments = $("#entryCommentListDiv_" + entryNumberHtml);
+		var quoteEntryComments = $(ACC.quote.entryCommentListDiv_prefix + entryNumberHtml);
 		var comments = quoteEntryComments.find('[id^="entryComment_' + entryNumberHtml + '"]');
 
-		showAll = showAll || "" + quoteEntryComments.data("show-all-entry-comments");
+		showAll = showAll || "" + quoteEntryComments.data(ACC.quote.show_all_entry_comments);
 
 		// iterate over comments. If showAll, just show, otherwise check if max comments is reached then hide
 		for (var i = 0; i < comments.length; i++) {
@@ -224,13 +250,13 @@ ACC.quote = {
 
 		// toggle anchors
 		if (showAll === "false") {
-			quoteEntryComments.find(".js-more-entry-comments-anchor").show();
-			quoteEntryComments.find(".js-less-entry-comments-anchor").hide();
-			quoteEntryComments.data("show-all-entry-comments", false);
+			quoteEntryComments.find(ACC.quote.js_more_entry_comments_anchor).show();
+			quoteEntryComments.find(ACC.quote.js_less_entry_comments_anchor).hide();
+			quoteEntryComments.data(ACC.quote.show_all_entry_comments, false);
 		} else {
-			quoteEntryComments.find(".js-more-entry-comments-anchor").hide();
-			quoteEntryComments.find(".js-less-entry-comments-anchor").show();
-			quoteEntryComments.data("show-all-entry-comments", true);
+			quoteEntryComments.find(ACC.quote.js_more_entry_comments_anchor).hide();
+			quoteEntryComments.find(ACC.quote.js_less_entry_comments_anchor).show();
+			quoteEntryComments.data(ACC.quote.show_all_entry_comments, true);
 		}
 
 		return false;
@@ -366,9 +392,9 @@ ACC.quote = {
 					ACC.colorbox.resize();
 					var percent = (quoteDiscount / total) * 100;
 					var adjustTotal = (total - quoteDiscount).toFixed(2);
-					$("#js-quote-discount-by-percentage").val(percent.toFixed(2));
-					$("#js-quote-discount-by-amount").val(quoteDiscount.toFixed(2));
-					$("#js-quote-discount-adjust-total").val(adjustTotal);
+					$(ACC.quote.js_quote_discount_by_percentage).val(percent.toFixed(2));
+					$(ACC.quote.js_quote_discount_by_amount).val(quoteDiscount.toFixed(2));
+					$(ACC.quote.js_quote_discount_adjust_total).val(adjustTotal);
 				}
 			});
 		});
@@ -379,10 +405,10 @@ ACC.quote = {
 		});
 
 		function enableSubmit(){
-			$("#js-quote-discount-by-percentage").css('border-color', '#cccccc');
-			$("#js-quote-discount-by-amount").css('border-color', '#cccccc');
-			$("#js-quote-discount-adjust-total").css('border-color', '#cccccc');
-			$("#submitButton").prop("disabled", false);
+			$(ACC.quote.js_quote_discount_by_percentage).css(ACC.quote.border_color, '#cccccc');
+			$(ACC.quote.js_quote_discount_by_amount).css(ACC.quote.border_color, '#cccccc');
+			$(ACC.quote.js_quote_discount_adjust_total).css(ACC.quote.border_color, '#cccccc');
+			$(ACC.quote.submitButton).prop("disabled", false);
 		}
          function resetIntial(val)
          {
@@ -394,42 +420,42 @@ ACC.quote = {
          }
 		function updateByPercentage()
 		{
-			var percent = parseFloat($("#js-quote-discount-by-percentage").val());
+			var percent = parseFloat($(ACC.quote.js_quote_discount_by_percentage).val());
 			// input validation
 			if(percent > 100 || percent < 0){
-				$("#js-quote-discount-by-percentage").css('border-color', 'red');
-				$("#submitButton").prop("disabled", true);
+				$(ACC.quote.js_quote_discount_by_percentage).css(ACC.quote.border_color, 'red');
+				$(ACC.quote.submitButton).prop("disabled", true);
 			}else{
 				enableSubmit();
 			}
 			var discountAmount = total * percent / 100;
 			var discountAmount = discountAmount.toFixed(2);
-			$("#js-quote-discount-by-amount").val(resetIntial(discountAmount));
+			$(ACC.quote.js_quote_discount_by_amount).val(resetIntial(discountAmount));
 			var remainTotal = total - discountAmount;
 			var remainTotal = remainTotal.toFixed(2);
-			$("#js-quote-discount-adjust-total").val(resetIntial(remainTotal));
-			$("#js-quote-discount-rate").val(resetIntial(percent));
-			$("#js-quote-discount-type").val("PERCENT");
+			$(ACC.quote.js_quote_discount_adjust_total).val(resetIntial(remainTotal));
+			$(ACC.quote.js_quote_discount_rate).val(resetIntial(percent));
+			$(ACC.quote.js_quote_discount_type).val("PERCENT");
 
 			updateNewTotal(remainTotal);
 		}
 
-		$('#js-quote-discount-by-percentage').keyup(updateByPercentage);
-		$('#js-quote-discount-by-percentage').change(updateByPercentage);
-		$('#js-quote-discount-by-percentage').blur(reset);
-		$('#js-quote-discount-by-percentage').keypress(holdPreviousValue);
+		$(ACC.quote.js_quote_discount_by_percentage).keyup(updateByPercentage);
+		$(ACC.quote.js_quote_discount_by_percentage).change(updateByPercentage);
+		$(ACC.quote.js_quote_discount_by_percentage).blur(reset);
+		$(ACC.quote.js_quote_discount_by_percentage).keypress(holdPreviousValue);
 		
 		function reset()
 		{
-	        var per = $('#js-quote-discount-by-percentage').val();
-	        var amt = $('#js-quote-discount-by-amount').val();
-	        var tot = $('#js-quote-discount-adjust-total').val();
+	        var per = $(ACC.quote.js_quote_discount_by_percentage).val();
+	        var amt = $(ACC.quote.js_quote_discount_by_amount).val();
+	        var tot = $(ACC.quote.js_quote_discount_adjust_total).val();
 	        if(per === '')
-	        	$('#js-quote-discount-by-percentage').val('0.00');
+	        	$(ACC.quote.js_quote_discount_by_percentage).val('0.00');
 	        if(amt === '')
-	        	$('#js-quote-discount-by-amount').val('0.00');
+	        	$(ACC.quote.js_quote_discount_by_amount).val('0.00');
 	        if(tot === '' || tot === 0.00)
-	        	$('#js-quote-discount-adjust-total').val(total);
+	        	$(ACC.quote.js_quote_discount_adjust_total).val(total);
 		}
 		
 		function holdPreviousValue(event)
@@ -464,61 +490,61 @@ ACC.quote = {
 
 		function updateByAmount()
 		{
-			var discountAmount = parseFloat($("#js-quote-discount-by-amount").val());
+			var discountAmount = parseFloat($(ACC.quote.js_quote_discount_by_amount).val());
 
 			// input validation
 			if(discountAmount > total || discountAmount < 0){
-				$("#js-quote-discount-by-amount").css('border-color', 'red');
-				$("#submitButton").prop("disabled", true);
+				$(ACC.quote.js_quote_discount_by_amount).css(ACC.quote.border_color, 'red');
+				$(ACC.quote.submitButton).prop("disabled", true);
 			}else{
 				enableSubmit();
 			}
 
 			var percent = (discountAmount / total) * 100;
 			var percent = percent.toFixed(2);
-			$("#js-quote-discount-by-percentage").val(resetIntial(percent));
+			$(ACC.quote.js_quote_discount_by_percentage).val(resetIntial(percent));
 			var remainTotal = total - discountAmount;
 			var remainTotal = remainTotal.toFixed(2);
-			$("#js-quote-discount-adjust-total").val(resetIntial(remainTotal));
-			$("#js-quote-discount-rate").val(resetIntial(discountAmount));
-			$("#js-quote-discount-type").val("ABSOLUTE");
+			$(ACC.quote.js_quote_discount_adjust_total).val(resetIntial(remainTotal));
+			$(ACC.quote.js_quote_discount_rate).val(resetIntial(discountAmount));
+			$(ACC.quote.js_quote_discount_type).val("ABSOLUTE");
 
 			updateNewTotal(remainTotal);
 		}
 		
-		$('#js-quote-discount-by-amount').keyup(updateByAmount);
-		$('#js-quote-discount-by-amount').change(updateByAmount);
-		$('#js-quote-discount-by-amount').keypress(holdPreviousValue);
-		$('#js-quote-discount-by-amount').blur(reset);
+		$(ACC.quote.js_quote_discount_by_amount).keyup(updateByAmount);
+		$(ACC.quote.js_quote_discount_by_amount).change(updateByAmount);
+		$(ACC.quote.js_quote_discount_by_amount).keypress(holdPreviousValue);
+		$(ACC.quote.js_quote_discount_by_amount).blur(reset);
 
 		function updateByAdjustTotal()
 		{
-			var adujstTotal = parseFloat($("#js-quote-discount-adjust-total").val());
+			var adujstTotal = parseFloat($(ACC.quote.js_quote_discount_adjust_total).val());
 
 			// input validation
 			if(adujstTotal > total || adujstTotal < 0){
-				$("#js-quote-discount-adjust-total").css('border-color', 'red');
-				$("#submitButton").prop("disabled", true);
+				$(ACC.quote.js_quote_discount_adjust_total).css(ACC.quote.border_color, 'red');
+				$(ACC.quote.submitButton).prop("disabled", true);
 			}else{
 				enableSubmit();
 			}
 
 			var discountAmount = total - adujstTotal;
 			var discountAmount = discountAmount.toFixed(2);
-			$("#js-quote-discount-by-amount").val(resetIntial(discountAmount));
+			$(ACC.quote.js_quote_discount_by_amount).val(resetIntial(discountAmount));
 			var percent = (discountAmount / total) * 100;
 			var percent = percent.toFixed(2);
-			$("#js-quote-discount-by-percentage").val(resetIntial(percent));
-			$("#js-quote-discount-rate").val(resetIntial(adujstTotal));
-			$("#js-quote-discount-type").val("TARGET");
+			$(ACC.quote.js_quote_discount_by_percentage).val(resetIntial(percent));
+			$(ACC.quote.js_quote_discount_rate).val(resetIntial(adujstTotal));
+			$(ACC.quote.js_quote_discount_type).val("TARGET");
 
 			updateNewTotal(adujstTotal);
 		}
 		
-		$('#js-quote-discount-adjust-total').keyup(updateByAdjustTotal);
-		$('#js-quote-discount-adjust-total').change(updateByAdjustTotal);
-		$('#js-quote-discount-adjust-total').keypress(holdPreviousValue);
-		$('#js-quote-discount-adjust-total').blur(reset);
+		$(ACC.quote.js_quote_discount_adjust_total).keyup(updateByAdjustTotal);
+		$(ACC.quote.js_quote_discount_adjust_total).change(updateByAdjustTotal);
+		$(ACC.quote.js_quote_discount_adjust_total).keypress(holdPreviousValue);
+		$(ACC.quote.js_quote_discount_adjust_total).blur(reset);
 		
 		function updateNewTotal(newTotal){
 			if(isNaN(parseFloat(newTotal))){
@@ -530,13 +556,13 @@ ACC.quote = {
 	},
 
 	bindName: function () {
-		$("#js-quote-name").on("focusout", function () {
+		$(ACC.CONSTANT_QUOTE.quote_name).on("focusout", function () {
 			ACC.quote.updateMetadata();
 		});
 	},
 
 	bindDescription: function () {
-		$("#js-quote-description").on("focusout", function () {
+		$(ACC.CONSTANT_QUOTE.quote_description).on("focusout", function () {
 			ACC.quote.updateMetadata();
 		});
 	},
@@ -544,8 +570,8 @@ ACC.quote = {
 	updateMetadata: function () {
 		var quoteForm = $("#quoteFormDiv");
 		var updateMetadataUrl = quoteForm.data("metadata-url");
-		var name = $("#js-quote-name").val().trim();
-		var description = $("#js-quote-description").val();
+		var name = $(ACC.CONSTANT_QUOTE.quote_name).val().trim();
+		var description = $(ACC.CONSTANT_QUOTE.quote_description).val();
 		var nameWrapperElement = $("#js-quote-name-wrapper")
 
 		if (name && name.length) {
@@ -571,14 +597,14 @@ ACC.quote = {
 	},
 
 	bindExpirationTime: function(e) {
-		var expirationTimeWrapperElement = $("#js-quote-expiration-time");
+		var expirationTimeWrapperElement = $(ACC.CONSTANT_QUOTE.quote_expiration_time);
 		var dateFormatForDatePicker = expirationTimeWrapperElement.data("date-format-for-date-picker");
 		var minOfferValidityPeriodDays = expirationTimeWrapperElement.data("min-offer-validity-period-days");
 
 		var minDate = new Date();
 		minDate.setDate(minDate.getDate() + minOfferValidityPeriodDays);
 
-		$("#expirationTime").datepicker({
+		$(ACC.quote.expirationTime).datepicker({
 			dateFormat: dateFormatForDatePicker,
 			constrainInput: true,
 			minDate: minDate,
@@ -588,18 +614,18 @@ ACC.quote = {
 			}
 		});
 
-		$("#expirationTime").change(function() {
+		$(ACC.quote.expirationTime).change(function() {
 			ACC.quote.handleExpirationTimeUpdate(expirationTimeWrapperElement, dateFormatForDatePicker,
 				minOfferValidityPeriodDays);
 		});
 
 		$(document).on("click", ".js-open-datepicker-quote-expiration-time", function() {
-			$("#expirationTime").datepicker('show');
+			$(ACC.quote.expirationTime).datepicker('show');
 		});
 	},
 
 	handleExpirationTimeUpdate: function(expirationTimeWrapperElement, dateFormat, minOfferValidityPeriodDays) {
-		var expirationTimeElement = $("#expirationTime");
+		var expirationTimeElement = $(ACC.quote.expirationTime);
 		var expirationTime = expirationTimeElement.val();
 
 		if (ACC.quote.validateExpirationTime(dateFormat, expirationTime, minOfferValidityPeriodDays)) {
@@ -635,13 +661,13 @@ ACC.quote = {
 	},
 
 	updateExpirationTime: function(expirationTime) {
-		var url = $("#js-quote-expiration-time").data("expiration-time-url");
+		var url = $(ACC.CONSTANT_QUOTE.quote_expiration_time).data("expiration-time-url");
 		$.ajax({
 			url: url,
 			type: 'POST',
 			data: {expirationTime: expirationTime},
 			error: function (jqXHR) {
-				var expirationTimeWrapperElement = $("#js-quote-expiration-time");
+				var expirationTimeWrapperElement = $(ACC.CONSTANT_QUOTE.quote_expiration_time);
 				if (!expirationTimeWrapperElement.hasClass("has-error")) {
 					expirationTimeWrapperElement.addClass("has-error");
 				}

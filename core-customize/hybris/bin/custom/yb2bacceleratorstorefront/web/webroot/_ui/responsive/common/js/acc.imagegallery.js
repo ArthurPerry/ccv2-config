@@ -48,7 +48,7 @@ ACC.imagegallery = {
 				itemsMobile : [480,3], 
 				lazyLoad:true,
 				afterAction : function(){
-
+                    // This is intentional
 				}
 			});
 
@@ -66,7 +66,7 @@ ACC.imagegallery = {
 					touchduration:300,
 
 					onZoomIn:function(){
-					
+					    // This is intentional
 					},
 
 					onZoomOut:function(){

@@ -51,8 +51,8 @@ public class SummaryCheckoutStepController extends AbstractCheckoutStepControlle
 	@Override
 	@PreValidateQuoteCheckoutStep
 	@PreValidateCheckoutStep(checkoutStep = SUMMARY)
-	public String enterStep(final Model model, final RedirectAttributes redirectAttributes) throws CMSItemNotFoundException, 
-			CommerceCartModificationException
+	public String enterStep(final Model model, final RedirectAttributes redirectAttributes)
+			throws CMSItemNotFoundException, CommerceCartModificationException
 	{
 		final CartData cartData = getCheckoutFacade().getCheckoutCart();
 		if (cartData.getEntries() != null && !cartData.getEntries().isEmpty())
@@ -95,8 +95,8 @@ public class SummaryCheckoutStepController extends AbstractCheckoutStepControlle
 	@PreValidateQuoteCheckoutStep
 	@RequireHardLogIn
 	public String placeOrder(@ModelAttribute("placeOrderForm") final PlaceOrderForm placeOrderForm, final Model model,
-			final HttpServletRequest request, final RedirectAttributes redirectModel) throws CMSItemNotFoundException, 
-			InvalidCartException, CommerceCartModificationException
+			final HttpServletRequest request, final RedirectAttributes redirectModel)
+			throws CMSItemNotFoundException, InvalidCartException, CommerceCartModificationException
 	{
 		if (validateOrderForm(placeOrderForm, model))
 		{
@@ -155,6 +155,13 @@ public class SummaryCheckoutStepController extends AbstractCheckoutStepControlle
 	{
 		final String securityCode = placeOrderForm.getSecurityCode();
 		boolean invalid = false;
+
+		if (!getCheckoutFlowFacade().hasValidCart())
+		{
+			GlobalMessages.addErrorMessage(model, "checkout.error.cart.invalid");
+			invalid = true;
+			return invalid;
+		}
 
 		if (getCheckoutFlowFacade().hasNoDeliveryAddress())
 		{

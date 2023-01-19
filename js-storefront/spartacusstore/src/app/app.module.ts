@@ -3,14 +3,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
-import { AppRoutingModule } from "@spartacus/storefront";
+import { ConfigModule } from "@spartacus/core";
+import { AppRoutingModule, LayoutConfig } from "@spartacus/storefront";
 import { AppComponent } from './app.component';
+import { ProductRecommendationsModule } from './cms-components/product-recommendations/product-recommendations.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
-import { environment } from '../environments/environment';
-import {ConfigModule} from "@spartacus/core";
-import { LayoutConfig } from '@spartacus/storefront';
-import { ProductRecommendationsModule } from './cms-components/product-recommendations/product-recommendations.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +36,7 @@ import { ProductRecommendationsModule } from './cms-components/product-recommend
       },
     }),
     ProductRecommendationsModule,
-    BrowserTransferStateModule 
+    BrowserTransferStateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

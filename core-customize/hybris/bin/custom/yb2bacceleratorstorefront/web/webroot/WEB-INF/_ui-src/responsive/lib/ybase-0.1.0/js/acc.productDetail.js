@@ -5,10 +5,13 @@ ACC.productDetail = {
         "bindVariantOptions"
     ],
 
+    js_qty_selector_input: '.js-qty-selector-input',
+    js_qty_selector_and_js_qty_selector_input: '.js-qty-selector .js-qty-selector-input',
+
 
     checkQtySelector: function (self, mode) {
     	var $qtySelector = $(document).find(self).parents(".js-qty-selector");
-        var input = $qtySelector.find(".js-qty-selector-input");
+        var input = $qtySelector.find(ACC.productDetail.js_qty_selector_input);
         var inputVal = parseInt(input.val());
         var max = input.data("max");
         var minusBtn = $qtySelector.find(".js-qty-selector-minus");
@@ -16,59 +19,81 @@ ACC.productDetail = {
 
         $qtySelector.find(".btn").removeAttr("disabled");
 
-        if (mode == "minus") {
-            if (inputVal != 1) {
-                ACC.productDetail.updateQtyValue(self, inputVal - 1)
-                if (inputVal - 1 == 1) {
-                    minusBtn.attr("disabled", "disabled")
-                }
+        var paramsObj = {
+            inputVal: inputVal,
+            max: max,
+            self: self,
+            minusBtn: minusBtn,
+            plusBtn: plusBtn
+        };
 
-            } else {
-                minusBtn.attr("disabled", "disabled")
-            }
-        } else if (mode == "reset") {
-            ACC.productDetail.updateQtyValue(self, 1)
-
-        } else if (mode == "plus") {
-        	if(max == "FORCE_IN_STOCK") {
-        		ACC.productDetail.updateQtyValue(self, inputVal + 1)
-        	} else if (inputVal <= max) {
-                ACC.productDetail.updateQtyValue(self, inputVal + 1)
-                if (inputVal + 1 == max) {
-                    plusBtn.attr("disabled", "disabled")
-                }
-            } else {
-                plusBtn.attr("disabled", "disabled")
-            }
-        } else if (mode == "input") {
-            if (inputVal == 1) {
-                minusBtn.attr("disabled", "disabled")
-            } else if(max == "FORCE_IN_STOCK" && inputVal > 0) {
-            	ACC.productDetail.updateQtyValue(self, inputVal)
-            } else if (inputVal == max) {
-                plusBtn.attr("disabled", "disabled")
-            } else if (inputVal < 1) {
-                ACC.productDetail.updateQtyValue(self, 1)
-                minusBtn.attr("disabled", "disabled")
-            } else if (inputVal > max) {
-                ACC.productDetail.updateQtyValue(self, max)
-                plusBtn.attr("disabled", "disabled")
-            }
-        } else if (mode == "focusout") {
-        	if (isNaN(inputVal)){
-                ACC.productDetail.updateQtyValue(self, 1);
-                minusBtn.attr("disabled", "disabled");
-        	} else if(inputVal >= max) {
-                plusBtn.attr("disabled", "disabled");
-            }
+        if (mode === "minus") {
+            ACC.productDetail.checkQtyMinus(paramsObj);
+        } else if (mode === "reset") {
+            ACC.productDetail.updateQtyValue(self, 1);
+        } else if (mode === "plus") {
+        	ACC.productDetail.checkQtyPlus(paramsObj);
+        } else if (mode === "input") {
+           ACC.productDetail.checkQtyInput(paramsObj);
+        } else if (mode === "focusout") {
+           ACC.productDetail.checkQtyFocusout(paramsObj);
         }
 
     },
 
+    checkQtyMinus: function(params) {
+        if (params.inputVal !== 1) {
+            ACC.productDetail.updateQtyValue(params.self, params.inputVal - 1)
+            if (params.inputVal - 1 === 1) {
+                params.minusBtn.attr("disabled", "disabled")
+            }
+        } else {
+            params.minusBtn.attr("disabled", "disabled")
+        }
+    },
+
+    checkQtyPlus: function(params) {
+        if(params.max === "FORCE_IN_STOCK") {
+            ACC.productDetail.updateQtyValue(params.self, params.inputVal + 1)
+        } else if (params.inputVal <= params.max) {
+           ACC.productDetail.updateQtyValue(params.self, params.inputVal + 1)
+           if (params.inputVal + 1 === params.max) {
+               params.plusBtn.attr("disabled", "disabled")
+           }
+        } else {
+           params.plusBtn.attr("disabled", "disabled")
+        }
+    },
+
+    checkQtyInput: function(params) {
+        if (params.inputVal === 1) {
+            params.minusBtn.attr("disabled", "disabled")
+        } else if(params.max === "FORCE_IN_STOCK" && params.inputVal > 0) {
+            ACC.productDetail.updateQtyValue(params.self, params.inputVal)
+        } else if (params.inputVal === params.max) {
+            params.plusBtn.attr("disabled", "disabled")
+        } else if (params.inputVal < 1) {
+            ACC.productDetail.updateQtyValue(params.self, 1)
+            params.minusBtn.attr("disabled", "disabled")
+        } else if (params.inputVal > params.max) {
+            ACC.productDetail.updateQtyValue(params.self, params.max)
+            params.plusBtn.attr("disabled", "disabled")
+        }
+    },
+
+    checkQtyFocusout: function(params) {
+        if (isNaN(params.inputVal)){
+            ACC.productDetail.updateQtyValue(params.self, 1);
+            params.minusBtn.attr("disabled", "disabled");
+        } else if(params.inputVal >= params.max) {
+            params.plusBtn.attr("disabled", "disabled");
+        }
+    },
+
     updateQtyValue: function (self, value) {
-        var input = $(document).find(self).parents(".js-qty-selector").find(".js-qty-selector-input");
-        var addtocartQty = $(document).find(self).parents(".addtocart-component").find("#addToCartForm").find(".js-qty-selector-input");
-        var configureQty = $(document).find(self).parents(".addtocart-component").find("#configureForm").find(".js-qty-selector-input");
+        var input = $(document).find(self).parents(".js-qty-selector").find(ACC.productDetail.js_qty_selector_input);
+        var addtocartQty = $(document).find(self).parents(".addtocart-component").find("#addToCartForm").find(ACC.productDetail.js_qty_selector_input);
+        var configureQty = $(document).find(self).parents(".addtocart-component").find("#configureForm").find(ACC.productDetail.js_qty_selector_input);
         input.val(value);
         addtocartQty.val(value);
         configureQty.val(value);
@@ -83,9 +108,11 @@ ACC.productDetail = {
             ACC.productDetail.checkQtySelector(this, "plus");
         })
 
-        $(document).on("keydown", '.js-qty-selector .js-qty-selector-input', function (e) {
-
-            if (($(this).val() != " " && ((e.which >= 48 && e.which <= 57 ) || (e.which >= 96 && e.which <= 105 ))  ) || e.which == 8 || e.which == 46 || e.which == 37 || e.which == 39 || e.which == 9) {
+        $(document).on("keydown", ACC.productDetail.js_qty_selector_and_js_qty_selector_input, function (e) {
+            var specialRangeSet = new Set([48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105]);
+            var specialValueSet = new Set([8, 46, 37, 39, 9]);
+            if (($(this).val() !== " " && specialRangeSet.has(e.which)) || specialValueSet.has(e.which)) {
+                // this is intentional
             }
             else if (e.which == 38) {
                 ACC.productDetail.checkQtySelector(this, "plus");
@@ -98,13 +125,13 @@ ACC.productDetail = {
             }
         })
 
-        $(document).on("keyup", '.js-qty-selector .js-qty-selector-input', function (e) {
+        $(document).on("keyup", ACC.productDetail.js_qty_selector_and_js_qty_selector_input, function (e) {
             ACC.productDetail.checkQtySelector(this, "input");
             ACC.productDetail.updateQtyValue(this, $(this).val());
 
         })
         
-        $(document).on("focusout", '.js-qty-selector .js-qty-selector-input', function (e) {
+        $(document).on("focusout", ACC.productDetail.js_qty_selector_and_js_qty_selector_input, function (e) {
             ACC.productDetail.checkQtySelector(this, "focusout");
             ACC.productDetail.updateQtyValue(this, $(this).val());
         })

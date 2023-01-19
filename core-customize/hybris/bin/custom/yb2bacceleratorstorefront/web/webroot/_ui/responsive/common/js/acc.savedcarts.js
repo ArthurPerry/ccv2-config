@@ -1,22 +1,32 @@
+ACC.CONSTANT_SAVE_CART = {
+    restore_saved_cart: '.js-restore-saved-cart',
+    delete_saved_cart: '.js-delete-saved-cart',
+    uploading_saved_carts_update: '.js-uploading-saved-carts-update'
+};
+
 ACC.savedcarts = {
 
+    savedcart_id: 'savedcart-id',
+    saveCart_saveCartButton: '#saveCart #saveCartButton',
+    localized_val: '#localized_val',
+
     _autoload: [
-        ["bindRestoreSavedCartClick", $(".js-restore-saved-cart").length != 0],
-        ["bindDeleteSavedCartLink", $('.js-delete-saved-cart').length != 0],
+        ["bindRestoreSavedCartClick", $(ACC.CONSTANT_SAVE_CART.restore_saved_cart).length !== 0],
+        ["bindDeleteSavedCartLink", $(ACC.CONSTANT_SAVE_CART.delete_saved_cart).length !== 0],
         ["bindDeleteConfirmLink", $('.js-savedcart_delete_confirm').length != 0],
         ["bindSaveCartForm", $(".js-save-cart-link").length != 0 || $(".js-update-saved-cart").length != 0],
-        ["bindUpdateUploadingSavedCarts", $(".js-uploading-saved-carts-update").length != 0]
+        ["bindUpdateUploadingSavedCarts", $(ACC.CONSTANT_SAVE_CART.uploading_saved_carts_update).length !== 0]
     ],
     
     $savedCartRestoreBtn: {},
     $currentCartName: {},
 
     bindRestoreSavedCartClick: function () {
-        $(".js-restore-saved-cart").click(function (event) {
+        $(ACC.CONSTANT_SAVE_CART.restore_saved_cart).click(function (event) {
                     
             event.preventDefault();
             var popupTitle = $(this).data('restore-popup-title');
-            var cartId = $(this).data('savedcart-id');
+            var cartId = $(this).data(ACC.savedcarts.savedcart_id);
             var url = ACC.config.encodedContextPath +'/my-account/saved-carts/'+encodeURIComponent(cartId)+'/restore';
             var popupTitleHtml = ACC.common.encodeHtml(popupTitle);
             
@@ -112,9 +122,9 @@ ACC.savedcarts = {
     },
 
     bindDeleteSavedCartLink: function () {
-        $(document).on("click", '.js-delete-saved-cart', function (event) {
+        $(document).on("click", ACC.CONSTANT_SAVE_CART.delete_saved_cart, function (event) {
             event.preventDefault();
-            var cartId = $(this).data('savedcart-id');
+            var cartId = $(this).data(ACC.savedcarts.savedcart_id);
             var popupTitle = $(this).data('delete-popup-title');
             var popupTitleHtml = ACC.common.encodeHtml(popupTitle);
 
@@ -133,7 +143,7 @@ ACC.savedcarts = {
     bindDeleteConfirmLink: function () {
         $(document).on("click", '.js-savedcart_delete_confirm', function (event) {
             event.preventDefault();
-            var cartId = $(this).data('savedcart-id');
+            var cartId = $(this).data(ACC.savedcarts.savedcart_id);
             var url = ACC.config.encodedContextPath + '/my-account/saved-carts/' + encodeURIComponent(cartId) + '/delete';
             ACC.common.checkAuthenticationStatusBeforeAction(function(){
             	$.ajax({
@@ -198,10 +208,10 @@ ACC.savedcarts = {
 		
 		$('#saveCartName').keyup(function() {		
 			// enable the save cart button
-	 		$('#saveCart #saveCartButton').prop('disabled', this.value.trim() == "" ? true : false);  	
+	 		$(ACC.savedcarts.saveCart_saveCartButton).prop('disabled', this.value.trim() === "" ? true : false);
 			// limit the text length 
             var maxchars = 255;
-			var value=$('#localized_val').attr('value');
+			var value=$(ACC.savedcarts.localized_val).attr('value');
 			var tlength = $(this).val().length;
 			remain = maxchars - parseInt(tlength);
         	$('#remain').text(value+' : '+remain);
@@ -209,13 +219,13 @@ ACC.savedcarts = {
 		
          $('#saveCartDescription').keyup(function() {
 			var maxchars = 255;
-			var value=$('#localized_val').attr('value');
+			var value=$(ACC.savedcarts.localized_val).attr('value');
 			var tlength = $(this).val().length;
 			remain = maxchars - parseInt(tlength);
         	$('#remainTextArea').text(value+' : '+remain);
 		});
 		
-		$(document).on("click",'#saveCart #saveCartButton', function (e) {
+		$(document).on("click",ACC.savedcarts.saveCart_saveCartButton, function (e) {
 			e.preventDefault();
 			saveCart = true;
 			$.colorbox.close();
@@ -223,20 +233,20 @@ ACC.savedcarts = {
 	},
 	
 	charactersLeftInit: function() {
-	    $('#remain').text($('#localized_val').attr('value')+' : 255');
-     	$('#remainTextArea').text($('#localized_val').attr('value')+' : 255');
+	    $('#remain').text($(ACC.savedcarts.localized_val).attr('value')+' : 255');
+     	$('#remainTextArea').text($(ACC.savedcarts.localized_val).attr('value')+' : 255');
 	},
 	
 	disableSaveCartButton: function(value) {
-		$('#saveCart #saveCartButton').prop('disabled', value);
+		$(ACC.savedcarts.saveCart_saveCartButton).prop('disabled', value);
 	},
 	
 
 	bindUpdateUploadingSavedCarts : function() {
-		var cartIdRowMapping = $(".js-uploading-saved-carts-update").data("idRowMapping");
-		var refresh = $(".js-uploading-saved-carts-update").data("refreshCart");
+		var cartIdRowMapping = $(ACC.CONSTANT_SAVE_CART.uploading_saved_carts_update).data("idRowMapping");
+		var refresh = $(ACC.CONSTANT_SAVE_CART.uploading_saved_carts_update).data("refreshCart");
 		if (cartIdRowMapping && refresh) {
-			var interval = $(".js-uploading-saved-carts-update").data("refreshInterval");
+			var interval = $(ACC.CONSTANT_SAVE_CART.uploading_saved_carts_update).data("refreshInterval");
 			var arrCartIdAndRow = cartIdRowMapping.split(',');
 			var mapCartRow = new Object();
 			var cartCodes = [];
@@ -288,7 +298,7 @@ ACC.savedcarts = {
 							if (numberOfItems > 0) {
 								$(document).find(rowSelector + " .js-restore-saved-cart").removeClass(hidden);
 							}
-							$(document).find(rowSelector + " .js-delete-saved-cart").removeClass(hidden);
+							$(document).find(rowSelector + ACC.CONSTANT_SAVE_CART.delete_saved_cart).removeClass(hidden);
 						}
 					}
 				};

@@ -72,7 +72,7 @@ public class CMSLinkComponentRendererTest {
         componentRenderer.renderComponent(pageContext, component);
         String actual = stringWriter.toString();
         String expected = "<a href=\"https://www.somesite.com/page/subpage\" " +
-                "class=\"fsa-logo\" style=\"font-weight: bold\" download=\"download\" " +
+                "class=\"fsa-logo\" style=\"font-weight:bold\" download=\"download\" " +
                 "rev=\"rev\" hreflang=\"hreflang\" type=\"type\" text=\"text\" " +
                 "accesskey=\"accesskey\" contenteditable=\"contenteditable\" contextmenu=\"contextmenu\" dir=\"dir\" " +
                 "draggable=\"draggable\" dropzone=\"dropzone\" hidden=\"hidden\" id=\"id\" lang=\"lang\" " +
@@ -94,7 +94,7 @@ public class CMSLinkComponentRendererTest {
         componentRenderer.renderComponent(pageContext, component);
         String actual = stringWriter.toString();
         String expected = "<a href=\"https://www.somesite.com/page/subpage\" " +
-                "class=\"fsa-logo\" style=\"font-weight: bold\">" +
+                "class=\"fsa-logo\" style=\"font-weight:bold\">" +
                 "alert(&#39;attacked&#39;) title&#61;&#34;Link Name&#34; &gt;Link Name</a>";
 
         Assert.assertEquals(expected, actual);
@@ -130,7 +130,7 @@ public class CMSLinkComponentRendererTest {
         componentRenderer.renderComponent(pageContext, component);
         String actual = stringWriter.toString();
         String expected = "<a href=\"https://www.somesite.com/page/subpage\" class=\"fsa-logo\" " +
-                "style=\"font-weight: bold\">" +
+                "style=\"font-weight:bold\">" +
                 "alert(&#39;attacked&#39;) title&#61;&#34;Link Name&lt;script&gt;alert(&#39;attacked&#39;)&lt;/script&gt;&#34; &gt;Link Name&lt;script&gt;alert(&#39;attacked&#39;)&lt;/script&gt;</a>";
 
         Assert.assertEquals(expected, actual);

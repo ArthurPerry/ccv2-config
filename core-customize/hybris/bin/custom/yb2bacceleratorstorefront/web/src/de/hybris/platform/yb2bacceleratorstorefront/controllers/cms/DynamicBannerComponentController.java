@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = ControllerConstants.Actions.Cms.DynamicBannerComponent)
 public class DynamicBannerComponentController extends AbstractAcceleratorCMSComponentController<DynamicBannerComponentModel>
 {
-	private static final String MEDIA_PATTERN_TOKEN = "\\{VARIABLE\\}";
+	private static final String MEDIA_PATTERN_TOKEN = "{VARIABLE}";
 
 	@Resource(name = "mediaService")
 	private MediaService mediaService;
@@ -62,7 +62,7 @@ public class DynamicBannerComponentController extends AbstractAcceleratorCMSComp
 		final String mediaCodePattern = component.getMediaCodePattern();
 		if (mediaCodePattern != null && !mediaCodePattern.isEmpty())
 		{
-			return mediaCodePattern.replaceAll(MEDIA_PATTERN_TOKEN, categoryModel.getCode());
+			return mediaCodePattern.replace(MEDIA_PATTERN_TOKEN, categoryModel.getCode());
 		}
 		return null;
 	}

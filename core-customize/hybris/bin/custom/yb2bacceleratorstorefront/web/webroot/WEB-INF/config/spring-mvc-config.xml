@@ -272,6 +272,7 @@
 	<alias name="defaultPreviewUrlResolverPageMappings" alias="previewUrlResolverPageMappings" />
 	<util:map id="defaultPreviewUrlResolverPageMappings">
 		<entry key="homepage" value="/"/>
+		<entry key="cart" value="/cart"/>
 		<entry key="cartPage" value="/cart"/>
 		<entry key="search" value="/search"/>
 		<entry key="searchEmpty" value="/search"/>
@@ -291,6 +292,8 @@
 		<entry key="checkout-login" value="/login/checkout"/>
 		<entry key="forgottenPassword" value="/login/pw/request"/>
 		<entry key="updatePassword" value="/my-account/update-password"/>
+		<entry key="update-email" value="/my-account/update-email"/>
+		<entry key="update-profile" value="/my-account/update-profile"/>
 
 		<!--Configuration WCMS Mobile Page to URL -->
 		<entry key="mobile-homepage" value="/"/>

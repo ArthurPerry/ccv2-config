@@ -66,7 +66,7 @@ public class ConsentFilter extends OncePerRequestFilter
 		}
 
 		final Supplier<List<AnonymousConsentData>> consentReader = () -> readConsentCookies(request);
-		final Consumer<List<AnonymousConsentData>> consentWriter = consents -> writeConsentCookies(response, consents);
+		final Consumer<List<AnonymousConsentData>> consentWriter = consents -> writeConsentCookies(request, response, consents);
 
 		getAnonymousConsentFacade().synchronizeAnonymousConsents(consentReader, consentWriter);
 	}
@@ -91,7 +91,8 @@ public class ConsentFilter extends OncePerRequestFilter
 		return Collections.emptyList();
 	}
 
-	protected void writeConsentCookies(final HttpServletResponse response, final List<AnonymousConsentData> consents)
+	protected void writeConsentCookies(final HttpServletRequest request, final HttpServletResponse response,
+			final List<AnonymousConsentData> consents)
 	{
 		try
 		{
@@ -99,7 +100,7 @@ public class ConsentFilter extends OncePerRequestFilter
 			final Cookie cookie = new Cookie(WebConstants.ANONYMOUS_CONSENT_COOKIE, URLEncoder.encode(cookieValue, UTF_8));
 
 			cookie.setMaxAge(NEVER_EXPIRES);
-			cookie.setPath("/");
+			cookie.setPath(request.getServletContext().getContextPath());
 			cookie.setHttpOnly(true);
 			cookie.setSecure(true);
 

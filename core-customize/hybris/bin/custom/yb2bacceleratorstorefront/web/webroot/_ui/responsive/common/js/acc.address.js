@@ -14,15 +14,17 @@ ACC.address = {
 
 	spinner: $("<img src='" + ACC.config.commonResourcePath + "/images/spinner.gif' />"),
 	addressID: '',
+	summaryDeliveryAddressFormContainer: '#summaryDeliveryAddressFormContainer',
+	summaryOverlayViewAddressBook: '#summaryOverlayViewAddressBook',
+	summaryDeliveryAddressBook: '#summaryDeliveryAddressBook',
+	dataAddress: 'data-address',
 
 	handleChangeAddressButtonClick: function ()
 	{
-
-
 		ACC.address.addressID = ($(this).data("address")) ? $(this).data("address") : '';
-		$('#summaryDeliveryAddressFormContainer').show();
-		$('#summaryOverlayViewAddressBook').show();
-		$('#summaryDeliveryAddressBook').hide();
+		$(ACC.address.summaryDeliveryAddressFormContainer).show();
+		$(ACC.address.summaryOverlayViewAddressBook).show();
+		$(ACC.address.summaryDeliveryAddressBook).hide();
 
 
 		$.getJSON(getDeliveryAddressesUrl, ACC.address.handleAddressDataLoad);
@@ -58,7 +60,7 @@ ACC.address = {
 	setupDeliveryAddressPopupForm: function (data)
 	{
 		// Fill the available delivery addresses
-		$('#summaryDeliveryAddressBook').html($('#deliveryAddressesTemplate').tmpl({addresses: data}));
+		$(ACC.address.summaryDeliveryAddressBook).html($('#deliveryAddressesTemplate').tmpl({addresses: data}));
 		// Handle selection of address
 		$('#summaryDeliveryAddressBook button.use_address').click(ACC.address.handleSelectExistingAddressClick);
 		// Handle edit address
@@ -76,7 +78,7 @@ ACC.address = {
             dataType: 'html',
 			success: function (data)
 			{
-				$('#summaryDeliveryAddressFormContainer').html(data);
+				$(ACC.address.summaryDeliveryAddressFormContainer).html(data);
 				ACC.address.bindCreateUpdateAddressForm();
 			}
 		};
@@ -86,7 +88,7 @@ ACC.address = {
 
 	handleSelectExistingAddressClick: function ()
 	{
-		var addressId = $(this).attr('data-address');
+		var addressId = $(this).attr(ACC.address.dataAddress);
 		$.postJSON(setDeliveryAddressUrl, {addressId: addressId}, ACC.address.handleSelectExitingAddressSuccess);
 		return false;
 	},
@@ -94,15 +96,15 @@ ACC.address = {
 	handleEditAddressClick: function ()
 	{
 
-		$('#summaryDeliveryAddressFormContainer').show();
-		$('#summaryOverlayViewAddressBook').show();
-		$('#summaryDeliveryAddressBook').hide();
+		$(ACC.address.summaryDeliveryAddressFormContainer).show();
+		$(ACC.address.summaryOverlayViewAddressBook).show();
+		$(ACC.address.summaryDeliveryAddressBook).hide();
 
-		var addressId = $(this).attr('data-address');
+		var addressId = $(this).attr(ACC.address.dataAddress);
 		var options = {
 			url: getDeliveryAddressFormUrl,
 			data: {addressId: addressId, createUpdateStatus: ''},
-			target: '#summaryDeliveryAddressFormContainer',
+			target: ACC.address.summaryDeliveryAddressFormContainer,
 			type: 'GET',
 			success: function (data)
 			{
@@ -121,7 +123,7 @@ ACC.address = {
 
 	handleDefaultAddressClick: function ()
 	{
-		var addressId = $(this).attr('data-address');
+		var addressId = $(this).attr(ACC.address.dataAddress);
 		var options = {
 			url: setDefaultAddressUrl,
 			data: {addressId: addressId},
@@ -165,7 +167,7 @@ ACC.address = {
 				},
 				success: function (data)
 				{
-					$('#summaryDeliveryAddressFormContainer').html(data);
+					$(ACC.address.summaryDeliveryAddressFormContainer).html(data);
 					var status = $('.create_update_address_id').attr('status');
 					if (status != null && "success" === status.toLowerCase())
 					{
@@ -292,11 +294,11 @@ ACC.address = {
 		})
 
 		
-		$(document).on("click", '#summaryOverlayViewAddressBook', function ()
+		$(document).on("click", ACC.address.summaryOverlayViewAddressBook, function ()
 		{
-			$('#summaryDeliveryAddressFormContainer').hide();
-			$('#summaryOverlayViewAddressBook').hide();
-			$('#summaryDeliveryAddressBook').show();
+			$(ACC.address.summaryDeliveryAddressFormContainer).hide();
+			$(ACC.address.summaryOverlayViewAddressBook).hide();
+			$(ACC.address.summaryDeliveryAddressBook).show();
 			ACC.colorbox.resize();
 		});
 	},

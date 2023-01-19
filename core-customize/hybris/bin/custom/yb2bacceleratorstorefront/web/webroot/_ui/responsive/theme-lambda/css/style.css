@@ -8764,6 +8764,11 @@ ul.nav__links::after {
   }
 }
 @media (min-width: 640px) {
+  .navigation--middle .nav__right ul.nav__links--shop_info .componentContainer {
+    display: flex;
+  }
+}
+@media (min-width: 640px) {
   .navigation--middle .nav__right ul.nav__links--shop_info .componentContainer .yCmsComponent {
     display: inline;
   }

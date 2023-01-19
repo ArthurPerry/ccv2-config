@@ -2,6 +2,9 @@ ACC.csvimport = {
     TEXT_CSV_CONTENT_TYPE: 'text/csv',
     TEXT_CSV_LONG_CONTENT_TYPE: 'text/comma-separated-values',
     APP_EXCEL_CONTENT_TYPE: 'application/vnd.ms-excel',
+    js_file_upload_input: '.js-file-upload__input',
+    js_file_upload_file_name: '.js-file-upload__file-name',
+    import_csv_alerts: '#import-csv-alerts',
 
     _autoload: [
         ["changeFileUploadAppearance", $(".js-file-upload").length != 0],
@@ -9,14 +12,14 @@ ACC.csvimport = {
     ],
 
     changeFileUploadAppearance: function() {
-    	$('.js-file-upload__input').on('change',function () {
+        $(ACC.csvimport.js_file_upload_input).on('change',function () {
             var files = (this.files);
             var spanFileNames = document.createElement("span");
             spanFileNames.insertAdjacentText("beforeend", files[0].name.toLowerCase());
             spanFileNames.insertAdjacentElement("beforeend", document.createElement("br"));
 			
-            $('.js-file-upload__file-name').unbind('mouseenter mouseleave');
-            $('.js-file-upload__file-name').html(spanFileNames);
+            $(ACC.csvimport.js_file_upload_file_name).unbind('mouseenter mouseleave');
+            $(ACC.csvimport.js_file_upload_file_name).html(spanFileNames);
 
             if($('.js-file-upload').parents('#cboxLoadedContent').length > 0){
                 ACC.colorbox.resize();
@@ -33,7 +36,7 @@ ACC.csvimport = {
             event.preventDefault();
             ACC.csvimport.clearGlobalAlerts();
 
-            if (!($('.js-file-upload__input').val().trim().length > 0)) {
+            if ($(ACC.csvimport.js_file_upload_input).val().trim().length <= 0) {
                 ACC.csvimport.displayGlobalAlert({type: 'error', messageId: 'import-csv-no-file-chosen-error-message'});
                 return;
             }
@@ -80,28 +83,24 @@ ACC.csvimport = {
     },
 
     isSelectedFileValid: function(selectedFile) {
-        if (window.File && window.Blob) {
-            if (selectedFile) {
-                if (!(selectedFile.type == ACC.csvimport.TEXT_CSV_CONTENT_TYPE ||
-                    selectedFile.type == ACC.csvimport.APP_EXCEL_CONTENT_TYPE||
-                    selectedFile.type == ACC.csvimport.TEXT_CSV_LONG_CONTENT_TYPE)) {
-                    ACC.csvimport.displayGlobalAlert({type: 'error', messageId: 'import-csv-file-csv-required'});
-                    return false;
-                }
+        if (window.File && window.Blob && selectedFile) {
+            var CONTENT_TYPE = new Set([ACC.csvimport.TEXT_CSV_CONTENT_TYPE, ACC.csvimport.APP_EXCEL_CONTENT_TYPE,
+                ACC.csvimport.TEXT_CSV_LONG_CONTENT_TYPE]);
+            if (!CONTENT_TYPE.has(selectedFile.type)) {
+                ACC.csvimport.displayGlobalAlert({type: 'error', messageId: 'import-csv-file-csv-required'});
+                return false;
+            }
 
-                var fileName = selectedFile.name;
-                if (!fileName || !(/\.csv$/i).test(fileName)) {
-                    ACC.csvimport.displayGlobalAlert({type: 'error', messageId: 'import-csv-file-csv-required'});
-                    return false;
-                }
+            var fileName = selectedFile.name;
+            if (!fileName || !(/\.csv$/i).test(fileName)) {
+                ACC.csvimport.displayGlobalAlert({type: 'error', messageId: 'import-csv-file-csv-required'});
+                return false;
             }
 
             var fileMaxSize = $('.js-file-upload__input').data('file-max-size');
-            if ($.isNumeric(fileMaxSize) && selectedFile) {
-                if (selectedFile.size > parseFloat(fileMaxSize)) {
-                    ACC.csvimport.displayGlobalAlert({type: 'error', messageId: 'import-csv-file-max-size-exceeded-error-message'});
-                    return false;
-                }
+            if ($.isNumeric(fileMaxSize) && selectedFile.size > parseFloat(fileMaxSize)) {
+                ACC.csvimport.displayGlobalAlert({type: 'error', messageId: 'import-csv-file-max-size-exceeded-error-message'});
+                return false;
             }
         }
 
@@ -124,12 +123,12 @@ ACC.csvimport = {
         }
 
         if (typeof options.message != 'undefined') {
-            $('#import-csv-alerts').append($(alertTemplateSelector).tmpl({message: options.message}));
+            $(ACC.csvimport.import_csv_alerts).append($(alertTemplateSelector).tmpl({message: options.message}));
         }
 
         if (typeof options.messageId != 'undefined')
         {
-            $('#import-csv-alerts').append($(alertTemplateSelector).tmpl({message: $(document).find('#' + options.messageId).text()}));
+            $(ACC.csvimport.import_csv_alerts).append($(alertTemplateSelector).tmpl({message: $(document).find('#' + options.messageId).text()}));
         }
 
         $(".closeAccAlert").on("click", function () {
@@ -138,12 +137,12 @@ ACC.csvimport = {
     },
 
     clearGlobalAlerts: function() {
-        $('#import-csv-alerts').empty();
+        $(ACC.csvimport.import_csv_alerts).empty();
     },
 
     clearChosenFile: function() {
         document.getElementById('csvFile').value = '';
-        $('.js-file-upload__file-name').text('');
+        $(ACC.csvimport.js_file_upload_file_name).text('');
     },
 
     enableDisableActionButtons: function(enable) {

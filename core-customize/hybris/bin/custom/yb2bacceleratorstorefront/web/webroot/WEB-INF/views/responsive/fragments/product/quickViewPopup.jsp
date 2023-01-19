@@ -51,7 +51,8 @@
 	</div>
 
 	<div class="addtocart-component">
-		<product:quickViewProductVariantSelector />	
+		<product:quickViewProductVariantSelector />
+		<product:addToCartTitle />
 
 		<c:url value="/cart/add" var="addToCartUrl"/>
 		<form:form method="post" class="add_to_cart_form" action="${addToCartUrl}">
@@ -115,4 +116,3 @@
 
 	</div>	
 </div>
-	

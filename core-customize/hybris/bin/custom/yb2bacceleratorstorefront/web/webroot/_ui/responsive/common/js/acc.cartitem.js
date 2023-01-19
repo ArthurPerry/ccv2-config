@@ -4,6 +4,8 @@ ACC.cartitem = {
 		"bindCartItem"
 	],
 
+	js_cartItemDetailBtn: ".js-cartItemDetailBtn",
+
 	submitTriggered: false,
 
 	bindCartItem: function ()
@@ -89,7 +91,7 @@ ACC.cartitem = {
 };
 
 $(document).ready(function() {
-    $('.js-cartItemDetailBtn').click(function(event) {
+    $(ACC.cartitem.js_cartItemDetailBtn).click(function(event) {
         event.stopPropagation();
         var thisDetailGroup =  $(this).parent('.js-cartItemDetailGroup');
         $(thisDetailGroup).toggleClass('open'); //only in its parent
@@ -97,10 +99,10 @@ $(document).ready(function() {
             //close all if not this parent
             $('.js-cartItemDetailGroup').not( thisDetailGroup ).removeClass('open');
             //change aria
-            $('.js-cartItemDetailBtn').attr('aria-expanded', 'true');
+            $(ACC.cartitem.js_cartItemDetailBtn).attr('aria-expanded', 'true');
 
         } else {
-            $('.js-cartItemDetailBtn').attr('aria-expanded', 'false');
+            $(ACC.cartitem.js_cartItemDetailBtn).attr('aria-expanded', 'false');
         }
         $(document).click( function(){
             $(thisDetailGroup).removeClass('open');

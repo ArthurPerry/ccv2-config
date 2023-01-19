@@ -145,9 +145,9 @@ ACC.cart = {
         });
 
         grid.on('focusout keypress', skuQuantityClass, function (event) {
-            var code = event.keyCode || event.which || event.charCode;
+            var code = ACC.cart.getEventCode(event);
 
-            if (code != 13 && code != undefined) {
+            if (ACC.cart.invalidCode(code)) {
                 return;
             }
 
@@ -192,12 +192,7 @@ ACC.cart = {
                     if (item.id === currentSkuId) {
                         newVariant = false;
 
-                        if(_this.value === '0' || _this.value === 0){
-                            ACC.productorderform.selectedVariants.splice(index, 1);
-                        } else {
-                            ACC.productorderform.selectedVariants[index].quantity = _this.value;
-                            ACC.productorderform.selectedVariants[index].total = ACC.productorderform.updateVariantTotal(priceSibling, _this.value, currentBaseTotal);
-                        }
+                        ACC.cart.checkVariantCount(index, _this.value, priceSibling, currentBaseTotal);
                     }
                 });
 
@@ -214,11 +209,8 @@ ACC.cart = {
             ACC.productorderform.showSelectedVariant($(this).parents('table'));
             if (this.value > 0 && this.value != quantityBefore) {
                 $(this).parents('table').addClass('selected');
-            } else {
-                if (ACC.productorderform.selectedVariants.length === 0) {
-                    $(this).parents('table').removeClass('selected').find('.variant-summary').remove();
-
-                }
+            } else if (ACC.productorderform.selectedVariants.length === 0) {
+                $(this).parents('table').removeClass('selected').find('.variant-summary').remove();
             }
 
             if (quantityBefore != quantityAfter) {
@@ -232,19 +224,40 @@ ACC.cart = {
                         mapCodeQuantity[variantCode] = quantityAfter;
                     },
                     error: function (xhr, textStatus, error) {
-                        var redirectUrl = xhr.getResponseHeader("redirectUrl");
-                        var connection = xhr.getResponseHeader("Connection");
-                        // check if error leads to a redirect
-                        if (redirectUrl !== null) {
-                            window.location = redirectUrl;
-                            // check if error is caused by a closed connection
-                        } else if (connection === "close") {
-                            window.location.reload();
-                        }
+                        ACC.cart.checkErrorAction(xhr);
                     }
                 });
             }
         });
+    },
+
+    getEventCode: function(event) {
+        return event.keyCode || event.which || event.charCode;
+    },
+
+    invalidCode: function(code) {
+        return code !== 13 && code !== undefined;
+    },
+
+    checkVariantCount: function (index, value, priceSibling, currentBaseTotal) {
+        if(value === 0 || value === '0') {
+          ACC.productorderform.selectedVariants.splice(index, 1);
+        } else {
+          ACC.productorderform.selectedVariants[index].quantity = value;
+          ACC.productorderform.selectedVariants[index].total = ACC.productorderform.updateVariantTotal(priceSibling, value, currentBaseTotal);
+        }
+    },
+
+    checkErrorAction: function(xhr) {
+        var redirectUrl = xhr.getResponseHeader("redirectUrl");
+        var connection = xhr.getResponseHeader("Connection");
+        // check if error leads to a redirect
+        if (redirectUrl !== null) {
+            window.location = redirectUrl;
+            // check if error is caused by a closed connection
+        } else if (connection === "close") {
+            window.location.reload();
+        }
     },
 
     refreshCartData: function (cartData, entryNum, quantity, itemIndex) {

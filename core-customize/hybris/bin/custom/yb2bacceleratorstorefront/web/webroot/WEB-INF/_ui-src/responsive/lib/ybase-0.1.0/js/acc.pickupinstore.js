@@ -7,12 +7,25 @@ ACC.pickupinstore = {
 		"bindPickupInStoreSearch"
 	],
 
+	colorbox_and_js_pickup_store_pager_prev: "#colorbox .js-pickup-store-pager-prev",
+    colorbox_and_js_pickup_store_pager_next: "#colorbox .js-pickup-store-pager-next",
+    js_add_pickup_cart_and_pdpPickupAddtoCartInput: ".js-add-pickup-cart #pdpPickupAddtoCartInput",
+    locationForSearch: '#locationForSearch',
+    atCartPage: '#atCartPage',
+    colorbox_and_js_pickup_component: "#colorbox .js-pickup-component",
+    colorbox: "#colorbox #",
+    pdpPickupAddtoCartInput: '#pdpPickupAddtoCartInput',
+    js_store_prefix: ".js-store-",
+    add_to_cart_storepickup_form_and_js_store_id: "#add_to_cart_storepickup_form .js-store-id",
+    hidden_xs_and_hidden_sm: 'hidden-xs hidden-sm',
+    longest_selector_id: "#colorbox .js-add-to-cart-for-pickup-popup, #colorbox .js-qty-selector-minus, #colorbox .js-qty-selector-input, #colorbox .js-qty-selector-plus",
+
 	storeId:"",
 
 	unbindPickupPaginationResults:function ()
 	{
-		$(document).off("click","#colorbox .js-pickup-store-pager-prev")
-		$(document).off("click","#colorbox .js-pickup-store-pager-next")
+		$(document).off("click",ACC.pickupinstore.colorbox_and_js_pickup_store_pager_prev);
+		$(document).off("click",ACC.pickupinstore.colorbox_and_js_pickup_store_pager_next);
 	},
 
 	bindPickupPaginationResults:function ()
@@ -34,14 +47,14 @@ ACC.pickupinstore = {
 
 		checkPosition()
 
-		$(document).on("click","#colorbox .js-pickup-store-pager-prev",function(e){
+		$(document).on("click",ACC.pickupinstore.colorbox_and_js_pickup_store_pager_prev,function(e){
 			e.preventDefault();
 			$listitems.css("transform","translateY("+(curPos+listHeight)+"px)")
 			curPos = curPos+listHeight;
 			checkPosition();
 		})
 
-		$(document).on("click","#colorbox .js-pickup-store-pager-next",function(e){
+		$(document).on("click",ACC.pickupinstore.colorbox_and_js_pickup_store_pager_next,function(e){
 			e.preventDefault();
 			$listitems.css("transform","translateY("+(curPos-listHeight)+"px)")
 			curPos = curPos-listHeight;
@@ -56,15 +69,15 @@ ACC.pickupinstore = {
 			var tocount = (curPage*displayCount > totalCount)? totalCount :curPage*displayCount;
 
 			if(curPage*displayCount-4 == 1){
-				$("#colorbox .js-pickup-store-pager-prev").hide()
+				$(ACC.pickupinstore.colorbox_and_js_pickup_store_pager_prev).hide();
 			}else{
-				$("#colorbox .js-pickup-store-pager-prev").show()
+				$(ACC.pickupinstore.colorbox_and_js_pickup_store_pager_prev).show();
 			}
 
 			if(curPage*displayCount >= totalCount){
-				$("#colorbox .js-pickup-store-pager-next").hide()
+				$(ACC.pickupinstore.colorbox_and_js_pickup_store_pager_next).hide();
 			}else{
-				$("#colorbox .js-pickup-store-pager-next").show()
+				$(ACC.pickupinstore.colorbox_and_js_pickup_store_pager_next).show();
 			}
 
 
@@ -78,7 +91,7 @@ ACC.pickupinstore = {
 		$('.pdpPickupQtyPlus').click(function(e){
 			e.preventDefault();
 
-			var inputQty = $('.js-add-pickup-cart #pdpPickupAddtoCartInput');
+			var inputQty = $(ACC.pickupinstore.js_add_pickup_cart_and_pdpPickupAddtoCartInput);
 			var currentVal = parseInt(inputQty.val());
 			var maxVal = inputQty.data('max');
 
@@ -90,7 +103,7 @@ ACC.pickupinstore = {
 
 		$('.pdpPickupQtyMinus').click(function(e){
 			e.preventDefault();
-			var inputQty = $('.js-add-pickup-cart #pdpPickupAddtoCartInput');
+			var inputQty = $(ACC.pickupinstore.js_add_pickup_cart_and_pdpPickupAddtoCartInput);
 			var currentVal = parseInt(inputQty.val());
 			var minVal = inputQty.data('min');
 
@@ -100,7 +113,7 @@ ACC.pickupinstore = {
 			}
 		});
 
-		$("body").on("keyup", ".js-add-pickup-cart #pdpPickupAddtoCartInput", function(event) {
+		$("body").on("keyup", ACC.pickupinstore.js_add_pickup_cart_and_pdpPickupAddtoCartInput, function(event) {
 			var input = $(event.target);
 			input.val(this.value.match(/[0-9]*/));
 			var value = input.val();
@@ -111,17 +124,16 @@ ACC.pickupinstore = {
 	{
 		$(document).on('click', '#pickupstore_location_search_button', function (e)
 		{
-			ACC.pickupinstore.locationSearchSubmit($('#locationForSearch').val(), $('#atCartPage').val(), $('#entryNumber').val(), $(this).parents('form').attr('action'));
+			ACC.pickupinstore.locationSearchSubmit($(ACC.pickupinstore.locationForSearch).val(), $(ACC.pickupinstore.atCartPage).val(), $('#entryNumber').val(), $(this).parents('form').attr('action'));
 			return false;
 		});
 
-		$(document).on('keypress', '#locationForSearch', function (e)
+		$(document).on('keypress', ACC.pickupinstore.locationForSearch, function (e)
 		{
 			if (e.keyCode === 13)
 			{
 				e.preventDefault();
-				ACC.pickupinstore.locationSearchSubmit($('#locationForSearch').val(), $('#atCartPage').val(), $('input.entryNumber').val(), $(this).parents('form').attr('action'));
-				return false;
+				ACC.pickupinstore.locationSearchSubmit($(ACC.pickupinstore.locationForSearch).val(), $(ACC.pickupinstore.atCartPage).val(), $('input.entryNumber').val(), $(this).parents('form').attr('action'));
 			}
 		});
 	},
@@ -140,7 +152,7 @@ ACC.pickupinstore = {
 
 	locationSearchSubmit: function (location, cartPage, entryNumber, actionUrl, latitude, longitude)
 	{
-		$("#colorbox .js-add-to-cart-for-pickup-popup, #colorbox .js-qty-selector-minus, #colorbox .js-qty-selector-input, #colorbox .js-qty-selector-plus").attr("disabled","disabled");
+		$(ACC.pickupinstore.longest_selector_id).attr("disabled","disabled");
 
 		$.post({
 			url: actionUrl,
@@ -194,7 +206,7 @@ ACC.pickupinstore = {
 		var $storeList = $('#colorbox .js-pickup-store-list');
 		$storeList.empty();
 		
-		$("#colorbox .js-pickup-component").data("data",data);
+		$(ACC.pickupinstore.colorbox_and_js_pickup_component).data("data",data);
 
 		for(i = 0;i < data["data"].length;i++){
 			$storeList.append(ACC.pickupinstore.createListItemHtml(data["data"][i],i));
@@ -208,7 +220,7 @@ ACC.pickupinstore = {
 		$(firstInput).click();
 
 
-		$("#colorbox .js-add-to-cart-for-pickup-popup, #colorbox .js-qty-selector-minus, #colorbox .js-qty-selector-input, #colorbox .js-qty-selector-plus").removeAttr("disabled");
+		$(ACC.pickupinstore.longest_selector_id).removeAttr("disabled");
 
 
 	},
@@ -240,7 +252,7 @@ ACC.pickupinstore = {
 				width:"960px",
 				onComplete: function(){
 
-					$("#colorbox .js-add-to-cart-for-pickup-popup, #colorbox .js-qty-selector-minus, #colorbox .js-qty-selector-input, #colorbox .js-qty-selector-plus").attr("disabled","disabled");
+					$(ACC.pickupinstore.longest_selector_id).attr("disabled","disabled");
 
 
 					boxContent.show();
@@ -270,38 +282,39 @@ ACC.pickupinstore = {
 					$("#colorbox #pickupModal").attr("id", productId);
 
 					// insert the product image
-					$("#colorbox #" + productId + " .thumb").html(ele.data("imgHtml"));
+					$(`${ACC.pickupinstore.colorbox}${productId} .thumb`).html(ele.data("imgHtml"));
 
 					// insert the product cart details
-					$("#colorbox #" + productId + " .js-pickup-product-price").html(ele.data("productcart"));
+					$(`${ACC.pickupinstore.colorbox}${productId} .js-pickup-product-price`).html(ele.data("productcart"));
 
 					var variants=ele.data("productcartVariants");
-					var variantsBox = $("#colorbox #" + productId + " .js-pickup-product-variants");
+					var variantsBox = $(`${ACC.pickupinstore.colorbox}${productId} .js-pickup-product-variants`);
 					$.each(variants,function(key,value){
 					    variantsBox.append($("<span>").text(value));
 					});
 
 					// insert the product name
-					$("#colorbox  #" + productId + " .js-pickup-product-info").html(ele.data("productnameHtml"))
+					$(`${ACC.pickupinstore.colorbox}${productId} .js-pickup-product-info`).html(ele.data("productnameHtml"));
 
 					// insert the form action
-					$("#colorbox #" + productId + " form.searchPOSForm").attr("action", ele.data("actionurl"));
+					$(`${ACC.pickupinstore.colorbox}${productId} form.searchPOSForm`).attr("action", ele.data("actionurl"));
 
 					// set a unique id for the form
-					$("#colorbox #" + productId + " form.searchPOSForm").attr("id", "pickup_in_store_search_form_product_" + productIdNUM);
+					$(`${ACC.pickupinstore.colorbox}${productId} form.searchPOSForm`).attr("id", "pickup_in_store_search_form_product_" + productIdNUM);
 
 					// set the quantity, if the quantity is undefined set the quantity to the data-value defined in the jsp
-					$("#colorbox #" + productId + " #pdpPickupAddtoCartInput").attr("value", ($('#pdpPickupAddtoCartInput').val() !== undefined ? $('#pdpPickupAddtoCartInput').val() : ele.data("value")));
+					$(`${ACC.pickupinstore.colorbox}${productId} #pdpPickupAddtoCartInput`)
+					    .attr("value", ($(ACC.pickupinstore.pdpPickupAddtoCartInput).val() !== undefined ? $(ACC.pickupinstore.pdpPickupAddtoCartInput).val() : ele.data("value")));
 					// set the entry Number
-					$("#colorbox #" + productId + " input#entryNumber").attr("value", ele.data("entrynumber"));
+					$(`${ACC.pickupinstore.colorbox}${productId} input#entryNumber`).attr("value", ele.data("entrynumber"));
 					// set the cartPage bolean
-					$("#colorbox #" + productId + " input#atCartPage").attr("value", ele.data("cartpage"));
+					$(`${ACC.pickupinstore.colorbox}${productId} input#atCartPage`).attr("value", ele.data("cartpage"));
 
 					
 					if(navigator.geolocation){
 						navigator.geolocation.getCurrentPosition(
 							function (position){
-								ACC.pickupinstore.locationSearchSubmit('', $('#atCartPage').val(),  ele.data("entrynumber"), ele.data("actionurl"),position.coords.latitude, position.coords.longitude);
+								ACC.pickupinstore.locationSearchSubmit('', $(ACC.pickupinstore.atCartPage).val(),  ele.data("entrynumber"), ele.data("actionurl"),position.coords.latitude, position.coords.longitude);
 							},
 							function (error){
 									console.log(`An error occurred... The error code and message are: ${error.code}/${error.message}`);
@@ -327,7 +340,7 @@ ACC.pickupinstore = {
 
 			$("#colorbox .js-pickup-tabs li.first a").click();
 
-			var storeData=$("#colorbox .js-pickup-component").data("data");
+			var storeData=$(ACC.pickupinstore.colorbox_and_js_pickup_component).data("data");
 			storeData=storeData["data"];
 
 			var storeId=$(this).data("id");
@@ -345,7 +358,7 @@ ACC.pickupinstore = {
 					$ele.find(".js-store-productcode").val(value);
 				}
 				else if(key=="openings"){
-					var $oele = $ele.find(".js-store-"+key);
+					var $oele = $ele.find(ACC.pickupinstore.js_store_prefix + key);
 					$oele.empty();
 					if(value!=""){
 						$.each(value,function(key2,value2){
@@ -355,14 +368,10 @@ ACC.pickupinstore = {
 					}
 
 				}
-				else if(key=="specialOpenings")
-				{}
-				else{
-					if(value!=""){
-						$ele.find(".js-store-"+key).text(value);
-					}else{
-						$ele.find(".js-store-"+key).empty();
-					}
+				else if(value!==""){
+					$ele.find(ACC.pickupinstore.js_store_prefix + key).text(value);
+				}else{
+					$ele.find(ACC.pickupinstore.js_store_prefix + key).empty();
 				}
 
 			})
@@ -378,9 +387,9 @@ ACC.pickupinstore = {
 			var e=$("#colorbox .pickup-store-list-entry input:checked");
 
 
-			$("#add_to_cart_storepickup_form .js-store-id").attr("id",e.attr("id"))
-			$("#add_to_cart_storepickup_form .js-store-id").attr("name",e.attr("name"))
-			$("#add_to_cart_storepickup_form .js-store-id").val(e.val())
+			$(ACC.pickupinstore.add_to_cart_storepickup_form_and_js_store_id).attr("id",e.attr("id"));
+			$(ACC.pickupinstore.add_to_cart_storepickup_form_and_js_store_id).attr("name",e.attr("name"));
+			$(ACC.pickupinstore.add_to_cart_storepickup_form_and_js_store_id).val(e.val());
 
 			if(storeData[storeId]["stockLevel"] > 0 || storeData[storeId]["stockLevel"] == "")
 			{
@@ -397,15 +406,15 @@ ACC.pickupinstore = {
 		})
 
 		$(document).on("click",".js-select-store-label",function(e){
-			$("#colorbox .js-pickup-component").addClass("show-store");
-			$("#colorbox #cboxTitle .headline-inner").addClass('hidden-xs hidden-sm');
-			$("#colorbox #cboxTitle .back-to-storelist").removeClass('hidden-xs hidden-sm');
+			$(ACC.pickupinstore.colorbox_and_js_pickup_component).addClass("show-store");
+			$("#colorbox #cboxTitle .headline-inner").addClass(ACC.pickupinstore.hidden_xs_and_hidden_sm);
+			$("#colorbox #cboxTitle .back-to-storelist").removeClass(ACC.pickupinstore.hidden_xs_and_hidden_sm);
 		})
 
 		$(document).on("click",".js-back-to-storelist",function(e){
-			$("#colorbox .js-pickup-component").removeClass("show-store");
-			$("#colorbox #cboxTitle .headline-inner").removeClass('hidden-xs hidden-sm');
-			$("#colorbox #cboxTitle .back-to-storelist").addClass('hidden-xs hidden-sm');
+			$(ACC.pickupinstore.colorbox_and_js_pickup_component).removeClass("show-store");
+			$("#colorbox #cboxTitle .headline-inner").removeClass(ACC.pickupinstore.hidden_xs_and_hidden_sm);
+			$("#colorbox #cboxTitle .back-to-storelist").addClass(ACC.pickupinstore.hidden_xs_and_hidden_sm);
 		})
 
 	},

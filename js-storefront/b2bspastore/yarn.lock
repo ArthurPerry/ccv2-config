@@ -1542,73 +1542,73 @@
   resolved "https://registry.npmjs.org/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz"
   integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
 
-"@spartacus/asm@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/asm/-/asm-5.0.0.tgz"
-  integrity sha512-ouHZA9PJZt3g5WwAKCeUQKR3CttCX+w0UHSkM+Fkee69YDbAX17NaPhghVoVgBBxTpQnRk0p2rSVTuBeqjff4A==
+"@spartacus/asm@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/asm/-/asm-5.1.0.tgz#43f4405f48d4a1cc4a31074a30c849b89f516cbd"
+  integrity sha512-z7vJD99atU2B9ZDvDQZPooCng9qkK5atzDKCyHLnDkS+AzRxe38VK/z1os4GSPvUvestfAOAEA8CIGjMat6Odw==
   dependencies:
     tslib "^2.4.0"
 
-"@spartacus/assets@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/assets/-/assets-5.0.0.tgz"
-  integrity sha512-Y4WqvGsWKc4ZGf92LZ892hJWQkit5R4mpkGJdSvxqjNlP720Bz2lioNJ88W78IvqEGpM0TLNsvxVd0N5s5ro7A==
+"@spartacus/assets@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/assets/-/assets-5.1.0.tgz#e205e4c9f76d73bc67af79060c5c16077c5f9ba9"
+  integrity sha512-/B/JYB0mxZ0Zt0e0YclOrLxmlywZTOAKrrJ3WwrXFqscm6/i+SX7bSuazWFtUexs7BwjfhafUgJOJ03e1Sl+QQ==
   dependencies:
     tslib "^2.4.0"
 
-"@spartacus/cart@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/cart/-/cart-5.0.0.tgz"
-  integrity sha512-TA6PVk/F7CiKW1KkQ/+MEqbwoAFbpzTdfw4GMyKEOx//20QdtgKm2brQvxUo0CFqMERFcw3CVPGLcYUi7uDHKQ==
+"@spartacus/cart@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/cart/-/cart-5.1.0.tgz#17446940a0fd76094b271d45cc83a9f2428d2dec"
+  integrity sha512-LCUyrEvnQUFoAszgkoqyrya5EKEaxEql5+b0GC1akQZWS/Az70nXQsTtrSBAOJ5cNgnmJH7100mjrGYl8+Bovg==
   dependencies:
     tslib "^2.4.0"
 
-"@spartacus/checkout@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/checkout/-/checkout-5.0.0.tgz"
-  integrity sha512-heJ/HoE++CDqKsO1xIDVBi4ght/bh0Jk3y6AAU9qYrlUq50p+mBBXyRih9meffAMc9OYIZTXcceSiHKAVv6WIA==
+"@spartacus/checkout@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/checkout/-/checkout-5.1.0.tgz#1e37351f8a81a0c1d611e51c4bd0b66322082c41"
+  integrity sha512-5KHkVtB+fhIZvYbvJQYpsYoiTo52LGOOc6jV8cky0yJEkYUbwOYPyhiHuxgdK7SUpC0O7NJdHweDAAihceFR0A==
   dependencies:
     tslib "^2.4.0"
 
-"@spartacus/core@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/core/-/core-5.0.0.tgz"
-  integrity sha512-jM7w7jfF5r+J0IG24++q/20edJqwErALLdUpV86F8erjoMmadFCGw2u5CPCjKJgAFLt/zah28L88N7fV6BrlYA==
+"@spartacus/core@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/core/-/core-5.1.0.tgz#1b7163f9fe8160764b99a21811904bdd07881177"
+  integrity sha512-aKqHG/+yoW+wlEKQOdQw1sbMT+KPMwdNo51uX2b34bIzFunnhSVxYIToDLv562BtMq+mPCPzJqV5r10E8LcIVA==
   dependencies:
     tslib "^2.4.0"
 
-"@spartacus/order@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/order/-/order-5.0.0.tgz"
-  integrity sha512-FyNb2/A5uqSE8ffxFnWS0XSsB4YkjCXuaXcewUYuChnVwqLM/dMDJwZvf8b3bUG9V0x7nfKe0q7cJc6WHvjdLg==
+"@spartacus/order@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/order/-/order-5.1.0.tgz#030267e7d13d748b6c8ffac61bc5be5f52281d46"
+  integrity sha512-C+1pplbpEfADGL59RaueK6HleK3PJqo1YNHOiRO81MduaSDGxI6DDcDCsngZ4gY6z8YZtj3NrAvwwqI6sjhaEw==
   dependencies:
     tslib "^2.4.0"
 
-"@spartacus/organization@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/organization/-/organization-5.0.0.tgz"
-  integrity sha512-pbxom+oor24sRMfUa6U1ryzkgGmDBTqhAvC0138xD4j+SgYgUYkcw3ntQj4KIuB1YSugh8in0zjBqUvOECgP9Q==
+"@spartacus/organization@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/organization/-/organization-5.1.0.tgz#7ce3b65ad211c6344b9a92a2916eac8c3187e3b6"
+  integrity sha512-VjuyptRZPpdlhOxd/f2gttO5F3X3efmDc0shIcjCJcWwTWprx6BmHrc0NZama6LhCgiozyQ8267KIB8tOfm7sQ==
   dependencies:
     tslib "^2.4.0"
 
-"@spartacus/product-configurator@^5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/product-configurator/-/product-configurator-5.0.0.tgz"
-  integrity sha512-kqaz4ZojGFHQgNrIA5LevF75IITMbYeA83FaQTSv7EyvXR9gM/aurHmzgCJCkQ3PVXJOc5ZXwaA6dB2kb6fVFw==
+"@spartacus/product-configurator@^5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/product-configurator/-/product-configurator-5.1.0.tgz#6dc14975ddda03041877ef1521c78eade2e1a3a6"
+  integrity sha512-RSEEC6Q5AcV9ZvLBDnLhYk1TQkD2qGFnjSX4y9ZTqWNPR77x9P8lRQi3zW2qdE5FhgDFOhBLxWcoT+DUP9MZXw==
   dependencies:
     tslib "^2.4.0"
 
-"@spartacus/product@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/product/-/product-5.0.0.tgz"
-  integrity sha512-abAreretQNF44rVE0t3iqnFtp8c0nJfVDLxIwJE7/g7JPLzo7+wtRKkqABv9sWZklr1X6oN9H0NvjwzBcy5GKw==
+"@spartacus/product@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/product/-/product-5.1.0.tgz#f77bc3b226006094a637693539ed651e102f31ca"
+  integrity sha512-0ikL56uwK+cBw1HOAcHXiqsWwl17YDtMaAozjF9vjogwAfJjObCCiBVOIwFTTDmqg4AFEfQJ8SC+emQ8BCnrtA==
   dependencies:
     tslib "^2.4.0"
 
-"@spartacus/schematics@^5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/schematics/-/schematics-5.0.0.tgz"
-  integrity sha512-BllJ/UX2YvLW6jHXU5B+ukY23252WFPGcDtJQ9RSVPQhVyQ65IMgaR8Xh7838CCIfSic6RM2cdY3wRmYhvnweQ==
+"@spartacus/schematics@^5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/schematics/-/schematics-5.1.0.tgz"
+  integrity sha512-Ym1+a3VgybhyK4E1KN30vY01xgtoO028JqN5Z6l4rkQV2jhJ4HdnXvLRHdHfI3XAxvI3MsPhQEWZaBGb39UMvA==
   dependencies:
     "@angular/pwa" "^14.2.3"
     "@nguniversal/express-engine" "^14.0.0"
@@ -1616,55 +1616,56 @@
     ts-morph "^9.1.0"
     tslib "^2.4.0"
 
-"@spartacus/setup@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/setup/-/setup-5.0.0.tgz"
-  integrity sha512-nWaizPIxanCf0Gjt/Lz60xizQJWxvyg1kWCIYpR99Y4/cZvoNBwSpXdSa8kDrpdGHkZbpeI/x/fp9TfxolIcSQ==
+"@spartacus/setup@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/setup/-/setup-5.1.0.tgz#480f13cf9f936f25eb5b4465c0935b98abd3de38"
+  integrity sha512-OdagWbLx1gwBaSFXczWbFeQCu+M4aUK5O8bACwGjbXr2xeI2Z32vljEhdNisViEIush8cgzP7GZc+hmRcdmYrg==
   dependencies:
     tslib "^2.4.0"
   optionalDependencies:
+    "@angular/platform-server" "^14.2.3"
     "@nguniversal/express-engine" "^14.0.0"
     express "^4.15.2"
 
-"@spartacus/smartedit@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/smartedit/-/smartedit-5.0.0.tgz"
-  integrity sha512-rlxjz0KcZyawodAUea1mT9yuiGm/Iq+kvQJGSuLr/4HI1oJAZAeFpT1EYeYg/ANAnuRMDIX+kyPlIgGJ5pX+Bw==
+"@spartacus/smartedit@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/smartedit/-/smartedit-5.1.0.tgz#cf5cf0e6f64d642f18d4f05e33796dbaf13e7794"
+  integrity sha512-bEryJh99WkSOy1yOq7DJNIK4C5T3tIFNiRg80b2fNGKmWD81bk6mftW2ImhjamyLMpSl2E94uIPPuyiVhpnrBQ==
   dependencies:
     tslib "^2.4.0"
 
-"@spartacus/storefinder@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/storefinder/-/storefinder-5.0.0.tgz"
-  integrity sha512-u58eVbZgaqcu36cOqNNeERqRZbf5J+V6oXyEAHurtM+WrlJ2DUhq8eq8gncV6IlvPqbgX3fCc2WIqE4rvtZg1w==
+"@spartacus/storefinder@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/storefinder/-/storefinder-5.1.0.tgz#faac1e11e643d7d82cd3a268e664deb56f7a6cff"
+  integrity sha512-NnWC7x3Eja17BuV6RQKfZ2c8XzFcjU4gSED07luQl84unITIH7o2i6dn2yjDwdbaMhpexy+O8duVyo35z4VZlw==
   dependencies:
     tslib "^2.4.0"
 
-"@spartacus/storefront@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/storefront/-/storefront-5.0.0.tgz"
-  integrity sha512-HtYmIplxbwjnZsDdpaACyIeKc2BgP4RrjYwWB7s/1Gj+Xsm5AOk0EytY4sQG9G3wTsxjREynIPs5fGZ8QOmWvA==
+"@spartacus/storefront@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/storefront/-/storefront-5.1.0.tgz#dc0231a135c7e8b0c87fe922a9e40c26f8458632"
+  integrity sha512-71riA1Uhmq+kcCLd96urP11A0XBfM+4koIVnL9uKRnYIPCWSO4D+1hZtah/FfbvAjemxTMKSAq6ke5vO4EdpqQ==
   dependencies:
     tslib "^2.4.0"
 
-"@spartacus/styles@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/styles/-/styles-5.0.0.tgz"
-  integrity sha512-q48pC5J990Cf3VsfSBY8w2hdj53Wnpfwt+SWNG2OCgBm4IwYCjIlIcrfA/n9rv+WxHeRElMLSlxBJnp6q4aDQw==
+"@spartacus/styles@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/styles/-/styles-5.1.0.tgz#0974aa5ed03f488c9cdfaf75c29533be813e65a0"
+  integrity sha512-OuRdB8h1I2ra5YLsY4+IIF3ZuEDJlGzQuBNsd3f/BUqiFPM49l4EYRqKlq37fTf+9SFBPswoPxMhk0uPpeLMug==
   dependencies:
     hamburgers "^1.1.3"
 
-"@spartacus/tracking@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/tracking/-/tracking-5.0.0.tgz"
-  integrity sha512-jCi46ZCJg7ZNQLgoXU/5m987AMuigBoNYDtyAa1DC26TP25M76HIlse+MSIPaIdZRjd9RUekbrsv1JH74Nk9ug==
+"@spartacus/tracking@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/tracking/-/tracking-5.1.0.tgz#0e945072b79f81a66fb3da53cd689ee838c3f087"
+  integrity sha512-0+htKdOrC7bV8xksL7/XUcxBtVf+fPThTDazlyPnCNUZZ4EXnxrDCbcO8N4Mslp5+pR2isHICOd5EF421IPYCg==
   dependencies:
     tslib "^2.4.0"
 
-"@spartacus/user@~5.0.0":
-  version "5.0.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/user/-/user-5.0.0.tgz"
-  integrity sha512-PYrOndW+DYpHrBzEEho+4GRCm+ecBLD6Bp/vA4+l6k7v02fnqY8u+YRtFnJl5ikYxToI6sMqAU4+WlLOyb1cJw==
+"@spartacus/user@~5.1.0":
+  version "5.1.0"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/user/-/user-5.1.0.tgz#71d1630d529ea56834b362b978503eb4fd60697e"
+  integrity sha512-GkTbiF0SO5ouQfebP49OIJGF7gO/TTk+CSYYpM+Pqn77gtcO/WpeUAe9KAdPbgN6HenYkht/x0g9P9S07e93BA==
   dependencies:
     tslib "^2.4.0"
 

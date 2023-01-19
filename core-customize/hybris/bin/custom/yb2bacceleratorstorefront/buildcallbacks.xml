@@ -64,7 +64,7 @@
     	
     <property location="${ext.yb2bacceleratorstorefront.path}/web/webroot/WEB-INF/lib/lessc-rhino-1.7.3.js" name="tool.lessc"/>
     	
-    <property location="${ext.yb2bacceleratorstorefront.path}/web/webroot/WEB-INF/lib/rhino-1.7.7.jar" name="tool.rhino"/>
+    <property location="${ext.yb2bacceleratorstorefront.path}/web/webroot/WEB-INF/lib/rhino-1.7.14.jar" name="tool.rhino"/>
     	
     <property location="${ext.yb2bacceleratorstorefront.path}" name="ext.yb2bacceleratorstorefront.mapperToPath"/>
     	
@@ -385,6 +385,8 @@
                 <arg path="${tool.less}"/>
                 				
                 <arg path="${tool.lessc}"/>
+                				
+                <arg value="--no-js"/>
                 				
                 <srcfile/>
                 				

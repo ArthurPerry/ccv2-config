@@ -4,6 +4,8 @@ ACC.forgottenpassword = {
 		"bindLink"
 	],
 
+	validEmail: '#validEmail',
+
 	bindLink: function(){
 		$(document).on("click",".js-password-forgotten",function(e){
 			e.preventDefault();
@@ -18,16 +20,16 @@ ACC.forgottenpassword = {
 					top: 150,
 					onOpen: function()
 					{
-						$('#validEmail').remove();
+						$(ACC.forgottenpassword.validEmail).remove();
 					},
 					onComplete: function(){
 						$('form#forgottenPwdForm').ajaxForm({
 							success: function(data)
 							{
-								if ($(data).closest('#validEmail').length)
+								if ($(data).closest(ACC.forgottenpassword.validEmail).length)
 								{
 									
-									if ($('#validEmail').length === 0)
+									if ($(ACC.forgottenpassword.validEmail).length === 0)
 									{
 										$(".forgotten-password").replaceWith(data);
 										ACC.colorbox.resize();

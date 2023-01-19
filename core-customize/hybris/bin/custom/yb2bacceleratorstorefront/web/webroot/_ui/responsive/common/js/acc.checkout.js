@@ -3,8 +3,11 @@ ACC.checkout = {
 	_autoload: [
 		"bindCheckO",
 		"bindForms",
-		"bindSavedPayments"
+		"bindSavedPayments",
+		"bindPlaceOrder"
 	],
+
+	selectPciOption: "#selectPciOption",
 
 
 	bindForms:function(){
@@ -36,6 +39,7 @@ ACC.checkout = {
 				title: title,
 				close:'<span class="glyphicon glyphicon-remove"></span>',
 				onComplete: function(){
+				// This is intentional
 				}
 			});
 		})
@@ -50,11 +54,11 @@ ACC.checkout = {
 		{
 			if ('multistep-pci' == $('#selectAltCheckoutFlow').val())
 			{
-				$('#selectPciOption').show();
+				$(ACC.checkout.selectPciOption).show();
 			}
 			else
 			{
-				$('#selectPciOption').hide();
+				$(ACC.checkout.selectPciOption).hide();
 
 			}
 		});
@@ -119,7 +123,7 @@ ACC.checkout = {
 						{
 						flow = 'multistep';
 						}
-						var pci = $('#selectPciOption').val();
+						var pci = $(ACC.checkout.selectPciOption).val();
 
 						// Build up the redirect URL
 						var redirectUrl = checkoutUrl + '/select-flow?flow=' + flow + '&pci=' + pci;
@@ -129,6 +133,39 @@ ACC.checkout = {
 			}
 			return false;
 		});
+
+	},
+
+    bindPlaceOrder: function ()
+	{
+	    ACC.checkout.toggleActionButtons('.place-order-form');
+
+	},
+
+	toggleActionButtons: function(selector) {
+
+		var cssClass = $(document).find(selector);
+		var checkoutBtns = cssClass.find('.btn-checkout-summary');
+		var checkBox = cssClass.find('input[name=termsCheck]');
+
+		if(checkBox.is(':checked')) {
+			checkoutBtns.prop('disabled', false);
+		}
+
+		checkBox.on('click', function() {
+			var checked = $(this).prop('checked');
+
+			if(checked) {
+				checkoutBtns.prop('disabled', false);
+			} else {
+				checkoutBtns.prop('disabled', true);
+			}
+		});
+
+        checkoutBtns.on('click', function(){
+          checkoutBtns.prop('disabled', true);
+          $('#placeOrderForm1').submit();
+        });
 
 	}
 

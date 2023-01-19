@@ -5,7 +5,7 @@
 <%-- Debug footer. Not for production. Outputs in an HTML comment --%>
 
 <c:if test="${showStorefrontDebugInfo}">
-<!-- TODO: Remove From Production
+<%-- TODO: Remove From Production
 
 DEBUG INFO
 
@@ -40,5 +40,5 @@ detectedDeviceId=${fn:escapeXml(detectedDevice.id)}
 detectedDeviceUserAgent=${fn:escapeXml(detectedDevice.userAgent)}
 detectedDeviceCapabilities=${fn:escapeXml(detectedDevice.capabilities)}
 
--->
+--%>
 </c:if>

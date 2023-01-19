@@ -10,6 +10,7 @@ import de.hybris.platform.commercefacades.consent.data.AnonymousConsentData;
 import de.hybris.platform.commercefacades.user.UserFacade;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,6 +69,9 @@ public class ConsentFilterTest
 	@Mock
 	private FilterChain filterChain;
 
+	@Mock
+	private ServletContext servletContext;
+
 	@Captor
 	private ArgumentCaptor<Cookie> cookieCaptor;
 
@@ -108,6 +112,8 @@ public class ConsentFilterTest
 	{
 		// given
 		when(request.getCookies()).thenReturn(null);
+		when(request.getServletContext()).thenReturn(servletContext);
+		when(servletContext.getContextPath()).thenReturn("/yb2bacceleratorstorefront");
 
 		// when
 		consentFilter.doFilterInternal(request, response, filterChain);
@@ -124,6 +130,8 @@ public class ConsentFilterTest
 			in.get();
 			out.accept(anonymousConsents);
 		})).when(anonymousConsentFacade).synchronizeAnonymousConsents(any(), any());
+		when(request.getServletContext()).thenReturn(servletContext);
+		when(servletContext.getContextPath()).thenReturn("/yb2bacceleratorstorefront");
 
 		// when
 		consentFilter.doFilterInternal(request, response, filterChain);

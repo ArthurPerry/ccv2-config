@@ -70,7 +70,7 @@ public class AnonymousConsentController extends AbstractPageController
 			final String cookieValue = mapper.writeValueAsString(updatedList);
 			final Cookie updatedAnonymousConsentCookie = new Cookie(WebConstants.ANONYMOUS_CONSENT_COOKIE,
 					URLEncoder.encode(cookieValue, StandardCharsets.UTF_8));
-			updatedAnonymousConsentCookie.setPath("/");
+			updatedAnonymousConsentCookie.setPath(request.getServletContext().getContextPath());
 			updatedAnonymousConsentCookie.setSecure(true);
 			updatedAnonymousConsentCookie.setHttpOnly(true);
 			updatedAnonymousConsentCookie.setMaxAge((int) TimeUnit.DAYS.toSeconds(365));
