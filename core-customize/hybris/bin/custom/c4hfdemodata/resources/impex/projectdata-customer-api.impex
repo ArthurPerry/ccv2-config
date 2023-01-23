@@ -1,17 +1,17 @@
 INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code) 
 ; Customer; INBOUND 
  
-INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false] 
-; Customer  ; Gender            ; Gender            ;   ;  
-; Customer  ; Address           ; Address           ;   ;  
-; Customer  ; Title             ; Title             ;   ;  
-; Customer  ; UserGroup         ; UserGroup         ;   ;  
-; Customer  ; Language          ; Language          ;   ;  
-; Customer  ; Country           ; Country           ;   ;  
-; Customer  ; Customer          ; Customer          ;   ;  
-; Customer  ; Region            ; Region            ;   ;  
-; Customer  ; UserPriceGroup    ; UserPriceGroup    ;   ;  
-; Customer  ; UserDiscountGroup ; UserDiscountGroup ;   ;  
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+; Customer  ; Gender            ; Gender            ;      ; ALL_SUBTYPES	            ;
+; Customer  ; Address           ; Address           ;      ; ALL_SUB_AND_SUPER_TYPES	;
+; Customer  ; Title             ; Title             ;      ; ALL_SUB_AND_SUPER_TYPES	;
+; Customer  ; UserGroup         ; UserGroup         ;      ; ALL_SUB_AND_SUPER_TYPES	;
+; Customer  ; Language          ; Language          ;      ; ALL_SUB_AND_SUPER_TYPES	;
+; Customer  ; Country           ; Country           ;      ; ALL_SUB_AND_SUPER_TYPES	;
+; Customer  ; Customer          ; Customer          ; true ; ALL_SUB_AND_SUPER_TYPES	;
+; Customer  ; Region            ; Region            ;      ; ALL_SUB_AND_SUPER_TYPES	;
+; Customer  ; UserPriceGroup    ; UserPriceGroup    ;      ; ALL_SUBTYPES	            ;
+; Customer  ; UserDiscountGroup ; UserDiscountGroup ;      ; ALL_SUBTYPES	            ;
  
 INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false] 
 ; Customer:Gender               ; code              ; Gender:code               ;                           ;   ;  

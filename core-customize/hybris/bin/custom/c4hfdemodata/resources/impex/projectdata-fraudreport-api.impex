@@ -1,12 +1,12 @@
 INSERT_UPDATE IntegrationObject; code[unique = true]; 
 ; FraudReport 
  
-INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique=true]; code[unique = true]; type(code) 
-; FraudReport	; OrderStatus        	; OrderStatus 
-; FraudReport	; Order              	; Order 
-; FraudReport	; FraudReport        	; FraudReport 
-; FraudReport	; FraudSymptomScoring	; FraudSymptomScoring 
-; FraudReport	; FraudStatus        	; FraudStatus 
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique=true]; code[unique = true]; type(code) ; root[default = false]; itemTypeMatch(code)
+; FraudReport	; OrderStatus        	; OrderStatus         ; 	; ALL_SUBTYPES	;
+; FraudReport	; Order              	; Order               ; 	; ALL_SUB_AND_SUPER_TYPES	;
+; FraudReport	; FraudReport        	; FraudReport         ; true; ALL_SUB_AND_SUPER_TYPES	;
+; FraudReport	; FraudSymptomScoring	; FraudSymptomScoring ; 	; ALL_SUB_AND_SUPER_TYPES	;
+; FraudReport	; FraudStatus        	; FraudStatus         ; 	; ALL_SUBTYPES	;
  
 INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false] 
 ; FraudReport:OrderStatus        	; code                 	; OrderStatus:code                	;                                	; true 

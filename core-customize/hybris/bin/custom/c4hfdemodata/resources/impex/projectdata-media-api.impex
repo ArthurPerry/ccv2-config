@@ -1,13 +1,13 @@
 INSERT_UPDATE IntegrationObject; code[unique = true]; 
 ; InboundMedia 
  
-INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique=true]; code[unique = true]; type(code) 
-; InboundMedia	; Media         	; Media 
-; InboundMedia	; CatalogVersion	; CatalogVersion 
-; InboundMedia	; MediaFolder   	; MediaFolder 
-; InboundMedia	; MediaFormat   	; MediaFormat 
-; InboundMedia	; MediaContainer	; MediaContainer 
-; InboundMedia	; Catalog       	; Catalog 
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique=true]; code[unique = true]; type(code) ; root[default = false]; itemTypeMatch(code)
+; InboundMedia	; Media         	; Media           ; true ; ALL_SUB_AND_SUPER_TYPES	;
+; InboundMedia	; CatalogVersion	; CatalogVersion  ;      ; ALL_SUB_AND_SUPER_TYPES	;
+; InboundMedia	; MediaFolder   	; MediaFolder     ;      ; ALL_SUB_AND_SUPER_TYPES	;
+; InboundMedia	; MediaFormat   	; MediaFormat     ;      ; ALL_SUB_AND_SUPER_TYPES	;
+; InboundMedia	; MediaContainer	; MediaContainer  ;      ; ALL_SUB_AND_SUPER_TYPES	;
+; InboundMedia	; Catalog       	; Catalog         ;      ; ALL_SUB_AND_SUPER_TYPES	;
  
 INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false] 
 ; InboundMedia:Media         	; catalogVersion	; Media:catalogVersion         	; InboundMedia:CatalogVersion	; true 
