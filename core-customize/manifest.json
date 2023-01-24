@@ -490,7 +490,11 @@
                     "name": "hac",
                     "contextPath": "/hac"
                 },
-                {
+                 {
+                    "name": "adminapi",
+                    "contextPath": "/adminapi"
+                },
+               {
                     "name": "mediaweb",
                     "contextPath": "/medias"
                 },
